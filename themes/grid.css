@@ -1,0 +1,295 @@
+/* =============================================================================
+   Grid  (theme id "grid") -- a drafting table
+
+   Midnight's structure, the sister's Grid material (Theme Studio for LeetCode, themes/grid.css): nothing moves, every part of
+   Codeforces finished in place (MIDNIGHT.md's rules hold), on blue-black with 24 px hairlines and 96 px majors, zero radius,
+   hard unblurred shadows, one mint accent, JetBrains Mono for the chrome. Copied from midnight.css on Nov 1 2026, then its own:
+   a change here does not reach Midnight.
+   Tiles: scripts/build-grid.py.
+============================================================================= */
+html[data-cf-theme="grid"] {
+  color-scheme: dark;
+  --lc-desk: #0b1017;
+  --lc-bg2: #111823;
+  --lc-bg3: #1a2431;
+  --lc-nav-bg: #111823;
+  --lc-font-ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-prose: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-display: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --lc-font-code: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --lc-prose-measure: 74ch;
+  --cf-radius: 0px;
+}
+
+/* ========================== roles ============================= */
+html[data-cf-theme="grid"] {
+  --lc-bg2: #111823;           /* panel */
+  --lc-bg3: #1a2431;           /* raised: chips, samples, inputs */
+  --lc-nav-bg: rgba(17,24,35,.66);
+  --lc-text: #d7e0ec;  --lc-text2: #a3b4c9;  --lc-text3: #8b9cb3;
+  --lc-hairline: rgba(130,175,215,.09);
+  --lc-border: #2c3a4c;
+  --lc-accent: #35e0a1;  --lc-accent-contrast: #07130e;  --lc-accent-2: #58a6ff;
+  --lc-green: #35e0a1;   --lc-red: #ff7b72;   --lc-yellow: #e3b341;
+  --cf-surface-page: #0b1017;
+  --cf-fw-title: 700;
+
+  /* Midnight's own tokens */
+  --gd-grad: linear-gradient(#35e0a1, #35e0a1);
+  --gd-horizon: linear-gradient(90deg, #35e0a1, #35e0a1);
+  --gd-rim: rgba(130,175,215,.13);
+  --gd-lift: 4px 4px 0 rgba(0,0,0,.5);
+  --gd-glow: 3px 3px 0 rgba(53,224,161,.22);
+  --gd-glow-hi: 4px 4px 0 rgba(53,224,161,.34);
+  --cf-graph-line: #35e0a1;
+}
+
+/* ========================== THE TABLE ======================================
+   body::before = the drafting table: one BITMAP tile (24 px lines, 96 px majors, a mint cross on each major), lit from the top.
+   body::after = one slow wash of mint and blue behind the masthead, the ONE animation (a composited transform, as Midnight's
+   aurora). Both fixed, behind everything; no JS, so Off removes them with the attribute. */
+html[data-cf-theme="grid"] body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background:
+    url("chrome-extension://__MSG_@@extension_id__/textures/grid/table.png") 0 0 / 96px 96px repeat,
+    radial-gradient(100% 60% at 50% 0%, #142230 0%, #0b1017 70%);
+  will-change: transform;
+}
+html[data-cf-theme="grid"] body::after {
+  content: "";
+  position: fixed; left: -20vw; right: -20vw; top: -16vh; height: 60vh; z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 46% at 26% 40%, rgba(53,224,161,.13), rgba(53,224,161,0) 72%),
+    radial-gradient(30% 42% at 72% 34%, rgba(88,166,255,.11), rgba(88,166,255,0) 72%);
+  will-change: transform;
+  animation: gd-wash 38s ease-in-out infinite alternate;
+}
+@keyframes gd-wash {
+  0%   { transform: translate3d(-5vw, 0, 0); }
+  100% { transform: translate3d(6vw, 1vh, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-cf-theme="grid"] body::after { animation: none; transform: none; }
+}
+
+/* ========================== MASTHEAD ======================================= */
+/* the masthead is a window: the table's wash shows through it, a mint rule under the nav */
+html[data-cf-theme="grid"] #header {
+  background: linear-gradient(180deg, rgba(17,24,35,.42), rgba(17,24,35,.66));
+  box-shadow: inset 0 1px 0 rgba(170,205,235,.08), inset 1px 0 0 rgba(170,205,235,.04), inset -1px 0 0 rgba(170,205,235,.04);
+}
+html[data-cf-theme="grid"] #body > .menu-box {
+  background: var(--gd-horizon) 0 100% / 100% 1px no-repeat, rgba(17,24,35,.74) !important;
+  border-top: 1px solid rgba(130,175,215,.08) !important;
+  box-shadow: 0 18px 40px -26px rgba(0,0,0,.9), 0 10px 30px -22px rgba(53,224,161,.35);
+}
+/* the active section: an outlined pill and a small mint square under it (absolute: nothing moves) */
+html[data-cf-theme="grid"] .menu-list li a { position: relative; transition: color .15s, background-color .15s; }
+html[data-cf-theme="grid"] .menu-list li.current a {
+  color: #35e0a1 !important;
+  background: rgba(53,224,161,.14);
+  box-shadow: inset 0 0 0 1px rgba(53,224,161,.3);
+}
+/* the square on the rule: the li (Codeforces clips the a), centred on the rule 9 px below it */
+html[data-cf-theme="grid"] .menu-list li.current::after {
+  content: ""; position: absolute; left: 50%; bottom: -11px; width: 5px; height: 5px; margin-left: -2.5px;
+  background: #35e0a1; pointer-events: none;
+}
+html[data-cf-theme="grid"] input.search {
+  background-color: rgba(26,36,49,.8) !important;
+  border-color: rgba(130,175,215,.16) !important;
+  transition: border-color .15s, box-shadow .15s;
+}
+html[data-cf-theme="grid"] #header .lang-chooser > div:nth-child(2) a {
+  background: rgba(26,36,49,.7);
+  border-color: rgba(130,175,215,.18);
+}
+
+/* ========================== PANELS ========================================= */
+/* the main column: lit from above (rim light), floating (deep soft shadow). The first shadow is core.css's
+   20 px copy that takes in the tab row; the two rings outline the copy and the box as one shape */
+html[data-cf-theme="grid"] #pageContent {
+  background:
+    linear-gradient(#35e0a1, #35e0a1) 0 100% / 14px 2px no-repeat, linear-gradient(#35e0a1, #35e0a1) 0 100% / 2px 14px no-repeat,
+    linear-gradient(#35e0a1, #35e0a1) 100% 100% / 14px 2px no-repeat, linear-gradient(#35e0a1, #35e0a1) 100% 100% / 2px 14px no-repeat,
+    url("chrome-extension://__MSG_@@extension_id__/textures/grid/sheet.png") 0 0 / 96px 96px, #111823 !important;
+  box-shadow: 0 0 0 1px #2c3a4c, 5px 5px 0 1px rgba(0,0,0,.55);
+}
+/* the tab row sits ON the sheet: core.css's 20 px shadow copy can't carry the grid, and a margin on #pageContent collapses into
+   its parent and moves the tabs and the sidebar. So the first box in the sheet climbs out of it: 36 px from 20 px above the
+   card, taking no room, its tile started 20 px down so the lines run on. It holds the top drafting marks */
+html[data-cf-theme="grid"] #pageContent::before {
+  content: ""; display: block; height: 36px; margin: -36px -24px 0;
+  background:
+    linear-gradient(#35e0a1, #35e0a1) 0 0 / 14px 2px no-repeat, linear-gradient(#35e0a1, #35e0a1) 0 0 / 2px 14px no-repeat,
+    linear-gradient(#35e0a1, #35e0a1) 100% 0 / 14px 2px no-repeat, linear-gradient(#35e0a1, #35e0a1) 100% 0 / 2px 14px no-repeat,
+    url("chrome-extension://__MSG_@@extension_id__/textures/grid/sheet.png") 0 20px / 96px 96px, #111823;
+  box-shadow: 0 -1px 0 #2c3a4c, -1px 0 0 #2c3a4c, 1px 0 0 #2c3a4c;
+}
+html[data-cf-theme="grid"] #sidebar > .roundbox {
+  border-color: #2c3a4c !important;
+  background: url("chrome-extension://__MSG_@@extension_id__/textures/grid/sheet.png") 0 0 / 96px 96px, #111823 !important;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.5);
+}
+html[data-cf-theme="grid"] #footer {
+  background: rgba(17,24,35,.72);
+  box-shadow: inset 0 1px 0 rgba(170,205,235,.06);
+}
+
+/* ========================== ACTIONS ======================================== */
+/* the one solid action per region is a mint plate; hover lightens it, nothing floats or glows */
+html[data-cf-theme="grid"] #body a.cfts-btn.primary,
+html[data-cf-theme="grid"] #body a.red-link,
+html[data-cf-theme="grid"] #header .lang-chooser > div:nth-child(2) a[href^="/register"] {
+  background: var(--gd-grad) !important;
+  background-color: #35e0a1 !important;   /* what checks and forced colours read as the fill */
+  border-color: transparent !important;
+  color: var(--cf-on-accent) !important;
+  box-shadow: var(--gd-glow);
+  transition: box-shadow .15s, filter .15s;
+}
+html[data-cf-theme="grid"] #body input.cfts-primary-input {
+  background: var(--gd-grad) !important;
+  background-color: #35e0a1 !important;
+  border-color: transparent !important;
+}
+html[data-cf-theme="grid"] #body a.cfts-btn.primary:hover,
+html[data-cf-theme="grid"] #body a.red-link:hover,
+html[data-cf-theme="grid"] #header .lang-chooser > div:nth-child(2) a[href^="/register"]:hover {
+  filter: brightness(1.07); box-shadow: var(--gd-glow-hi);
+}
+html[data-cf-theme="grid"] #body a.cfts-btn:not(.primary) { transition: border-color .15s, background-color .15s, color .15s; }
+html[data-cf-theme="grid"] #body a.cfts-btn:not(.primary):hover { border-color: rgba(53,224,161,.55); }
+
+/* ========================== TYPE ===========================================
+   Titles 700, tightened; every instrument label (column heads, sidebar
+   captions, sample heads) in JetBrains Mono caps: the page's readouts */
+html[data-cf-theme="grid"] .datatable > .rb + div,
+html[data-cf-theme="grid"] .problem-statement .header .title { letter-spacing: -.025em !important; }
+html[data-cf-theme="grid"] .problem-statement .section-title { letter-spacing: -.01em; }
+html[data-cf-theme="grid"] .datatable tr:first-child > th,
+html[data-cf-theme="grid"] .roundbox .rtable tr:first-child > th:not(.cfts-spec),
+html[data-cf-theme="grid"] .problem-statement .sample-tests .title {
+  font-family: var(--cf-font-code) !important;
+  font-weight: 600 !important;
+  letter-spacing: .09em !important;
+}
+html[data-cf-theme="grid"] .roundbox .caption,
+html[data-cf-theme="grid"] .caption {
+  font-family: var(--cf-font-code) !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: .05em;
+  color: #8fd9bd !important;
+}
+/* the mono caption's arrow-space is narrower than Inter's */
+html[data-cf-theme="grid"] #sidebar .roundbox .caption.titled { text-indent: -.62em !important; }   /* the space after the hidden arrow, in the mono face */
+/* a contest's name is the one header cell in these tables that is a name, not a label */
+html[data-cf-theme="grid"] .roundbox .rtable th a:not(.rated-user) { font-family: var(--cf-font-ui) !important; letter-spacing: 0 !important; }
+html[data-cf-theme="grid"] .cfts-sidecap { font-size: 11.5px; letter-spacing: .05em; color: #8fd9bd; }
+html[data-cf-theme="grid"] .datatable tr:first-child > th { border-bottom-color: rgba(130,175,215,.2) !important; }
+
+/* ========================== TABLES =========================================
+   The row under the pointer: a cool lift and a mint edge on its first
+   cell */
+html[data-cf-theme="grid"] { --cf-pill-neutral: color-mix(in srgb, #58a6ff 9%, var(--cf-solid)); }
+html[data-cf-theme="grid"] .datatable table:not(.standings) tr:hover > td:first-child { box-shadow: inset 2px 0 0 var(--cf-accent); }
+/* problem IDs: chips with a cool edge */
+html[data-cf-theme="grid"] .datatable td.id a:is(:link, :visited) { border-color: rgba(130,175,215,.14); background: #0d131c; }
+html[data-cf-theme="grid"] .problem-statement .header .title { font-size: 32px !important; }
+/* section titles carry a drafting cross in the margin (absolute: the text stays put) */
+html[data-cf-theme="grid"] .problem-statement .section-title { position: relative; }
+html[data-cf-theme="grid"] .problem-statement .section-title::before {
+  content: ""; position: absolute; left: -20px; top: 50%; width: 9px; height: 9px; margin-top: -4.5px;
+  background: var(--gd-grad);
+  clip-path: polygon(40% 0, 60% 0, 60% 40%, 100% 40%, 100% 60%, 60% 60%, 60% 100%, 40% 100%, 40% 60%, 0 60%, 0 40%, 40% 40%);
+}
+/* samples: instrument panels with a rim light; the copier lights up */
+html[data-cf-theme="grid"] .problem-statement .sample-tests .input,
+html[data-cf-theme="grid"] .problem-statement .sample-tests .output {
+  background: #0d131c;
+  border-color: rgba(130,175,215,.12) !important;
+  box-shadow: inset 0 1px 0 rgba(170,205,235,.06);
+}
+html[data-cf-theme="grid"] .problem-statement .sample-tests .title { background: rgba(53,224,161,.05); }
+html[data-cf-theme="grid"] .input-output-copier { transition: color .15s, border-color .15s, box-shadow .15s; }
+html[data-cf-theme="grid"] .input-output-copier:hover { border-color: var(--cf-accent); }
+html[data-cf-theme="grid"] .problem-statement .tex-font-style-tt,
+html[data-cf-theme="grid"] .problem-statement code:not(.cfts-spec) { background: #0d131c; border-color: rgba(130,175,215,.14); color: #d7e0ec !important; }
+
+/* ========================== COUNTDOWNS =====================================
+   the key numbers are mint numerals, solid */
+html[data-cf-theme="grid"] .countdown,
+html[data-cf-theme="grid"] .cfts-dcount {
+  color: #35e0a1 !important;
+  -webkit-text-fill-color: #35e0a1;   /* the hero's countdown ink comes from a stronger shared rule */
+}
+html[data-cf-theme="grid"] .cfts-tile { background: #0d131c; border-color: rgba(130,175,215,.11); box-shadow: inset 0 1px 0 rgba(170,205,235,.05); }
+html[data-cf-theme="grid"] .cfts-tile .ti { background: rgba(53,224,161,.14); color: #35e0a1; box-shadow: inset 0 0 0 1px rgba(130,175,215,.22); }
+
+/* ========================== HOME ===========================================
+   the "New to Codeforces?" card: the same lit panel as the next contest */
+html[data-cf-theme="grid"] .cfts-newbie {
+  background: #141d2a !important;
+  border-color: rgba(130,175,215,.28) !important;
+  box-shadow: inset 0 1px 0 rgba(170,205,235,.09);
+}
+
+/* ========================== COMPONENTS (Nov 1 2026) ========================
+   Midnight is Codeforces, in place: nothing moves. What changes is the finish of each part */
+
+/* the nav: a tight pill so the lit item and the one under the pointer never touch (labels are 17 px apart); the padding is
+   cancelled by its margin, so every label stays where Codeforces put it */
+html[data-cf-theme="grid"] .menu-list li a { padding: 6px 8px !important; margin: -6px -8px !important; border-radius: 0; }
+html[data-cf-theme="grid"] .menu-list li:not(.current) a:hover { background: rgba(130,175,215,.1); }
+
+/* one focus ring, not a border, an outline and a shadow at once */
+html[data-cf-theme="grid"] #body input:focus-visible:not(.cfts-spec),
+html[data-cf-theme="grid"] #body select:focus-visible:not(.cfts-spec),
+html[data-cf-theme="grid"] #body textarea:focus-visible:not(.cfts-spec) { outline: 0 !important; border-color: var(--cf-accent) !important; box-shadow: 0 0 0 1px var(--cf-accent); }
+
+/* buttons: one height, one corner; the form's own action in #pageContent is the mint plate, the sidebar's stay quiet */
+html[data-cf-theme="grid"] #body input[type="submit"]:not(.cfts-spec),
+html[data-cf-theme="grid"] #body input[type="button"]:not(.cfts-spec),
+html[data-cf-theme="grid"] #body button:not(.cfts-spec) { min-height: 32px; padding: 0 14px; border-radius: 0; font: 600 13px var(--cf-font-ui); transition: border-color .15s, filter .15s; }
+html[data-cf-theme="grid"] #body input::file-selector-button { height: 28px; padding: 0 12px; border-radius: 0; }
+html[data-cf-theme="grid"] #pageContent form input[type="submit"]:not(.datatable *):not(.cfts-spec) {
+  background: var(--gd-grad) !important; background-color: #35e0a1 !important;
+  border-color: transparent !important; color: var(--cf-on-accent) !important; box-shadow: var(--gd-glow);
+}
+html[data-cf-theme="grid"] #pageContent form input[type="submit"]:not(.datatable *):not(.cfts-spec):hover { filter: brightness(1.07); box-shadow: var(--gd-glow-hi); }
+
+/* the header's links keep clear of each other, whatever Codeforces puts after Logout */
+html[data-cf-theme="grid"] #header .lang-chooser > div:nth-child(2) a { margin-left: 6px; white-space: nowrap; }
+
+/* a row you touched: one tint across the row and a thin edge, not a block of colour behind its buttons */
+html[data-cf-theme="grid"] { --cf-tint-ok: color-mix(in srgb, var(--cf-ok) 7%, transparent); --cf-tint-bad: color-mix(in srgb, var(--cf-fail) 7%, transparent); --cf-tint-mine: color-mix(in srgb, #58a6ff 7%, transparent); }
+html[data-cf-theme="grid"] .problems .accepted-problem > td { background-color: var(--cf-tint-ok) !important; }
+html[data-cf-theme="grid"] .problems .rejected-problem > td { background-color: var(--cf-tint-bad) !important; }
+html[data-cf-theme="grid"] .problems .accepted-problem td.id,
+html[data-cf-theme="grid"] .problems .rejected-problem td.id { border-left-width: 2px !important; }
+
+/* Status: room for the time zone, so it never ends in an ellipsis */
+html[data-cf-theme="grid"] table.status-frame-datatable { --w-when: 184px; }
+html[data-cf-theme="grid"] table.status-frame-datatable .tz-superscript { white-space: nowrap; }
+html[data-cf-theme="grid"] table.standings td[acceptedsubmissionid] { background-color: color-mix(in srgb, var(--cf-ok) 4%, transparent) !important; }
+
+/* a countdown stays one piece, whatever the column's width */
+html[data-cf-theme="grid"] .countdown { white-space: nowrap; }
+
+/* the profile's icons: one size, one column */
+html[data-cf-theme="grid"] .userbox .info ul li img { width: 18px !important; height: 18px !important; margin: 0 10px 0 0 !important; vertical-align: -4px; }
+
+/* ========================== THE CHROME ===================================== */
+/* the chrome is typed: nav, sub-tabs, captions and buttons in the mono face */
+html[data-cf-theme="grid"] .menu-list li a,
+html[data-cf-theme="grid"] .second-level-menu-list li a { font-family: var(--cf-font-code) !important; font-size: 13px !important; letter-spacing: -.01em; }
+html[data-cf-theme="grid"] #body input[type="submit"]:not(.cfts-spec),
+html[data-cf-theme="grid"] #body input[type="button"]:not(.cfts-spec),
+html[data-cf-theme="grid"] #body button:not(.cfts-spec) { font-family: var(--cf-font-code) !important; font-size: 12.5px !important; }
+html[data-cf-theme="grid"] .menu-list li.current a { background: rgba(53,224,161,.12); box-shadow: inset 0 0 0 1px #35e0a1; }
+html[data-cf-theme="grid"] #footer { background: #111823; box-shadow: 0 0 0 1px #2c3a4c, 4px 4px 0 1px rgba(0,0,0,.5); }
+html[data-cf-theme="grid"] .problem-statement pre { border-left: 2px solid var(--cf-accent) !important; }

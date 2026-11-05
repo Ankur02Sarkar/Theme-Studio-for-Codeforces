@@ -1,0 +1,159 @@
+/* =============================================================================
+   modern.css: the parts of Modern mode that must live in the page's own (light) DOM.
+   Everything is keyed on html[data-cf-ui="modern"], set by content.js on the four
+   Modern page types only; with Classic or Off none of this applies.
+   - first paint: Codeforces' #body is hidden before the app mounts (no flash)
+   - the problem statement: the REAL nodes are moved into #cfm-app (so MathJax's
+     document styles keep working) and styled here with the M1 tokens
+============================================================================= */
+html[data-cf-ui="modern"] { background: #0f0f0f !important; }
+html[data-cf-ui="modern"] #body { display: none !important; }
+
+#cfm-app {
+  --t1: #f5f5f5; --t2: rgba(255,255,255,.6); --t3: rgba(255,255,255,.4); --tw: #fff;
+  --f2: rgba(255,255,255,.08); --f3: rgba(255,255,255,.1); --line: rgba(255,255,255,.1);
+  --code-bg: rgba(255,255,255,.07); --code-line: rgba(247,250,255,.12); --blue: #0a84ff;
+  /* Inter (bundled, OFL; declared page-wide by core.css) reads better than the system face at these sizes; JetBrains Mono for code */
+  --ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", Menlo, "Droid Sans Mono", Monaco, Consolas, "DejaVu Sans Mono", monospace;
+}
+
+#cfm-app .cfm-stmt, #cfm-app .cfm-stmt * { box-sizing: border-box; }
+#cfm-app, #cfm-app * { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }   /* the statement's wide samples, code blocks */
+#cfm-app .cfm-stmt { font: 14px/21px var(--ui); color: var(--tw); text-align: left; }
+#cfm-app .cfm-stmt .problem-statement { margin: 0; padding: 0; border: 0; background: none; color: var(--tw); font: inherit; }
+#cfm-app .cfm-stmt .problem-statement .header { display: none !important; }       /* title and limits are in the app's own header */
+#cfm-app .cfm-stmt .problem-statement > div { margin: 0; padding: 0; }
+#cfm-app .cfm-stmt .ttypography { font: inherit; color: var(--tw); }
+#cfm-app .cfm-stmt p { margin: 0 0 16px; padding: 0; font: inherit; color: var(--tw); }
+#cfm-app .cfm-stmt ul, #cfm-app .cfm-stmt ol { margin: 0 0 16px; padding-left: 24px; }
+#cfm-app .cfm-stmt li { margin: 0 0 4px; font: inherit; }
+#cfm-app .cfm-stmt .section-title { font: 700 14px/21px var(--ui); color: var(--tw); margin: 24px 0 12px; padding: 0; text-transform: none; border: 0; background: none; }
+#cfm-app .cfm-stmt .epigraph { margin: 0 0 20px; padding: 12px 16px; border-left: 3px solid #ffa116; border-radius: 0 8px 8px 0; background: rgba(255,255,255,.04); color: var(--t2); font-style: italic; }
+#cfm-app .cfm-stmt .epigraph { width: auto !important; margin-left: 0 !important; }
+#cfm-app .cfm-stmt .epigraph .epigraph-text { margin: 0; color: var(--t1); }
+#cfm-app .cfm-stmt .epigraph .epigraph-source { margin-top: 6px; padding: 0; border: 0 !important; text-align: right; font-style: normal; font-size: 12px; color: var(--t3); }
+#cfm-app .cfm-stmt a, #cfm-app .cfm-stmt a:visited { color: var(--blue); text-decoration: none; background: none; }
+#cfm-app .cfm-stmt a:hover { text-decoration: underline; }
+#cfm-app .cfm-stmt b, #cfm-app .cfm-stmt strong { font-weight: 700; }
+
+/* maths: keep MathJax's own layout, take the ink from the surface (CLAUDE.md: never filter or fade maths) */
+#cfm-app .cfm-stmt .MathJax, #cfm-app .cfm-stmt .MathJax * { color: inherit !important; }
+#cfm-app .cfm-stmt .MathJax_Display { margin: 0 0 16px; }
+
+/* inline code */
+#cfm-app .cfm-stmt .tex-font-style-tt, #cfm-app .cfm-stmt code, #cfm-app .cfm-stmt tt {
+  font: 12px/16px var(--mono); padding: 2px 4px; border-radius: 5px; background: var(--code-bg);
+  border: 1px solid var(--code-line); color: var(--t1);
+}
+#cfm-app .cfm-stmt pre { margin: 0; font: 12px/18px var(--mono); color: var(--t1); white-space: pre-wrap; }
+
+/* examples: Input / Output boxes, side by side as stock LeetCode stacks them */
+#cfm-app .cfm-stmt .sample-tests { margin: 0 0 16px; }
+#cfm-app .cfm-stmt .sample-tests .section-title { margin-top: 24px; }
+#cfm-app .cfm-stmt .sample-test { margin: 0; }
+#cfm-app .cfm-stmt .sample-test .input, #cfm-app .cfm-stmt .sample-test .output { margin: 0 0 12px; padding: 0; border: 0; background: none; }
+#cfm-app .cfm-stmt .sample-test .title {
+  font: 400 12px/16px var(--ui); color: var(--t2); text-transform: none; margin: 0 0 4px; padding: 0;
+  background: none; border: 0; display: flex; align-items: center; justify-content: space-between;
+}
+#cfm-app .cfm-stmt .sample-test pre {
+  margin: 0; padding: 8px 12px; border-radius: 8px; background: var(--code-bg); border: 1px solid var(--code-line);
+  font: 12px/18px var(--mono); color: var(--t1); white-space: pre-wrap; word-break: break-word;
+}
+#cfm-app .cfm-stmt .input-output-copier {
+  font: 400 12px/16px var(--ui); color: var(--t2); cursor: pointer; float: none; margin: 0; padding: 0 4px;
+  border: 0; background: none; text-transform: none; text-decoration: none; display: inline-block;
+}
+#cfm-app .cfm-stmt .input-output-copier:hover { color: var(--t1); }
+#cfm-app .cfm-stmt .test-example-line-even, #cfm-app .cfm-stmt .test-example-line-odd { background: none; }
+#cfm-app .cfm-stmt .test-example-line { display: block; }
+/* Codeforces' hover script paints the hovered test's lines #FFFDE7 inline and shows a "test N" marker beside them
+   (showTestCaseMarker): on the dark statement that was a cream block with unreadable text (user's screenshot, Oct 28 2026) */
+#cfm-app .cfm-stmt .test-example-line[style*="background-color"] { background-color: rgba(255,255,255,.09) !important; border-radius: 3px; }
+#cfm-app .cfm-stmt .testCaseMarker { background: #3e3e3e !important; color: #f5f5f5 !important; border: 0 !important; border-radius: 4px; font: 500 11px/16px var(--mono) !important; padding: 0 5px !important; min-width: 16px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.35); }
+
+#cfm-app .cfm-stmt .note { margin: 0 0 16px; }
+#cfm-app .cfm-stmt table { border-collapse: collapse; margin: 0 0 16px; }
+#cfm-app .cfm-stmt table td, #cfm-app .cfm-stmt table th { border: 1px solid var(--line); padding: 4px 8px; color: var(--tw); background: none; }
+#cfm-app .cfm-stmt img { max-width: 100%; height: auto; background: #fff; border-radius: 8px; padding: 4px; }   /* pictures are drawn for a white page */
+#cfm-app .cfm-stmt center { display: block; margin: 0 0 16px; }
+
+/* ---- the Editorial and Discussion content (rich.js): light DOM, slotted, so MathJax's styles apply ---- */
+#cfm-app {
+  --rank-gray: #ababab; --rank-green: #4fd24f; --rank-cyan: #2fd3c5; --rank-blue: #8c9cff; --rank-violet: #e27be2; --rank-orange: #ffa033; --rank-red: #ff6464;
+  --green: #28c244; --amber: #fac31d; --f1: rgba(255,255,255,.06); --f4: rgba(255,255,255,.12);
+}
+#cfm-app .cfm-rich, #cfm-app .cfm-rich * { box-sizing: border-box; }
+#cfm-app .cfm-rich { font: 14px/21px var(--ui); color: var(--tw); }
+#cfm-app .cfm-rich a, #cfm-app .cfm-rich a:visited { color: var(--blue); text-decoration: none; }
+#cfm-app .cfm-rich a:hover { text-decoration: underline; }
+#cfm-app .cfm-ttl { font: 500 22px/32px var(--ui); color: var(--t1); }
+#cfm-app .cfm-by { display: flex; gap: 6px; margin: 4px 0 16px; color: var(--t2); font-size: 14px; line-height: 20px; }
+#cfm-app .cfm-hint, #cfm-app .cfm-note { margin: 12px 0; padding: 10px 12px; border-radius: 10px; background: var(--f2); font-size: 12px; line-height: 18px; color: var(--t2); }
+#cfm-app .cfm-body p { margin: 0 0 12px; }
+#cfm-app .cfm-body h1, #cfm-app .cfm-body h2 { font: 700 20px/28px var(--ui); color: #fff; margin: 24px 0 8px; }
+#cfm-app .cfm-body h3 { font: 700 18px/28px var(--ui); color: #fff; margin: 20px 0 8px; }
+#cfm-app .cfm-body h4, #cfm-app .cfm-body h5 { font: 700 16px/24px var(--ui); color: #fff; margin: 16px 0 8px; }
+#cfm-app .cfm-body ul, #cfm-app .cfm-body ol { margin: 0 0 12px; padding-left: 24px; }
+#cfm-app .cfm-rich code, #cfm-app .cfm-rich tt, #cfm-app .cfm-rich kbd { font: 12px/16px var(--mono); padding: 2px 4px; border-radius: 5px; background: var(--code-bg); border: 1px solid var(--code-line); color: var(--t1); }
+#cfm-app .cfm-rich pre { margin: 8px 0 12px; padding: 10px 12px; border-radius: 8px; background: rgba(0,0,0,.2); border: 1px solid var(--line); overflow: auto; font: 12px/18px var(--mono); color: #d4d4d4; white-space: pre; }
+#cfm-app .cfm-rich pre code { padding: 0; border: 0; background: none; font: inherit; color: inherit; }
+#cfm-app .cfm-rich table { border-collapse: collapse; margin: 0 0 12px; }
+#cfm-app .cfm-rich td, #cfm-app .cfm-rich th { border: 1px solid var(--line); padding: 4px 8px; }
+#cfm-app .cfm-rich img { max-width: 100%; height: auto; background: #fff; border-radius: 8px; padding: 4px; }
+#cfm-app .cfm-rich blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 2px solid var(--line); color: var(--t2); }
+#cfm-app .cfm-rich .MathJax, #cfm-app .cfm-rich .MathJax * { color: inherit !important; }
+/* comments and tutorials keep Codeforces' wrapper: div.ttypography { color: #222 }, headings #161e21, .tt on #F8F8F8 (light
+   page inks): near-black text on the dark panel (user's screenshot, Oct 28 2026). Ink and type are ours inside the app. */
+#cfm-app .cfm-rich div.ttypography { color: var(--tw); font: inherit; }
+#cfm-app .cfm-rich div.ttypography h1, #cfm-app .cfm-rich div.ttypography h2, #cfm-app .cfm-rich div.ttypography h3,
+#cfm-app .cfm-rich div.ttypography h4, #cfm-app .cfm-rich div.ttypography h5, #cfm-app .cfm-rich div.ttypography h6 { color: var(--t1); font-family: var(--ui); font-weight: 600; margin: 16px 0 8px; }
+#cfm-app .cfm-rich div.ttypography .tt, #cfm-app .cfm-rich .tex-font-style-tt { background: var(--code-bg); border: 1px solid var(--code-line); color: var(--t1); border-radius: 5px; }
+#cfm-app .cfm-rich div.ttypography p, #cfm-app .cfm-rich div.ttypography li { color: inherit; }
+#cfm-app .cfm-rich .rated-user { font-weight: 500; }
+#cfm-app .cfm-rich .user-gray { color: var(--rank-gray) !important; } #cfm-app .cfm-rich .user-green { color: var(--rank-green) !important; } #cfm-app .cfm-rich .user-cyan { color: var(--rank-cyan) !important; }
+#cfm-app .cfm-rich .user-blue { color: var(--rank-blue) !important; } #cfm-app .cfm-rich .user-violet { color: var(--rank-violet) !important; } #cfm-app .cfm-rich .user-orange { color: var(--rank-orange) !important; }
+#cfm-app .cfm-rich .user-red, #cfm-app .cfm-rich .user-legendary { color: var(--rank-red) !important; }   /* Codeforces' rank inks are !important (.user-violet #a0a: 2.4:1 here) */
+#cfm-app .cfm-fold { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; overflow: hidden; }
+#cfm-app .cfm-fh { display: flex; align-items: center; gap: 8px; width: 100%; height: 40px; padding: 0 12px; border: 0; background: var(--f1); color: var(--t1); font: 500 14px/20px var(--ui); text-align: left; cursor: pointer; }
+#cfm-app .cfm-fh:hover { background: var(--f2); }
+#cfm-app .cfm-fh:focus-visible { outline: 1px solid hsl(240 4.9% 83.9%); outline-offset: -1px; }
+#cfm-app .cfm-fh .chev { width: 7px; height: 7px; border-right: 2px solid var(--t2); border-bottom: 2px solid var(--t2); transform: rotate(-45deg); margin: 0 4px 0 2px; flex: none; }
+#cfm-app .cfm-fold[data-open="1"] .cfm-fh .chev { transform: rotate(45deg); margin-top: -3px; }
+#cfm-app .cfm-fh .t { flex: 1; }
+#cfm-app .cfm-show { height: 24px; padding: 0 10px; border-radius: 5px; background: var(--f3); font-size: 12px; line-height: 24px; font-weight: 500; }
+#cfm-app .cfm-fb { padding: 12px; border-top: 1px solid var(--line); }
+#cfm-app .cfm-fb[hidden] { display: none; }
+#cfm-app .cfm-fb .problemTutorial { color: var(--t2); }
+#cfm-app .cfm-empty { padding: 24px 4px; color: var(--t2); }
+#cfm-app .cfm-empty b { display: block; color: var(--t1); font-size: 16px; line-height: 24px; margin-bottom: 6px; }
+#cfm-app .cfm-spin { display: flex; align-items: center; gap: 10px; padding: 20px 4px; color: var(--t2); }
+#cfm-app .cfm-spin i { width: 16px; height: 16px; border-radius: 9999px; border: 2px solid var(--f4); border-top-color: var(--t1); animation: cfm-rich-spin .8s linear infinite; }
+@keyframes cfm-rich-spin { to { transform: rotate(360deg); } }
+/* discussion */
+#cfm-app .cfm-spoil { margin-bottom: 12px; padding: 8px 12px; border-radius: 8px; background: rgba(250,195,29,.1); color: var(--amber); font-size: 12px; line-height: 16px; }
+#cfm-app .cfm-tool { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+#cfm-app .cfm-tool .sp { flex: 1; }
+#cfm-app .cfm-chip { height: 24px; padding: 0 10px; border: 0; border-radius: 9999px; background: var(--f3); color: #fafafa; font: 12px/24px var(--ui); cursor: pointer; }
+#cfm-app .cfm-chip span { color: var(--t2); margin-left: 2px; }
+#cfm-app .cfm-chip.on { background: #f5f5f5; color: #1a1a1a; } #cfm-app .cfm-chip.on span { color: #555; }
+#cfm-app .cfm-sort { height: 24px; padding: 0 8px; border: 0; border-radius: 5px; background: none; color: var(--t2); font: 12px/24px var(--ui); cursor: pointer; }
+#cfm-app .cfm-sort.on { background: var(--f3); color: var(--t1); }
+#cfm-app .cfm-chip:focus-visible, #cfm-app .cfm-sort:focus-visible, #cfm-app .cfm-more:focus-visible { outline: 1px solid hsl(240 4.9% 83.9%); outline-offset: 1px; }
+#cfm-app .cfm-thread { border-bottom: 1px solid var(--line); padding: 4px 0; }
+#cfm-app .cfm-cm { display: flex; gap: 10px; padding: 10px 0; }
+#cfm-app .cfm-cm.d1 { margin-left: 34px; border-left: 1px solid var(--line); padding-left: 12px; } #cfm-app .cfm-cm.d2 { margin-left: 56px; border-left: 1px solid var(--line); padding-left: 12px; } #cfm-app .cfm-cm.d3 { margin-left: 78px; border-left: 1px solid var(--line); padding-left: 12px; }
+#cfm-app .cfm-cm .av { width: 24px; height: 24px; flex: none; border-radius: 9999px; background: var(--f4); color: var(--t2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+#cfm-app .cfm-cm .bd { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+#cfm-app .cfm-cm .mt { display: flex; gap: 8px; font-size: 12px; line-height: 16px; color: var(--t3); }
+#cfm-app .cfm-cm .mt .h { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--t2); }
+#cfm-app .cfm-rk-gray { color: var(--rank-gray) !important; } #cfm-app .cfm-rk-green { color: var(--rank-green) !important; } #cfm-app .cfm-rk-cyan { color: var(--rank-cyan) !important; }
+#cfm-app .cfm-rk-blue { color: var(--rank-blue) !important; } #cfm-app .cfm-rk-violet { color: var(--rank-violet) !important; } #cfm-app .cfm-rk-orange { color: var(--rank-orange) !important; } #cfm-app .cfm-rk-red { color: var(--rank-red) !important; }
+#cfm-app .cfm-cm .tx { margin-top: 2px; }
+#cfm-app .cfm-cm .tx p { margin: 0 0 8px; }
+#cfm-app .cfm-cm .vt { display: flex; gap: 14px; margin-top: 4px; font-size: 12px; line-height: 16px; color: var(--t3); }
+#cfm-app .cfm-more { display: block; margin: 12px auto; height: 28px; padding: 0 14px; border: 0; border-radius: 5px; background: var(--f3); color: var(--t1); font: 500 14px/28px var(--ui); cursor: pointer; }
+
+/* a credit line moved into the app's header as a chip (app.js credits()) */
+#cfm-app .cfm-stmt .cfm-credit-src { display: none !important; }

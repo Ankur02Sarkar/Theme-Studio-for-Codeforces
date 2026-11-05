@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>Theme Studio for Codeforces</title>
+</head>
+<body>
+  <header class="head">
+    <img class="mark" src="../icons/icon48.png" alt="" width="30" height="30" />
+    <div class="head-text">
+      <h1>Theme Studio</h1>
+      <p>Pick a look for Codeforces. Applies instantly to open tabs.</p>
+    </div>
+  </header>
+
+  <main id="grid" class="grid" role="radiogroup" aria-label="Codeforces themes"></main>
+
+  <button id="studio" class="studio" type="button">
+    <span class="studio-jp" aria-hidden="true"><i>ア</i><i>ニ</i><i>メ</i></span>
+    <span class="studio-text"><b>Open Anime Studio</b><span>Pick a scene per difficulty, or use your own picture</span></span>
+    <span class="studio-arrow" aria-hidden="true">→</span>
+  </button>
+
+  <details class="more"><summary>Settings: moments, sound, topics</summary>
+  <section class="opts" aria-label="Options">
+    <label class="opt switch"><span class="opt-text"><b>Moments</b><span>Title cards, verdicts, level up</span></span><input id="moments" type="checkbox" /><span class="track" aria-hidden="true"></span></label>
+    <label class="opt switch"><span class="opt-text"><b>Sound</b><span>With the moments</span></span><input id="sound" type="checkbox" /><span class="track" aria-hidden="true"></span></label>
+    <label class="opt switch"><span class="opt-text"><b>Ambient motion</b><span>Drifting petals or motes (Anime)</span></span><input id="motion" type="checkbox" /><span class="track" aria-hidden="true"></span></label>
+    <label class="opt switch"><span class="opt-text"><b>Show topics</b><span>Tags on problems and the problemset</span></span><input id="topics" type="checkbox" /><span class="track" aria-hidden="true"></span></label>
+    <label class="opt switch"><span class="opt-text"><b>Beginner guide</b><span>"Start here" in the menu (Classic)</span></span><input id="guide" type="checkbox" /><span class="track" aria-hidden="true"></span></label>
+  </section>
+  </details>
+
+  <footer class="foot">
+    <span id="status">Applies instantly. A running contest always uses the plain layout.</span>
+    <button id="support" class="support" type="button" title="Theme Studio is free. If it makes your practice nicer, you can chip in.">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14s-5.5-3.4-5.5-7.1A3 3 0 0 1 8 4.6a3 3 0 0 1 5.5 2.3C13.5 10.6 8 14 8 14Z"/></svg>Support
+    </button>
+    <button id="bug" class="support bug" type="button" title="Found a bug? Email report@vinaytz.com (opens Gmail with a short template).">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.8 4.6a2.2 2.2 0 0 1 4.4 0Z"/><path d="M4.8 7a3.2 3.2 0 0 1 6.4 0v2.8a3.2 3.2 0 0 1-6.4 0Z"/><path class="legs" d="M2.2 7.4h2.4M11.4 7.4h2.4M2.4 11.2l2.3-.9M13.6 11.2l-2.3-.9M3.2 3.6l1.8 1.6M12.8 3.6 11 5.2"/></svg>Report bug
+    </button>
+    <span id="ver" class="ver"></span>
+    <p id="credits" class="credits"></p>
+  </footer>
+
+  <script src="themes.js"></script>
+  <script src="anime/scenes.js"></script>
+  <script src="support.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

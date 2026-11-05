@@ -1,0 +1,232 @@
+/* =============================================================================
+   THE FASTLAP SHELL (fastlap/src, bundled to src/fastlap/shell.js)
+   html[data-fl-shell] is set only while the shell is mounted: FASTLAP, Guided,
+   no live contest. Codeforces' header, nav and tab row are HIDDEN (never
+   removed; the bar's links are their hrefs). A 56 px broadcast bar, a 44 px
+   tab strip when the page has tabs. Unmounting removes every node and
+   attribute: Off is exact.
+============================================================================= */
+html[data-fl-shell] body { margin: 0 !important; padding-top: 56px !important; }
+html[data-fl-shell][data-fl-tabs] body { padding-top: 100px !important; }
+html[data-fl-shell] #header,
+html[data-fl-shell] #body > .menu-box,
+html[data-fl-shell] #pageContent > .second-level-menu { display: none !important; }
+html[data-fl-shell] #body { max-width: 1320px !important; margin: 0 auto !important; padding: 28px 40px 0 !important; box-sizing: border-box; }
+html[data-fl-shell] #pageContent { margin-top: 0 !important; box-shadow: none !important; }
+html[data-fl-shell] #sidebar { margin-top: 0 !important; }
+/* stuck table headers stop under the bar (and the tab strip), not behind it;
+   inside guided's wide-standings scroll box they stick to the box instead */
+html[data-fl-shell] .datatable tr:first-child > th { top: 56px !important; }
+html[data-fl-shell][data-fl-tabs] .datatable tr:first-child > th { top: 100px !important; }
+html[data-fl-shell] .cfts-stscroll .datatable tr:first-child > th { top: 0 !important; }
+html[data-fl-shell] .cfts-stscroll { max-height: calc(100vh - 152px) !important; }
+html[data-fl-shell][data-fl-tabs] .cfts-stscroll { max-height: calc(100vh - 196px) !important; }
+
+#fl-root { font: 14px/1.5 "Inter", "Segoe UI", system-ui, sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+#fl-root a { color: inherit; text-decoration: none; }
+#fl-root button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+#fl-root kbd { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border: 1px solid #34343C; color: #B4B4BE; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .08em; white-space: nowrap; }
+#fl-root a:focus-visible,
+#fl-root button:focus-visible,
+#fl-root input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ---- the bar ---- */
+#fl-root .fl-bar { position: fixed; z-index: 900; left: 0; right: 0; top: 0; height: 56px; display: flex; align-items: stretch; background: #0E0E10; box-shadow: inset 0 -1px 0 #26262C; }
+#fl-root .fl-brand { display: flex; align-items: center; gap: 10px; padding: 0 30px 0 22px; background: #E10A1E; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+#fl-root .fl-brand b { font: italic 900 22px/1 "Titillium Web", sans-serif; letter-spacing: .02em; }
+#fl-root .fl-brand i { width: 22px; height: 14px; background: repeating-linear-gradient(90deg, #fff 0 3px, transparent 3px 6px); transform: skewX(-18deg); }
+#fl-root .fl-nav { display: flex; align-items: stretch; margin-left: 12px; }
+#fl-root .fl-nav > a,
+#fl-root .fl-more > button { position: relative; display: flex; align-items: center; gap: 6px; height: 100%; padding: 0 18px; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .1em; color: #B4B4BE; text-transform: uppercase; white-space: nowrap; transition: color .15s; }
+#fl-root .fl-nav > a:hover,
+#fl-root .fl-more > button:hover,
+#fl-root .fl-nav > a.on,
+#fl-root .fl-more > button.on { color: #fff; }
+#fl-root .fl-nav > a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 4px; background: #34343C; transform: skewX(-20deg) scaleX(0); transform-origin: 0 50%; transition: transform .22s cubic-bezier(.16, 1, .3, 1); }
+#fl-root .fl-nav > a:hover::after { transform: skewX(-20deg) scaleX(1); }
+#fl-root .fl-nav > a.on::after { background: #E10A1E; transform: skewX(-20deg) scaleX(1); }
+#fl-root .fl-more { position: relative; display: flex; }
+#fl-root .fl-more span { font-size: 10px; }
+#fl-root .fl-menu { position: absolute; left: 0; top: 56px; min-width: 220px; padding: 6px 0; background: #151518; box-shadow: inset 0 3px 0 #E10A1E, 0 24px 40px -20px #000; animation: fl-drop .16s cubic-bezier(.16, 1, .3, 1); }
+@keyframes fl-drop { from { opacity: 0; transform: translateY(-6px); } }
+#fl-root .fl-menu a { display: block; padding: 10px 18px; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #B4B4BE; white-space: nowrap; }
+#fl-root .fl-menu a:hover,
+#fl-root .fl-menu a.on { color: #fff; background: #1C1C21; }
+#fl-root .fl-sp { flex: 1; }
+#fl-root .fl-k { display: flex; align-items: center; gap: 12px; margin: 10px 14px; padding: 0 8px 0 12px; min-width: 250px; border: 1px solid #34343C; color: #8C8C97; font: 13px "Inter", system-ui, sans-serif; white-space: nowrap; transition: border-color .15s; }
+#fl-root .fl-k span { margin-right: auto; }
+#fl-root .fl-k:hover { border-color: #fff; color: #fff; }
+/* signed in: the driver plate (photo, number = rating, handle in rank colour, tier) */
+#fl-root .fl-driver { position: relative; display: flex; box-shadow: inset 1px 0 0 #26262C; }
+#fl-root .fl-dbtn { display: flex; align-items: center; gap: 12px; height: 100%; padding: 0 18px 0 16px; text-align: left; transition: background .15s; }
+#fl-root .fl-dbtn:hover,
+#fl-root .fl-driver.on .fl-dbtn { background: #151518; }
+#fl-root .fl-dpic { --rk: #8C8C97; position: relative; flex: none; width: 38px; height: 38px; overflow: hidden; background: #1C1C21; box-shadow: inset 0 -3px 0 var(--rk); clip-path: polygon(0 0, 100% 0, calc(100% - 7px) 100%, 0 100%); }
+#fl-root .fl-dpic img { display: block; width: 100%; height: calc(100% - 3px); object-fit: cover; }
+#fl-root .fl-dpic i { display: grid; place-items: center; height: calc(100% - 3px); font: italic 900 18px "Titillium Web", sans-serif; color: #fff; }
+#fl-root .fl-dno { --rk: #fff; display: flex; align-items: center; height: 30px; padding: 0 12px 0 9px; background: #fff; color: #0B0B0D; box-shadow: inset 3px 0 0 var(--rk); font: italic 900 18px/1 "Titillium Web", sans-serif; font-variant-numeric: tabular-nums; clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%); }
+#fl-root .fl-dwho { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+#fl-root .fl-dn { font: 700 15px/1.15 "Titillium Web", sans-serif; letter-spacing: .02em; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#fl-root .fl-dn:not([class*="user-"]) { color: #fff; }
+#fl-root .fl-driver small { font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .16em; color: #8C8C97; white-space: nowrap; }
+#fl-root .fl-dcar { font-size: 10px; color: #8C8C97; transition: transform .2s cubic-bezier(.16, 1, .3, 1); }
+#fl-root .fl-driver.on .fl-dcar { transform: rotate(180deg); }
+#fl-root .fl-dmenu { left: auto; right: 0; min-width: 200px; }
+#fl-root .fl-dmenu a.out { margin-top: 6px; box-shadow: inset 0 1px 0 #26262C; color: #FF8A8A; }
+/* the rank colours (CLAUDE.md's dark shades) as the plate's edge; an attribute, not
+   Codeforces' .user-* class, which would also set the text colour (!important) */
+#fl-root .fl-dpic[data-rank="user-gray"], #fl-root .fl-dno[data-rank="user-gray"] { --rk: #ababab; }
+#fl-root .fl-dpic[data-rank="user-green"], #fl-root .fl-dno[data-rank="user-green"] { --rk: #4fd24f; }
+#fl-root .fl-dpic[data-rank="user-cyan"], #fl-root .fl-dno[data-rank="user-cyan"] { --rk: #2fd3c5; }
+#fl-root .fl-dpic[data-rank="user-blue"], #fl-root .fl-dno[data-rank="user-blue"] { --rk: #8c9cff; }
+#fl-root .fl-dpic[data-rank="user-violet"], #fl-root .fl-dno[data-rank="user-violet"] { --rk: #e27be2; }
+#fl-root .fl-dpic[data-rank="user-orange"], #fl-root .fl-dno[data-rank="user-orange"] { --rk: #ffa033; }
+#fl-root .fl-dpic[data-rank="user-red"], #fl-root .fl-dno[data-rank="user-red"], #fl-root .fl-dpic[data-rank="user-legendary"], #fl-root .fl-dno[data-rank="user-legendary"] { --rk: #ff6464; }
+#fl-root .fl-in { display: flex; align-items: center; gap: 4px; padding: 0 14px; }
+#fl-root .fl-in a { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border: 1px solid #34343C; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+#fl-root .fl-in a.red { border: 0; padding-right: 20px; background: #E10A1E; font-style: italic; font-weight: 900; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+
+/* ---- this page's tabs ---- */
+#fl-root .fl-tabs { position: fixed; z-index: 899; left: 0; right: 0; top: 56px; height: 44px; display: flex; align-items: stretch; gap: 0; padding: 0 28px; background: #151518; box-shadow: inset 0 -1px 0 #26262C; overflow-x: auto; scrollbar-width: none; }
+#fl-root .fl-grp { display: flex; align-items: stretch; }
+#fl-root .fl-grp.rule { margin-left: 12px; padding-left: 12px; box-shadow: inset 1px 0 0 #34343C; }
+#fl-root .fl-tabs a { position: relative; display: flex; align-items: center; padding: 0 14px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8C8C97; white-space: nowrap; transition: color .15s; }
+#fl-root .fl-tabs a:hover,
+#fl-root .fl-tabs a.on { color: #fff; }
+#fl-root .fl-tabs a::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 0; height: 3px; background: #34343C; transform: skewX(-20deg) scaleX(0); transform-origin: 0 50%; transition: transform .22s cubic-bezier(.16, 1, .3, 1); }
+#fl-root .fl-tabs a:hover::after { transform: skewX(-20deg) scaleX(1); }
+#fl-root .fl-tabs a.on::after { background: #fff; transform: skewX(-20deg) scaleX(1); }
+
+/* ---- the classic problemset's way back ---- */
+#fl-root .fl-back { display: none; }
+html[data-fl-classic] #fl-root .fl-back { display: inline-flex; align-items: center; position: fixed; z-index: 901; right: 24px; bottom: 24px; height: 44px; padding: 0 26px 0 18px; background: #E10A1E; font: italic 900 14px "Titillium Web", sans-serif; letter-spacing: .08em; clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); }
+
+/* ---- command palette ---- */
+#fl-root .fl-scrim { position: fixed; z-index: 1000; inset: 0; display: flex; justify-content: center; align-items: flex-start; padding-top: 14vh; background: rgba(8,8,10,.78); }
+#fl-root .fl-pal { width: min(660px, calc(100vw - 32px)); background: #151518; box-shadow: inset 0 4px 0 #E10A1E, 0 40px 90px -30px #000; animation: fl-drop .16s cubic-bezier(.16, 1, .3, 1); }
+#fl-root .fl-pal-in { display: flex; align-items: center; gap: 14px; height: 60px; padding: 0 20px; box-shadow: inset 0 -1px 0 #26262C; }
+#fl-root .fl-pal-in b { font: italic 900 22px "Titillium Web", sans-serif; color: #E10A1E; }
+#fl-root .fl-pal-in input { flex: 1; height: 100%; border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; color: #fff !important; font: 500 17px "Inter", system-ui, sans-serif !important; padding: 0 !important; border-radius: 0 !important; }
+#fl-root .fl-pal-in input::placeholder { color: #6a6a74; }
+#fl-root .fl-pal-list { list-style: none; margin: 0; padding: 6px 0; max-height: 50vh; overflow: auto; }
+#fl-root .fl-pal-list li { display: flex; align-items: baseline; gap: 14px; padding: 11px 20px; cursor: pointer; }
+#fl-root .fl-pal-list li .t { font: 700 15px "Titillium Web", sans-serif; letter-spacing: .03em; white-space: nowrap; }
+#fl-root .fl-pal-list li .h { margin-left: auto; max-width: 55%; color: #8C8C97; font: 12px "JetBrains Mono", monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fl-root .fl-pal-list li.on { background: #1C1C21; box-shadow: inset 4px 0 0 #E10A1E; }
+#fl-root .fl-pal-list li.none { cursor: default; color: #8C8C97; }
+#fl-root .fl-pal-foot { display: flex; align-items: center; gap: 8px; padding: 10px 20px; box-shadow: inset 0 1px 0 #26262C; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .14em; color: #8C8C97; }
+
+/* ---- J / K row cursor on Codeforces' own tables ---- */
+html[data-cf-theme="fastlap"] tr.fl-cursor > td { background-color: #1C1C21 !important; }
+html[data-cf-theme="fastlap"] tr.fl-cursor > td:first-child { box-shadow: inset 4px 0 0 #E10A1E !important; }
+
+@media (max-width: 1180px) {
+  #fl-root .fl-k { min-width: 0; } #fl-root .fl-k span { display: none; }
+  #fl-root .fl-nav > a, #fl-root .fl-more > button { padding: 0 12px; }
+}
+@media (prefers-reduced-motion: reduce) { #fl-root .fl-pal, #fl-root .fl-menu { animation: none; } }
+
+/* =============================================================================
+   THE STINGER (fastlap/src/stinger.ts): a broadcast wipe between pages.
+   #fl-stinger.go   leaving: red, white, carbon panels sweep in, then the card
+   #fl-stinger.hold arriving: the card, covering from the first paint
+   #fl-stinger.out  arriving, laid out: the carbon sweeps off to the right,
+                    its leading edge striped white and red
+   If nothing reveals the page, .hold leaves by itself after 2.6 s. The panels
+   are skewed blocks wider than the screen, so their slanted edges stay off
+   screen at rest. Only transform and opacity animate.
+============================================================================= */
+#fl-stinger { position: fixed; z-index: 2147483000; inset: 0; overflow: hidden; pointer-events: auto; contain: strict; }
+#fl-stinger > i, #fl-stinger > .c { position: absolute; top: 0; bottom: 0; left: -260px; width: calc(100vw + 520px); transform: skewX(-14deg) translateX(calc(-100vw - 600px)); will-change: transform; }
+#fl-stinger > i.r { background: #E10A1E; }
+#fl-stinger > i.w { background: #F2F2F5; }
+#fl-stinger > .c { background: linear-gradient(90deg, #F2F2F5 0 12px, #E10A1E 12px 64px, #0E0E10 64px); }
+/* speed stripes down the right edge of the card */
+#fl-stinger > .s { position: absolute; top: 0; bottom: 0; right: 0; width: 34vw; opacity: 0;
+  background: repeating-linear-gradient(115deg, rgba(255,255,255,.045) 0 22px, transparent 22px 64px); clip-path: polygon(14vw 0, 100% 0, 100% 100%, 0 100%); }
+/* the card: kicker plate, destination, loading ticker */
+#fl-stinger .cap { position: absolute; left: 12vw; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 18px; opacity: 0; }
+#fl-stinger .k { display: flex; align-items: center; gap: 14px; font: 700 13px "Titillium Web", "Arial Narrow", sans-serif; letter-spacing: .3em; color: #8C8C97; }
+#fl-stinger .k b { display: inline-flex; align-items: center; height: 30px; padding: 0 20px 0 12px; background: #E10A1E; color: #fff; font: italic 900 17px "Titillium Web", sans-serif; letter-spacing: .04em; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-stinger .l { color: #fff; font: italic 900 clamp(48px, 7.4vw, 112px)/.9 "Titillium Web", "Arial Narrow", sans-serif; letter-spacing: -.01em; white-space: nowrap; }
+#fl-stinger .t { position: relative; width: 360px; height: 4px; background: #26262C; overflow: hidden; }
+#fl-stinger .t i { position: absolute; top: 0; bottom: 0; left: 0; width: 34%; background: #E10A1E; transform: translateX(-100%); animation: fl-st-tick 1s cubic-bezier(.6, 0, .4, 1) infinite; }
+@keyframes fl-st-tick { to { transform: translateX(300%); } }
+
+/* leaving: the panels sweep in one after another, then the card */
+#fl-stinger.go > i, #fl-stinger.go > .c { animation: fl-st-in .4s cubic-bezier(.7, 0, .2, 1) forwards; }
+#fl-stinger.go > i.w { animation-delay: .05s; }
+#fl-stinger.go > .c { animation-delay: .1s; }
+#fl-stinger.go > .s { animation: fl-st-fade .3s .32s ease-out forwards; }
+#fl-stinger.go .cap { animation: fl-st-cap .34s .28s cubic-bezier(.16, 1, .3, 1) forwards; }
+@keyframes fl-st-in { to { transform: skewX(-14deg) translateX(0); } }
+@keyframes fl-st-fade { to { opacity: 1; } }
+@keyframes fl-st-cap { from { opacity: 0; transform: translate(-36px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
+
+/* arriving: covered at once (the same final frame), leaves by itself if never revealed */
+#fl-stinger.hold > i { display: none; }
+#fl-stinger.hold > .c { transform: skewX(-14deg) translateX(0); animation: fl-st-out .56s 2.6s cubic-bezier(.7, 0, .25, 1) forwards; }
+#fl-stinger.hold > .s { opacity: 1; animation: fl-st-gone .2s 2.6s ease-in forwards; }
+#fl-stinger.hold .cap { opacity: 1; transform: translateY(-50%); animation: fl-st-cap-out .26s 2.6s ease-in forwards; }
+#fl-stinger.hold, #fl-stinger.out { pointer-events: none; }
+/* the reveal: the card goes first, then the carbon sweeps off */
+#fl-stinger.out > i { display: none; }
+#fl-stinger.out > .c { transform: skewX(-14deg) translateX(0); animation: fl-st-out .56s .06s cubic-bezier(.7, 0, .25, 1) forwards; }
+#fl-stinger.out > .s { opacity: 1; animation: fl-st-gone .18s ease-in forwards; }
+#fl-stinger.out .cap { opacity: 1; transform: translateY(-50%); animation: fl-st-cap-out .24s ease-in forwards; }
+@keyframes fl-st-out { to { transform: skewX(-14deg) translateX(calc(100vw + 600px)); } }
+@keyframes fl-st-gone { to { opacity: 0; } }
+@keyframes fl-st-cap-out { to { opacity: 0; transform: translate(48px, -50%); } }
+@media (max-width: 900px) { #fl-stinger .cap { left: 8vw; } #fl-stinger .t { width: 220px; } }
+
+/* =============================================================================
+   SCROLL REVEALS: big blocks rise in as they enter from the bottom edge.
+   CSS scroll-driven animations (animation-timeline: view()): compositor-only
+   (transform, opacity), no script, no scroll listener. Blocks, never rows.
+   A block already on screen at load is past its range: it simply shows.
+============================================================================= */
+@supports (animation-timeline: view()) {
+  html[data-fl-shell] #pageContent > .roundbox,
+  html[data-fl-shell] #pageContent > .datatable,
+  html[data-fl-shell] #sidebar > .roundbox,
+  html[data-fl-shell] .problem-statement > div,
+  html[data-fl-shell] .topic {
+    animation: fl-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+}
+@keyframes fl-rise { from { opacity: 0; transform: translateY(28px); } }
+@media (prefers-reduced-motion: reduce) {
+  html[data-fl-shell] #pageContent > .roundbox, html[data-fl-shell] #pageContent > .datatable, html[data-fl-shell] #sidebar > .roundbox,
+  html[data-fl-shell] .problem-statement > div, html[data-fl-shell] .topic { animation: none; }
+}
+
+/* =============================================================================
+   PRESS FEEDBACK: every FASTLAP plate and button answers the click: a 1 px
+   push and a slight squeeze while held (transform only, 80 ms). Red plates
+   brighten on hover. Nothing with reduced motion.
+============================================================================= */
+#fl-root .fl-brand, #fl-root .fl-codebtn, #fl-root .fl-back, #fl-root .fl-in a, #fl-root .fl-k,
+#fl-tower .fl-ptabs button, #fl-tower .fl-tagbtn, #fl-tower .fl-classic, #fl-tower .fl-bands button, #fl-tower .fl-mk, #fl-tower .fl-chips button, #fl-tower .fl-red, #fl-tower .fl-ghost,
+#fl-cal .fl-reg, #fl-cal .fl-btn, #fl-cal .fl-ghost, #fl-cal .fl-demo, #fl-cal .fl-pages a,
+#fl-paddock .fl-pd-tile, #fl-paddock .fl-pd-driver .acts a,
+#fl-pit .fl-pit-go, #fl-pit .fl-pit-run, #fl-pit .fl-pit-retry, #fl-pit .fl-pit-x,
+#fl-drive .fl-skip { transition-property: color, background-color, border-color, filter, transform; transition-duration: .15s, .15s, .15s, .15s, .08s; }
+#fl-root .fl-brand:active, #fl-root .fl-codebtn:active, #fl-root .fl-back:active, #fl-root .fl-in a:active, #fl-root .fl-k:active,
+#fl-tower .fl-ptabs button:active, #fl-tower .fl-tagbtn:active, #fl-tower .fl-classic:active, #fl-tower .fl-bands button:active, #fl-tower .fl-mk:active, #fl-tower .fl-chips button:active, #fl-tower .fl-red:active, #fl-tower .fl-ghost:active,
+#fl-cal .fl-reg:active, #fl-cal .fl-btn:active, #fl-cal .fl-ghost:active, #fl-cal .fl-demo:active, #fl-cal .fl-pages a:active,
+#fl-paddock .fl-pd-driver .acts a:active,
+#fl-pit .fl-pit-go:active, #fl-pit .fl-pit-run:active, #fl-pit .fl-pit-retry:active, #fl-pit .fl-pit-x:active,
+#fl-drive .fl-skip:active { transform: translateY(1px) scale(.985); }
+#fl-paddock .fl-pd-tile:active { transform: scale(.993); }
+#fl-root .fl-brand:hover, #fl-root .fl-codebtn:hover, #fl-root .fl-back:hover { filter: brightness(1.12); }
+/* the calendar's rows answer the pointer like the tower's: a red bar rises on the left */
+#fl-cal .fl-crow { position: relative; transition: background-color .15s; }
+#fl-cal .fl-crow::before { content: ""; position: absolute; left: -16px; top: 10px; bottom: 10px; width: 4px; background: #E10A1E; transform: scaleY(0); transform-origin: 50% 100%; transition: transform .22s cubic-bezier(.16, 1, .3, 1); }
+#fl-cal .fl-crow:hover { background: linear-gradient(90deg, rgba(255,255,255,.025), transparent 70%); }
+#fl-cal .fl-crow:hover::before { transform: scaleY(1); }
+@media (prefers-reduced-motion: reduce) {
+  #fl-root .fl-nav > a::after, #fl-root .fl-tabs a::after, #fl-cal .fl-crow::before { transition: none; }
+  #fl-root .fl-brand:active, #fl-root .fl-codebtn:active, #fl-root .fl-back:active, #fl-cal .fl-reg:active, #fl-cal .fl-btn:active, #fl-pit .fl-pit-go:active, #fl-pit .fl-pit-run:active, #fl-paddock .fl-pd-tile:active, #fl-tower .fl-mk:active { transform: none; }
+}

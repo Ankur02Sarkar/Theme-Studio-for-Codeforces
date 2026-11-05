@@ -1,0 +1,179 @@
+/* =============================================================================
+   FASTLAP  (theme id "fastlap") -- a motorsport-broadcast Codeforces (ASHEN.md
+   "The race overhaul"). Carbon, white, one race red; data colours carry
+   meaning only (sector purple / green / yellow; rank colours unchanged).
+   Square and slanted, a condensed display face used big, Inter for text.
+   No glass, no glows, no decorative backdrop, no motion at rest.
+
+   Red is a FILL (actions, live, lights) with white type, never text: as text
+   it would read as rank red (#ff6464). The accent role (links in prose, active
+   tabs, focus) is therefore WHITE; primary actions are overridden to red.
+============================================================================= */
+@font-face { font-family: "Titillium Web"; font-style: normal; font-weight: 900; font-display: swap; src: url("chrome-extension://__MSG_@@extension_id__/fonts/titillium-900.woff2") format("woff2"); }
+@font-face { font-family: "Titillium Web"; font-style: normal; font-weight: 700; font-display: swap; src: url("chrome-extension://__MSG_@@extension_id__/fonts/titillium-700.woff2") format("woff2"); }
+@font-face { font-family: "Titillium Web"; font-style: italic; font-weight: 700 900; font-display: swap; src: url("chrome-extension://__MSG_@@extension_id__/fonts/titillium-700i.woff2") format("woff2"); }
+@font-face { font-family: "Titillium Web"; font-style: normal; font-weight: 600; font-display: swap; src: url("chrome-extension://__MSG_@@extension_id__/fonts/titillium-600.woff2") format("woff2"); }
+
+html[data-cf-theme="fastlap"] {
+  color-scheme: dark;
+  --fl-carbon: #0E0E10; --fl-pit: #151518; --fl-raised: #1C1C21; --fl-line: #26262C; --fl-line-2: #34343C;
+  --fl-ink: #FFFFFF; --fl-ink-2: #B4B4BE; --fl-ink-3: #8C8C97;
+  --fl-red: #E10A1E; --fl-purple: #A855F7; --fl-green: #22C55E; --fl-yellow: #FACC15;
+  --fl-disp: "Titillium Web", "Arial Narrow", "Segoe UI", sans-serif;
+  --fl-text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-desk: var(--fl-carbon); --lc-bg2: var(--fl-pit); --lc-bg3: var(--fl-raised); --lc-nav-bg: var(--fl-carbon);
+  --lc-text: var(--fl-ink); --lc-text2: var(--fl-ink-2); --lc-text3: var(--fl-ink-3);
+  --lc-hairline: var(--fl-line); --lc-border: var(--fl-line-2);
+  --lc-accent: #FFFFFF; --lc-accent-contrast: var(--fl-carbon); --lc-accent-2: var(--fl-red);
+  --lc-green: var(--fl-green); --lc-red: #FF8A8A; --lc-yellow: var(--fl-yellow);
+  --lc-font-ui: var(--fl-text); --lc-font-prose: var(--fl-text); --lc-font-display: var(--fl-disp);
+  --lc-font-code: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --lc-prose-measure: 74ch;
+  --cf-radius: 0px;
+  --cf-fw-title: 900;
+  --cf-fs-body: 16px;
+  --cf-solid: var(--fl-pit);
+  --cf-surface-sticky: var(--fl-pit);
+  --cf-accent-tint: rgba(255,255,255,.10);
+  /* the rating graph as telemetry: faint tier bands, a heavy white trace, red points, labels in the display face */
+  --cf-graph-line: #FFFFFF; --cf-graph-point: var(--fl-red); --cf-graph-band-alpha: 0.14; --cf-graph-band-sat: 0.75;
+  --cf-graph-grid: var(--fl-ink-3); --cf-graph-tick: rgba(255,255,255,.06); --cf-graph-label: rgba(255,255,255,.55);
+  --cf-graph-font: 700 10.5px "Titillium Web", "Arial Narrow", sans-serif; --cf-graph-line-width: 2.5;
+  background: var(--fl-carbon) !important;
+}
+
+/* ---- page and section titles: the condensed face, italic, upper case -------- */
+html[data-cf-theme="fastlap"] .cfts-pagehead h1,
+html[data-cf-theme="fastlap"] .datatable > .rb + div,
+html[data-cf-theme="fastlap"] .problem-statement .header .title,
+html[data-cf-theme="fastlap"] .userbox .main-info h1 a {
+  font-family: var(--fl-disp) !important; font-style: italic; font-weight: 900 !important; text-transform: uppercase; letter-spacing: .005em;
+}
+html[data-cf-theme="fastlap"] .problem-statement .section-title {
+  display: flex; align-items: center; gap: 12px; font-family: var(--fl-disp) !important; font-style: italic; font-weight: 900 !important; text-transform: uppercase; color: #fff !important;
+}
+html[data-cf-theme="fastlap"] .problem-statement .section-title::before {
+  content: ""; width: 26px; height: 8px; flex: none; background: repeating-linear-gradient(115deg, var(--fl-red) 0 4px, transparent 4px 8px);
+}
+/* sidebar box titles: a red stripe in front, tracked caps (tight enough for
+   "PRACTISE IT LIKE A CONTEST" on one line in the 280 px sidebar) */
+html[data-cf-theme="fastlap"] #sidebar .roundbox .caption.titled {
+  font-family: var(--fl-disp) !important; font-size: 12px !important; font-weight: 700 !important; letter-spacing: .1em !important; color: var(--fl-ink-3) !important;
+  padding-left: calc(var(--cf-sp-4) + 22px) !important;
+  background: repeating-linear-gradient(115deg, var(--fl-red) 0 3px, transparent 3px 6px) var(--cf-sp-4) calc(var(--cf-sp-3) + 6px) / 14px 7px no-repeat;
+}
+
+/* ---- surfaces: square plates, hairlines, no shadows ------------------------ */
+html[data-cf-theme="fastlap"] #pageContent { box-shadow: 0 -20px 0 0 var(--fl-pit) !important; }
+html[data-cf-theme="fastlap"] #sidebar > .roundbox { border: 0 !important; box-shadow: none; border-top: 3px solid var(--fl-line-2) !important; }
+html[data-cf-theme="fastlap"] #footer { box-shadow: none; border-top: 1px solid var(--fl-line) !important; }
+html[data-cf-theme="fastlap"] .datatable th,
+html[data-cf-theme="fastlap"] .datatable .top th { font-family: var(--fl-disp) !important; font-weight: 700 !important; letter-spacing: .18em !important; }
+html[data-cf-theme="fastlap"] .datatable table tr:first-child th { border-bottom: 2px solid #fff !important; }
+
+/* ---- buttons: square; primary actions are the race-red slanted plate -------- */
+html[data-cf-theme="fastlap"] #body input[type="submit"],
+html[data-cf-theme="fastlap"] #body input[type="button"],
+html[data-cf-theme="fastlap"] #body button:not(.cfts-spec),
+html[data-cf-theme="fastlap"] #body a.cfts-btn:not(.quiet) {
+  border-radius: 0 !important; font-family: var(--fl-disp) !important; font-weight: 700 !important; letter-spacing: .08em; text-transform: uppercase;
+}
+html[data-cf-theme="fastlap"] #body a.cfts-btn.primary,
+html[data-cf-theme="fastlap"] #body input.cfts-primary-input,
+html[data-cf-theme="fastlap"] #body a.red-link,
+html[data-cf-theme="fastlap"] #header .lang-chooser > div:nth-child(2) a[href^="/register"] {
+  background: var(--fl-red) !important; border: 0 !important; box-shadow: none !important; color: #fff !important;
+  border-radius: 0 !important; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding-right: 18px !important;
+  font-family: var(--fl-disp) !important; font-style: italic; font-weight: 900 !important; letter-spacing: .06em; text-transform: uppercase;
+}
+html[data-cf-theme="fastlap"] #body a.cfts-btn.primary:hover,
+html[data-cf-theme="fastlap"] #body input.cfts-primary-input:hover,
+html[data-cf-theme="fastlap"] #body a.red-link:hover { filter: brightness(1.12); }
+
+/* ---- the problemset (classic view): sector colours on solved / tried rows --- */
+html[data-cf-theme="fastlap"][data-cf-layout="guided"]:not([data-cf-live]) table.problems tr.accepted-problem { box-shadow: inset 4px 0 0 var(--fl-green); background: rgba(34,197,94,.05); }
+html[data-cf-theme="fastlap"][data-cf-layout="guided"]:not([data-cf-live]) table.problems tr.rejected-problem { box-shadow: inset 4px 0 0 var(--fl-yellow); background: rgba(250,204,21,.04); }
+html[data-cf-theme="fastlap"] .problems .accepted-problem td.id { border-left-color: var(--fl-green) !important; }
+
+/* ---- verdicts: square plates with a colour bar, the standings' language ----
+   accepted = sector green, rejected = a red flag (pale type on a dark red
+   tile, never red text), hacked / failed = yellow flag, CE / skipped =
+   neutral. Static: the status page rewrites these spans live. */
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-accepted,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-accepted-challenged,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-rejected,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-failed,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-challenged,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper:is([submissionverdict="COMPILATION_ERROR"], [submissionverdict="SKIPPED"]) {
+  border-radius: 0 !important; padding: 4px 8px 4px 10px !important; font-family: var(--fl-disp) !important; font-size: 13px !important; font-weight: 700 !important; letter-spacing: 0;
+}
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-accepted,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-accepted-challenged { background: rgba(34,197,94,.14) !important; color: #B8F5CD !important; box-shadow: inset 3px 0 0 var(--fl-green); }
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-rejected { background: #2A0D11 !important; color: #FFB3B9 !important; box-shadow: inset 3px 0 0 var(--fl-red); }
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-failed,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-challenged { background: rgba(250,204,21,.10) !important; color: #FDE68A !important; box-shadow: inset 3px 0 0 var(--fl-yellow); }
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper:is([submissionverdict="COMPILATION_ERROR"], [submissionverdict="SKIPPED"]) { background: var(--fl-raised) !important; color: var(--fl-ink-2) !important; box-shadow: inset 3px 0 0 var(--fl-line-2); }
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-accepted .verdict-format-judged,
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-rejected .verdict-format-judged { color: inherit !important; }
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-waiting { color: var(--fl-ink-2) !important; font-family: var(--fl-disp) !important; font-size: 13px !important; font-weight: 600 !important; }
+html[data-cf-theme="fastlap"] .submissionVerdictWrapper > .verdict-waiting::before { border-radius: 0 !important; width: 7px !important; height: 7px !important; background: var(--fl-red) !important; transform: skewX(-14deg); }
+/* the status table: ids and times quiet, numbers in the condensed face */
+html[data-cf-theme="fastlap"] table.status-frame-datatable td.time-consumed-cell,
+html[data-cf-theme="fastlap"] table.status-frame-datatable td.memory-consumed-cell { font-family: var(--fl-disp) !important; font-weight: 600; font-size: 14px !important; }
+html[data-cf-theme="fastlap"] .cfts-pid { border-radius: 0 !important; font-family: var(--fl-disp) !important; font-weight: 700 !important; }
+
+/* Codeforces sets its own faces on handles, tables and posts: one text face */
+html[data-cf-theme="fastlap"] #body a.rated-user:not(.cfts-spec),
+html[data-cf-theme="fastlap"] #body .rtable:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="fastlap"] #body .rtable td:not(.cfts-spec),
+html[data-cf-theme="fastlap"] #body .rtable th:not(.cfts-spec),
+html[data-cf-theme="fastlap"] #body .topic .info:not(cfts-spec),
+html[data-cf-theme="fastlap"] #body .topic .ttypography:not(cfts-spec),
+html[data-cf-theme="fastlap"] #body .comment-table .info:not(cfts-spec),
+html[data-cf-theme="fastlap"] #body .datatable td:not(.id-cell),
+html[data-cf-theme="fastlap"] #body .notice:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="fastlap"] #body .small:not(.cfts-spec):not(cfts-spec) { font-family: var(--fl-text) !important; }
+html[data-cf-theme="fastlap"] #body a.rated-user:not(.cfts-spec) { font-weight: 700; }
+
+/* ---- reading: Inter 16 / 1.75 at 74ch; samples in mono --------------------- */
+html[data-cf-theme="fastlap"] .problem-statement .legend,
+html[data-cf-theme="fastlap"] .problem-statement .input-specification,
+html[data-cf-theme="fastlap"] .problem-statement .output-specification,
+html[data-cf-theme="fastlap"] .problem-statement .note { line-height: 1.75; }
+html[data-cf-theme="fastlap"] .sample-test pre { font-family: "JetBrains Mono", Consolas, monospace !important; }
+
+/* ---- profile: the activity calendar as sector timing --------------------------
+   empty days a dark tile, then the sector greens, the busiest level purple
+   (purple = fastest, as everywhere in FASTLAP); labels in the display face */
+html[data-cf-theme="fastlap"] #userActivityGraph rect[fill="#EBEDF0" i] { fill: #1C1C21; }
+html[data-cf-theme="fastlap"] #userActivityGraph rect[fill="#91DA9E" i] { fill: #0F3D22; }
+html[data-cf-theme="fastlap"] #userActivityGraph rect[fill="#40C463" i] { fill: #15803D; }
+html[data-cf-theme="fastlap"] #userActivityGraph rect[fill="#30A14E" i] { fill: #22C55E; }
+html[data-cf-theme="fastlap"] #userActivityGraph rect[fill="#216E39" i] { fill: #A855F7; }
+html[data-cf-theme="fastlap"] #userActivityGraph text { font-family: "Titillium Web", sans-serif !important; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; fill: var(--fl-ink-3); }
+/* guided's section titles (profile cards, the home feed, "Also coming up"): the section-title treatment */
+html[data-cf-theme="fastlap"] #pageContent h2.cfts-pch,
+html[data-cf-theme="fastlap"] #pageContent h2.cfts-feedhead,
+html[data-cf-theme="fastlap"] #pageContent .cfts-subhead h2 { display: flex; align-items: center; gap: 12px; font: italic 900 24px/1 "Titillium Web", sans-serif !important; text-transform: uppercase; letter-spacing: .01em; color: #fff !important; }
+html[data-cf-theme="fastlap"] #pageContent h2.cfts-pch::before,
+html[data-cf-theme="fastlap"] #pageContent h2.cfts-feedhead::before,
+html[data-cf-theme="fastlap"] #pageContent .cfts-subhead h2::before { content: ""; width: 26px; height: 8px; flex: none; background: repeating-linear-gradient(115deg, var(--fl-red) 0 4px, transparent 4px 8px); }
+html[data-cf-theme="fastlap"] #pageContent h2.cfts-feedhead span,
+html[data-cf-theme="fastlap"] #pageContent .cfts-subhead h2 span { font: 700 11.5px "Titillium Web", sans-serif !important; font-style: normal !important; letter-spacing: .16em; color: var(--fl-ink-3) !important; text-transform: uppercase; }
+html[data-cf-theme="fastlap"] #usersRatingGraphPlaceholder .flot-tick-label { font: 700 11px "Titillium Web", sans-serif !important; letter-spacing: .06em; color: var(--fl-ink-3) !important; }
+/* flot's legend: no backdrop box, and the swatch is a short trace, not a white square */
+html[data-cf-theme="fastlap"] #usersRatingGraphPlaceholder .legend > div { display: none; }
+html[data-cf-theme="fastlap"] #usersRatingGraphPlaceholder .legendColorBox > div { border: 0 !important; padding: 0 !important; }
+html[data-cf-theme="fastlap"] #usersRatingGraphPlaceholder .legendColorBox > div > div { width: 16px !important; height: 3px !important; border: 0 !important; background: #fff; transform: skewX(-20deg); }
+html[data-cf-theme="fastlap"] #usersRatingGraphPlaceholder .legend table { font-family: "Titillium Web", sans-serif !important; font-weight: 700; letter-spacing: .06em; }
+
+/* ---- profile: figures in the display face (guided's facts and stat tiles) --- */
+html[data-cf-theme="fastlap"] #pageContent .cfts-phead li.cfts-fact .cfts-flbl { font-family: var(--fl-disp) !important; font-weight: 700 !important; letter-spacing: .18em !important; color: var(--fl-ink-3) !important; }
+html[data-cf-theme="fastlap"] #pageContent .cfts-phead li.cfts-fact > span:not(.cfts-flbl),
+html[data-cf-theme="fastlap"] #pageContent .cfts-phead li.cfts-fact > .smaller > span:first-child { font-family: var(--fl-disp) !important; font-weight: 900 !important; font-size: 22px !important; letter-spacing: 0; }
+html[data-cf-theme="fastlap"] #pageContent .cfts-tiles .cfts-tile { border-radius: 0 !important; box-shadow: inset 0 3px 0 var(--fl-line-2); }
+html[data-cf-theme="fastlap"] #pageContent .cfts-tiles .cfts-tile:first-child { box-shadow: inset 0 3px 0 var(--fl-green); }
+html[data-cf-theme="fastlap"] #pageContent .cfts-tile .tv { font-family: var(--fl-disp) !important; font-weight: 900 !important; font-size: 34px !important; line-height: 1 !important; letter-spacing: 0; }
+html[data-cf-theme="fastlap"] #pageContent .cfts-tile .tl { margin-top: 6px; font-family: var(--fl-disp) !important; font-weight: 700 !important; font-size: 11.5px !important; letter-spacing: .18em; text-transform: uppercase; color: var(--fl-ink-2) !important; }
+html[data-cf-theme="fastlap"] #pageContent .cfts-tile .ti { border-radius: 0 !important; }
+html[data-cf-theme="fastlap"] #pageContent .title-photo img { border-radius: 0 !important; }

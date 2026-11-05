@@ -1,0 +1,149 @@
+/* =============================================================================
+   FASTLAP sidebar (fastlap/src/Sidebar.tsx): the driver card, the mini timing
+   towers, race control. The panels live INSIDE #sidebar (.fl-side), so every
+   rule carries #sidebar .fl-side and colours are !important against
+   core.css's link rules. Motion: transform / opacity only, once (on first
+   sight); none with reduced motion.
+============================================================================= */
+html[data-cf-theme="fastlap"] #sidebar [data-fl-hide] { display: none !important; }
+html[data-cf-theme="fastlap"] #sidebar .fl-side { margin: 0 0 14px; color: #fff; font: 14px/1.4 var(--fl-text); -webkit-font-smoothing: antialiased; }
+html[data-cf-theme="fastlap"] #sidebar .fl-side a { text-decoration: none !important; }
+html[data-cf-theme="fastlap"] #sidebar .fl-side a:focus-visible,
+html[data-cf-theme="fastlap"] #sidebar .fl-side button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+html[data-cf-theme="fastlap"] #sidebar .fl-side .fl-sd-k { display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px; font: 700 12px var(--fl-disp); letter-spacing: .18em; color: var(--fl-ink-3); }
+html[data-cf-theme="fastlap"] #sidebar .fl-side .fl-sd-stripe { width: 22px; height: 8px; background: repeating-linear-gradient(115deg, var(--fl-red) 0 3px, transparent 3px 6px); }
+
+/* ---- the driver card ----------------------------------------------------------
+   rank colour = --rk (from data-rank, never Codeforces' .user-* class on a
+   box: it sets colour with !important) */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card { --rk: #8C8C97; position: relative; overflow: clip; background: var(--fl-pit); box-shadow: inset 0 3px 0 var(--rk); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-gray"] { --rk: #ababab; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-green"] { --rk: #4fd24f; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-cyan"] { --rk: #2fd3c5; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-blue"] { --rk: #8c9cff; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-violet"] { --rk: #e27be2; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-orange"] { --rk: #ffa033; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-red"],
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card[data-rank="user-legendary"] { --rk: #ff6464; }
+/* the rank colour as a big faint slant behind the card (livery) */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card::before { content: ""; position: absolute; right: -40px; top: 0; bottom: 0; width: 150px; background: var(--rk); opacity: .07; transform: skewX(-20deg); pointer-events: none; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-id { position: relative; display: flex; align-items: center; gap: 14px; padding: 4px 16px 0; color: #fff !important; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-helmet { position: relative; flex: none; width: 84px; height: 84px; overflow: hidden; background: #1C1C21; box-shadow: inset 0 -4px 0 var(--rk); clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-helmet img { display: block; width: 100%; height: calc(100% - 4px); object-fit: cover; transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-helmet i { display: grid; place-items: center; height: calc(100% - 4px); font: italic 900 34px var(--fl-disp); }
+/* a visor glint that crosses the photo once, when the card is first seen, and on hover */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-helmet em { position: absolute; top: -10%; bottom: -10%; left: 0; width: 40%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .35), transparent); transform: translateX(-120%) skewX(-18deg); pointer-events: none; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card.in .fl-sd-helmet em { animation: fl-glint .9s .25s cubic-bezier(.4, 0, .2, 1) both; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-id:hover .fl-sd-helmet em { animation: fl-glint .8s cubic-bezier(.4, 0, .2, 1) both; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-id:hover .fl-sd-helmet img { transform: scale(1.06); }
+@keyframes fl-glint { from { transform: translateX(-120%) skewX(-18deg); } to { transform: translateX(320%) skewX(-18deg); } }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-who { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-who b { font: italic 900 26px/1 var(--fl-disp) !important; letter-spacing: .005em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-who small { font: 700 11px var(--fl-disp); letter-spacing: .2em; color: var(--fl-ink-3); }
+/* the figures: rating on a white number plate (counts up), contribution beside it */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-figs { position: relative; display: flex; align-items: stretch; gap: 6px; padding: 14px 16px 0; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-figs > span { display: flex; flex-direction: column; justify-content: center; padding: 8px 18px 8px 12px; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-figs b { font: italic 900 30px/1 var(--fl-disp); font-variant-numeric: tabular-nums; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-figs small { margin-top: 3px; font: 700 10px var(--fl-disp); letter-spacing: .2em; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-no { background: #fff; color: var(--fl-carbon); box-shadow: inset 4px 0 0 var(--rk); clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); min-width: 112px; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-no small { color: #55555E; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-fig { background: #1C1C21; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-fig small { color: var(--fl-ink-3); }
+/* the box's own links as slanted chips: a red fill wipes in on hover */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-links { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 14px 16px 16px; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-links a { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 30px; padding: 0 6px; background: #1C1C21; color: var(--fl-ink-2) !important;
+  font: 700 10.5px var(--fl-disp); letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%); transition: color .15s; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-links a::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--fl-red); transform: scaleX(0); transform-origin: 0 50%; transition: transform .28s cubic-bezier(.16, 1, .3, 1); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-links a { isolation: isolate; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-links a:hover { color: #fff !important; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-links a:hover::before { transform: scaleX(1); }
+/* first sight: the pieces arrive in order */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card .fl-sd-id,
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card .fl-sd-figs > span,
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card .fl-sd-links a { opacity: 0; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card.in .fl-sd-id { animation: fl-sd-in .5s cubic-bezier(.16, 1, .3, 1) both; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card.in .fl-sd-figs > span { animation: fl-sd-in .5s .12s cubic-bezier(.16, 1, .3, 1) both; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card.in .fl-sd-figs > span + span { animation-delay: .2s; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-card.in .fl-sd-links a { animation: fl-sd-in .4s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(.25s + var(--i) * 40ms); }
+@keyframes fl-sd-in { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+
+/* ---- the mini timing towers ------------------------------------------------- */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-tower { background: var(--fl-pit); box-shadow: inset 0 3px 0 var(--fl-line-2); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-th,
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row { display: grid; grid-template-columns: 30px 4px minmax(0, 1fr) 46px 54px; align-items: center; column-gap: 0; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-th { height: 26px; padding: 0 14px 0 16px; font: 700 10px var(--fl-disp); letter-spacing: .1em; color: var(--fl-ink-3); box-shadow: inset 0 -1px 0 var(--fl-line); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-th > span:nth-child(2) { grid-column: 3; padding-left: 10px; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-th > span:nth-child(3) { text-align: right; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-mode { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: flex-end; gap: 4px; cursor: pointer; font: 700 10px var(--fl-disp); letter-spacing: .1em; color: #fff; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-mode i { font-style: normal; font-size: 11px; color: var(--fl-red); transition: transform .25s cubic-bezier(.16, 1, .3, 1); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-mode:hover i { transform: rotate(180deg); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-rows { list-style: none; margin: 0; padding: 4px 14px 6px 16px; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row { --rk: #8C8C97; position: relative; height: 32px; margin: 0; padding: 0; transition: background-color .15s; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-gray"] { --rk: #ababab; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-green"] { --rk: #4fd24f; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-cyan"] { --rk: #2fd3c5; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-blue"] { --rk: #8c9cff; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-violet"] { --rk: #e27be2; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-orange"] { --rk: #ffa033; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-red"],
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row[data-rank="user-legendary"] { --rk: #ff6464; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row + .fl-sd-row { box-shadow: inset 0 1px 0 #1E1E23; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row:hover { background: #1C1C21; }
+/* the place: a plate (P1 white, P2 / P3 grey, the rest outlined) */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row .pos { display: grid; place-items: center; height: 24px; margin-right: 4px; font: italic 900 14px/1 var(--fl-disp); color: #fff; background: #1C1C21; clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%); transition: background-color .15s, color .15s; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.p1 .pos { background: #fff; color: var(--fl-carbon); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.p2 .pos,
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.p3 .pos { background: #4A4A54; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row:hover .pos { background: var(--fl-red); color: #fff; }
+/* the team bar in the driver's rank colour */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row .bar { height: 20px; background: var(--rk); transform: skewX(-14deg); transition: transform .2s cubic-bezier(.16, 1, .3, 1); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row:hover .bar { transform: skewX(-14deg) scaleY(1.25); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row .nm { padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row .nm a { font: 700 14px var(--fl-disp) !important; letter-spacing: .02em; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row .v { text-align: right; font: 900 14px var(--fl-disp); font-variant-numeric: tabular-nums; color: #fff; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row .d { text-align: right; font: 700 12px var(--fl-disp); font-variant-numeric: tabular-nums; letter-spacing: .04em; color: var(--fl-ink-3); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.p1 .d { font-size: 10px; letter-spacing: .16em; color: #fff; }
+/* a battle: within 15 of the car ahead (the interval in yellow, a pulse on its bar) */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.battle .d { color: var(--fl-yellow); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.battle::after { content: ""; position: absolute; left: 30px; top: 6px; width: 4px; height: 20px; background: var(--fl-yellow); transform: skewX(-14deg); opacity: 0; animation: fl-battle 1.8s ease-in-out infinite; pointer-events: none; }
+@keyframes fl-battle { 50% { opacity: .9; } }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-more { display: flex; justify-content: flex-end; padding: 8px 16px 14px; font: italic 900 12px var(--fl-disp); letter-spacing: .1em; color: #fff !important; transition: color .15s; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-more:hover { color: #FF8A8A !important; }
+/* the cascade: rows join the tower one after another (40 ms apart), once */
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-tower .fl-sd-row { opacity: 0; }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-tower.in .fl-sd-row { animation: fl-sd-row .5s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(var(--i) * 45ms); }
+html[data-cf-theme="fastlap"] #sidebar .fl-sd-tower.in .fl-sd-row.battle { animation: fl-sd-row .5s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(var(--i) * 45ms); }
+@keyframes fl-sd-row { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+
+/* ---- race control (Codeforces' Recent actions, restyled) -------------------- */
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions li > div { position: relative; padding: 9px 12px 9px 14px !important; font: 13px/1.45 var(--fl-text) !important; color: var(--fl-ink-2); transition: box-shadow .2s, background-color .2s; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions li > div:hover { box-shadow: inset 3px 0 0 var(--fl-red); background: #19191D; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions a.rated-user { font: 700 13.5px var(--fl-disp) !important; letter-spacing: .02em; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions a[href*="/blog/entry/"] { color: var(--fl-ink-2) !important; transition: color .15s; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions li > div:hover a[href*="/blog/entry/"] { color: #fff !important; }
+/* the newest message carries a LATEST tag */
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions li:first-child > div::before { content: "LATEST"; display: inline-block; margin: 0 8px 0 0; padding: 1px 6px; vertical-align: 1px; background: var(--fl-red); color: #fff; font: italic 900 9.5px/1.4 var(--fl-disp); letter-spacing: .14em; }
+/* the cascade: the first twelve messages arrive one after another, once */
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed]:not([data-fl-in]) .recent-actions li:nth-child(-n+12) { opacity: 0; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(-n+12) { animation: fl-sd-row .45s cubic-bezier(.16, 1, .3, 1) both; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(2) { animation-delay: 40ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(3) { animation-delay: 80ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(4) { animation-delay: 120ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(5) { animation-delay: 160ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(6) { animation-delay: 200ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(7) { animation-delay: 240ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(8) { animation-delay: 280ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(9) { animation-delay: 320ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(10) { animation-delay: 360ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(11) { animation-delay: 400ms; }
+html[data-cf-theme="fastlap"] #sidebar [data-fl-feed][data-fl-in] .recent-actions li:nth-child(12) { animation-delay: 440ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-cf-theme="fastlap"] #sidebar .fl-sd-card .fl-sd-id,
+  html[data-cf-theme="fastlap"] #sidebar .fl-sd-card .fl-sd-figs > span,
+  html[data-cf-theme="fastlap"] #sidebar .fl-sd-card .fl-sd-links a,
+  html[data-cf-theme="fastlap"] #sidebar .fl-sd-tower .fl-sd-row,
+  html[data-cf-theme="fastlap"] #sidebar [data-fl-feed] .recent-actions li { opacity: 1 !important; animation: none !important; }
+  html[data-cf-theme="fastlap"] #sidebar .fl-sd-helmet em,
+  html[data-cf-theme="fastlap"] #sidebar .fl-sd-row.battle::after { display: none; }
+}

@@ -1,0 +1,138 @@
+/* =============================================================================
+   FASTLAP LIVE TIMING: Codeforces' standings drawn as a timing screen
+   (mockups/race/standings.html). Codeforces' table is kept; fastlap/src/
+   timing.ts only marks cells (.fl-pb fastest solve, .fl-clean no wrong tries)
+   and adds the key (.fl-key). Everything is scoped to the mounted shell on a
+   standings page, so live contests and Off never see it.
+============================================================================= */
+html[data-fl-shell][data-fl-page="standings"] #pageContent { position: relative; }
+
+/* ---- the head: the round's name as the title ---- */
+html[data-fl-shell][data-fl-page="standings"] .cfts-sthead {
+  margin: 4px 0 18px !important; color: #8C8C97 !important;
+  font: 700 12px/1.6 "Titillium Web", sans-serif !important; letter-spacing: .2em; text-transform: uppercase;
+}
+html[data-fl-shell][data-fl-page="standings"] .cfts-sthead .contest-name { margin: 14px 0 14px !important; font-size: 0 !important; }
+html[data-fl-shell][data-fl-page="standings"] .cfts-sthead .contest-name a {
+  display: block; color: #fff !important; font: italic 900 56px/.92 "Titillium Web", sans-serif !important; letter-spacing: -.01em; text-transform: uppercase; text-wrap: balance;
+}
+html[data-fl-shell][data-fl-page="standings"] .cfts-sthead .contest-name a:hover { color: #fff !important; text-decoration: none !important; }
+/* "show unofficial": into the head's top-right corner, as a pit-board switch */
+html[data-fl-shell][data-fl-page="standings"] .cfts-unoff { position: absolute !important; z-index: 1; right: var(--cf-sp-5, 24px); top: var(--cf-sp-5, 24px); bottom: auto !important; float: none !important; margin: 0 !important; }
+html[data-fl-shell][data-fl-page="standings"] .cfts-unoff form { display: flex; align-items: center; gap: 8px; margin: 0 !important; }
+html[data-fl-shell][data-fl-page="standings"] .cfts-unoff input { margin: 0; accent-color: #E10A1E; }
+html[data-fl-shell][data-fl-page="standings"] .cfts-unoff label { bottom: 0 !important; color: #B4B4BE !important; font: 700 11.5px "Titillium Web", sans-serif !important; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
+/* the double-click hint: one quiet line */
+html[data-fl-shell][data-fl-page="standings"] .cfts-sthead + div { color: #8C8C97 !important; font-size: 12px !important; }
+
+/* ---- the key ---- */
+html[data-fl-shell] .fl-key { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin: 6px 0 12px; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .16em; color: #8C8C97; }
+html[data-fl-shell] .fl-key span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+html[data-fl-shell] .fl-key i { width: 14px; height: 14px; }
+html[data-fl-shell] .fl-key i.pb { background: #A855F7; }
+html[data-fl-shell] .fl-key i.ok { background: #22C55E; }
+html[data-fl-shell] .fl-key i.no { background: #2A0D11; box-shadow: inset 0 0 0 1px #E10A1E; }
+html[data-fl-shell][data-fl-page="standings"] a.cfts-jump {
+  margin-top: -2px !important; background: #E10A1E !important; border: 0 !important; color: #fff !important; border-radius: 0 !important;
+  padding: 8px 20px 8px 14px !important; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  font: italic 900 12px "Titillium Web", sans-serif !important; letter-spacing: .14em; text-transform: uppercase;
+}
+
+/* ---- the table ---- */
+html[data-fl-shell][data-fl-page="standings"] table.standings { border-collapse: separate !important; border-spacing: 0 !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr:first-child > th {
+  font: 700 11.5px "Titillium Web", sans-serif !important; letter-spacing: .2em !important; color: #8C8C97 !important; text-transform: uppercase;
+  border-bottom: 2px solid #fff !important; background: #151518 !important;
+}
+html[data-fl-shell][data-fl-page="standings"] table.standings tr:first-child > th a { color: #fff !important; font: 900 18px "Titillium Web", sans-serif !important; letter-spacing: 0; text-decoration: none !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings td { height: 50px; border-color: #26262C !important; }
+/* the position plate; the leader's is white */
+html[data-fl-shell][data-fl-page="standings"] table.standings tr > td:first-child {
+  background: #1C1C21 !important; color: #B4B4BE !important; text-align: center;
+  font: italic 900 20px "Titillium Web", sans-serif !important;
+}
+/* the podium: P1 a white plate, P2 and P3 a grey one (marked by timing.ts from the place, so ties share it) */
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.fl-p1 > td:first-child { background: #fff !important; color: #0E0E10 !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.fl-p2 > td:first-child,
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.fl-p3 > td:first-child { background: #B4B4BE !important; color: #0E0E10 !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings td.contestant-cell { padding-left: 14px !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings td.contestant-cell a.rated-user { font: 700 16px "Titillium Web", sans-serif !important; letter-spacing: .01em; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr > td:nth-child(3) { color: #fff !important; font: 900 22px "Titillium Web", sans-serif !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr > td:nth-child(4) { color: #B4B4BE !important; font: 700 15px "Titillium Web", sans-serif !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr:hover > td:not([problemid]) { background-color: #16161A !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr:hover > td:first-child { background-color: #26262C !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.fl-p1:hover > td:first-child { background-color: #fff !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.fl-p2:hover > td:first-child,
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.fl-p3:hover > td:first-child { background-color: #B4B4BE !important; }
+
+/* ---- sector cells: tiles 2 px apart, a colour bar along the bottom ---- */
+html[data-fl-shell][data-fl-page="standings"] table.standings td[problemid] {
+  position: relative; border: 0 !important; box-shadow: inset 0 0 0 2px #0E0E10 !important; background-clip: padding-box;
+  font: 700 14px "Titillium Web", sans-serif !important; white-space: nowrap;
+}
+html[data-fl-shell][data-fl-page="standings"] table.standings td[problemid] .cell-time { display: inline !important; font: inherit !important; font-family: "Titillium Web", sans-serif !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings td[acceptedsubmissionid] {
+  background-color: rgba(34,197,94,.16) !important; box-shadow: inset 0 0 0 2px #0E0E10, inset 0 -5px 0 #22C55E !important;
+}
+html[data-fl-shell][data-fl-page="standings"] table.standings td[acceptedsubmissionid] .cell-time { color: #B8F5CD !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings td[acceptedsubmissionid].fl-pb {
+  background-color: rgba(168,85,247,.24) !important; box-shadow: inset 0 0 0 2px #0E0E10, inset 0 -5px 0 #A855F7 !important;
+}
+html[data-fl-shell][data-fl-page="standings"] table.standings td[acceptedsubmissionid].fl-pb .cell-time { color: #EDE0FF !important; }
+/* wrong tries before the solve: a small "+N" in the tile's top-right corner
+   (Codeforces puts the mark before the time; it is lifted out of the flow) */
+html[data-fl-shell][data-fl-page="standings"] table.standings td[acceptedsubmissionid] .cell-accepted {
+  position: absolute; right: 6px; top: 6px; color: rgba(255,255,255,.72) !important; font: 700 10.5px "Titillium Web", sans-serif !important;
+}
+html[data-fl-shell][data-fl-page="standings"] table.standings td.fl-clean .cell-accepted { display: none !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings td[problemid][title]:not([acceptedsubmissionid]) {
+  background-color: #2A0D11 !important; box-shadow: inset 0 0 0 2px #0E0E10, inset 0 -5px 0 #E10A1E !important;
+}
+html[data-fl-shell][data-fl-page="standings"] table.standings td[problemid] .cell-rejected { color: #FFB3B9 !important; font: 700 14px "Titillium Web", sans-serif !important; }
+/* your row: a red bar on its plate */
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.highlighted-row > td:not([problemid]) { background-color: #1B1B21 !important; }
+html[data-fl-shell][data-fl-page="standings"] table.standings tr.highlighted-row > td:first-child { box-shadow: inset 4px 0 0 #E10A1E !important; }
+
+/* =============================================================================
+   PROBLEM: the race brief (mockups/race/problem.html), on guided's own head.
+   Nothing is moved: MathJax, samples and Codeforces' copy logic stay put.
+============================================================================= */
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header { padding-bottom: 28px !important; border-bottom: 2px solid #fff !important; }
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header .cfts-crumb { flex-wrap: wrap; row-gap: 6px; font: 700 12px "Titillium Web", sans-serif !important; letter-spacing: .12em; text-transform: uppercase; color: #8C8C97 !important; }
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header .cfts-crumb > a, html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header .cfts-crumb > span { white-space: nowrap; }
+/* standard input / output is the default: only a non-standard one is shown */
+/* (as heavy as guided's .cfts-lim display rule, which it must beat) */
+html[data-fl-shell][data-fl-page="problem"][data-cf-theme][data-cf-layout]:not([data-cf-live]) .problem-statement > .header > .cfts-lim.cfts-plain { display: none !important; }
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header .cfts-crumb a { color: #B4B4BE !important; }
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header .cfts-crumb .cfts-div { letter-spacing: .06em; }
+/* the title: filled on its first line, outlined on any line it wraps to */
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header > .title {
+  margin: 14px 0 18px !important; font: italic 900 64px/.95 "Titillium Web", sans-serif !important; letter-spacing: -.01em !important; text-transform: uppercase;
+  color: transparent !important; -webkit-text-stroke: 1.5px #fff; text-wrap: balance;
+}
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header > .title::first-line { color: #fff; }
+/* the rating: a rank-colour slash and the number, big */
+html[data-fl-shell][data-fl-page="problem"] .cfts-pmeta .cfts-rate { display: inline-flex !important; align-items: center; gap: 10px; padding: 0 !important; background: none !important; border: 0 !important; }
+html[data-fl-shell][data-fl-page="problem"] .cfts-pmeta .cfts-rate::before { content: ""; width: 6px; height: 34px; background: var(--c); transform: skewX(-16deg); }
+html[data-fl-shell][data-fl-page="problem"] .cfts-pmeta .cfts-rate .n { color: var(--c) !important; font: 900 40px/1 "Titillium Web", sans-serif !important; }
+html[data-fl-shell][data-fl-page="problem"] .cfts-pmeta .cfts-rate .w { color: #B4B4BE !important; font: 700 11.5px "Titillium Web", sans-serif !important; letter-spacing: .2em; text-transform: uppercase; }
+/* limits: square plates */
+html[data-fl-shell][data-fl-page="problem"] .problem-statement > .header .cfts-lim {
+  border-radius: 0 !important; border: 0 !important; background: #1C1C21 !important; color: #B4B4BE !important;
+  font: 700 12.5px "Titillium Web", sans-serif !important; letter-spacing: .06em; text-transform: uppercase;
+}
+html[data-fl-shell][data-fl-page="problem"] .cfts-ptopics .lbl { font: 700 11.5px "Titillium Web", sans-serif !important; letter-spacing: .18em; text-transform: uppercase; }
+html[data-fl-shell][data-fl-page="problem"] .cfts-pact a.cfts-btn.primary.xl { font-size: 18px !important; letter-spacing: .08em; }
+
+/* samples: telemetry panels */
+html[data-fl-shell] .problem-statement .sample-test .input,
+html[data-fl-shell] .problem-statement .sample-test .output { border: 0 !important; border-radius: 0 !important; background: #0E0E10 !important; box-shadow: inset 0 0 0 1px #26262C; }
+html[data-fl-shell] .problem-statement .sample-test .title {
+  padding: 10px 14px !important; border-bottom: 1px solid #26262C !important; background: #151518 !important; color: #8C8C97 !important;
+  font: 700 11.5px "Titillium Web", sans-serif !important; letter-spacing: .2em !important; text-transform: uppercase;
+}
+html[data-fl-shell] .problem-statement .sample-test pre { padding: 14px !important; background: transparent !important; line-height: 1.6 !important; }
+/* alternate test lines: a full-width stripe, no accent tick */
+html[data-fl-shell] .problem-statement .sample-test .test-example-line-even,
+html[data-fl-shell] .problem-statement .sample-test .test-example-line-odd { margin: 0 -14px !important; padding: 0 14px !important; box-shadow: none !important; background: transparent !important; }
+html[data-fl-shell] .problem-statement .sample-test .test-example-line-odd { background: rgba(255,255,255,.04) !important; }

@@ -1,0 +1,160 @@
+/* =============================================================================
+   Anime Studio  (theme id "anime") on Codeforces
+
+   The design system is core.css's; this file only says how a picture theme
+   fills its surfaces. The scene's colours come from src/anime/anime.js (the
+   solved role block from scenes.js, plus the card density from cf-glass.js).
+
+   THE PICTURE SHOWS IN THE MARGINS AND THE HEADER, NEVER THROUGH CONTENT.
+   Cards are near-solid scrim (at least 90%, and never below the density
+   scripts/build-cf-glass.mjs solves for the hardest rating ink), so tables
+   and statements read exactly as on the plain dark theme.
+
+   NO BACKDROP-FILTER, NO REPAINTING THE ART: the scene is ONE fixed layer
+   (body::before) promoted to its own compositor layer; cards are flat colour.
+============================================================================= */
+html[data-cf-theme="anime"] {
+  --lc-font-ui: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --lc-font-prose: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --lc-font-display: "Dela Gothic One", "Inter", system-ui, sans-serif;
+  --lc-font-code: "JetBrains Mono", Consolas, "DejaVu Sans Mono", ui-monospace, monospace;
+  --lc-prose-measure: 74ch;
+  --cf-fw-title: 400;                         /* Dela Gothic One has one weight */
+
+  --cf-surface-page: var(--lc-anime-scrim);
+  --cf-solid: var(--lc-anime-scrim);
+  --cf-surface-raised: color-mix(in srgb, var(--lc-text) 7%, var(--lc-anime-scrim));
+  --cf-masthead: var(--lc-nav-bg);            /* the picture shows here */
+  --cf-line-strong: color-mix(in srgb, var(--lc-text) 16%, var(--lc-anime-scrim));
+  /* my rows: an OPAQUE tint. A translucent one over glass lightens what is under it: red read 4.38:1 */
+  --cf-tint-mine: color-mix(in srgb, var(--cf-accent) 14%, var(--lc-anime-scrim));
+  /* --cf-surface-card and --cf-surface-sticky are published per scene */
+}
+
+/* --cf-fw-title is 400 because Dela has one weight, but these titles are set in the
+   UI face (or Codeforces' own): at 400 they read thin next to every other title */
+html[data-cf-theme="anime"] #body .topic .title p,
+html[data-cf-theme="anime"] #body .topic .title a:not(.rated-user),
+html[data-cf-theme="anime"] #body .comments .title,
+html[data-cf-theme="anime"] #body .comments .title a { font-weight: 650; }
+html[data-cf-theme="anime"] #body .userbox .main-info h1 a { font-family: var(--cf-font-display) !important; }
+
+/* the scene layer */
+html[data-cf-theme="anime"] body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background-image: var(--lc-anime-desk);
+  background-size: auto, var(--cf-scene-size, cover);
+  background-position: 0 0, var(--cf-scene-pos, center);
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+/* =============================================================================
+   ANIME WORLD (PLAN.md phase 2): Anime Studio + Guided, never in a live
+   contest or Compact. Elements added by guided.js (applyWorld). The scene
+   picture is --cf-scene-wall (anime.js): each banner is a focal crop of it
+   (--cfts-pos, one per page), under a dark gradient for contrast.
+   Japanese labels are Dela Gothic One at 20 px or more: its glyphs sit small in
+   the em box (17 px gives ~15 px of ink) and close up below that.
+============================================================================= */
+html[data-cf-theme="anime"] { --cf-graph-line: var(--cf-accent); }   /* the rating line takes the scene's accent */
+/* the halo behind world type over the picture: dark on dark glass, light on
+   light glass (the Studio's Glass: Light; Phase 6) */
+html[data-cf-theme="anime"] { --cfts-halo: 0, 0, 0; }
+html[data-cf-theme="anime"][data-cf-mode="light"] { --cfts-halo: 255, 255, 255; }
+html[data-cf-theme="anime"] .cfts-jp { font-family: "Dela Gothic One", sans-serif; font-weight: 400; letter-spacing: .06em; }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) {
+  --cfts-veil: linear-gradient(90deg, color-mix(in srgb, var(--lc-anime-scrim) 92%, transparent) 0%, color-mix(in srgb, var(--lc-anime-scrim) 55%, transparent) 46%, color-mix(in srgb, var(--lc-anime-scrim) 12%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--lc-anime-scrim) 85%, transparent) 0%, transparent 55%);
+}
+/* ---- the page banner ---- */
+html[data-cf-theme="anime"] .cfts-banner {
+  position: relative; height: 190px; margin: 0 14px 14px; padding: 0 28px 22px; box-sizing: border-box;   /* the masthead's 14 px inset */ border-radius: var(--cf-radius); overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end; border: 1px solid var(--cf-line);
+  background-image: var(--cfts-veil), var(--cf-scene-wall); background-size: cover, cover, cover; background-position: 0 0, 0 0, var(--cfts-pos, center);
+}
+html[data-cf-theme="anime"] .cfts-banner .t { font: 400 42px/1.05 var(--lc-font-display); color: var(--cf-text); text-shadow: 0 2px 18px rgba(var(--cfts-halo), .55); }
+html[data-cf-theme="anime"] .cfts-banner .jsub { margin-top: 8px; font-size: 20px; color: var(--lc-accent-2, var(--cf-accent)); text-shadow: 0 1px 10px rgba(var(--cfts-halo), .6); }
+html[data-cf-theme="anime"] .cfts-banner > p { margin: 8px 0 0 !important; max-width: 62ch; color: var(--cf-text-2) !important; font-size: var(--cf-fs-body) !important; text-shadow: 0 1px 8px rgba(var(--cfts-halo), .6); }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .datatable > .cfts-captext-off { font-size: 0 !important; padding: 0 !important; height: 34px; }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .datatable > .cfts-captext-off > div { top: 2px !important; font-size: var(--cf-fs-meta); }
+/* the title moved to the banner: the caption would be one empty row around the
+   magnifier, so on these pages the magnifier joins the sub-tab row (the right end is free) */
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="problemset"] .datatable > .cfts-captext-off,
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="status"] .datatable > .cfts-captext-off { height: 14px; }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="problemset"] .datatable > .cfts-captext-off > div,
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="status"] .datatable > .cfts-captext-off > div { top: -24px !important; bottom: auto; }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="problemset"] .datatable > .cfts-captext-off > .userListMarker,
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="status"] .datatable > .cfts-captext-off > .userListMarker { position: absolute !important; top: -25px !important; right: 40px; }
+/* ---- problems are episodes ---- */
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header.cfts-episode { padding-top: 18px !important; min-height: 330px; }
+html[data-cf-theme="anime"] .problem-statement > .header.cfts-episode::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 172px; z-index: 0; pointer-events: none; border-radius: var(--cf-radius) var(--cf-radius) 0 0;
+  /* the picture fades into the card: 172 px of art must not end in a hard edge */
+  background-image: linear-gradient(0deg, color-mix(in srgb, var(--lc-anime-scrim) 96%, transparent) 0%, transparent 42%), var(--cfts-veil), var(--cf-scene-wall); background-size: cover, cover, cover, cover; background-position: 0 0, 0 0, 0 0, var(--cfts-pos, center 35%);
+}
+html[data-cf-theme="anime"] .problem-statement > .header.cfts-episode > :not(.cfts-pact) { position: relative; z-index: 1; }
+html[data-cf-theme="anime"] .problem-statement > .header.cfts-episode > .cfts-pact { z-index: 1; }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header.cfts-episode > .title {
+  font: 400 34px/1.15 var(--lc-font-display) !important; margin: 4px 0 26px !important; text-shadow: 0 2px 16px rgba(var(--cfts-halo), .6); }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header.cfts-episode > .cfts-pact { top: 194px; }
+html[data-cf-theme="anime"] .cfts-eptop { flex: 0 0 100%; display: grid; gap: 4px; }
+html[data-cf-theme="anime"] .cfts-arc { display: flex; align-items: center; gap: 10px; }
+html[data-cf-theme="anime"] .cfts-arc .cfts-jp { font-size: 20px; color: var(--cf-accent); text-shadow: 0 1px 10px rgba(var(--cfts-halo), .6); }
+html[data-cf-theme="anime"] .cfts-arc .cfts-chip { background: rgba(var(--cfts-halo), .35); color: var(--cf-text-2); }
+html[data-cf-theme="anime"] .cfts-epn { display: flex; align-items: baseline; gap: 12px; margin-top: 4px; }
+html[data-cf-theme="anime"] .cfts-epn .no { font-size: 28px; color: var(--cf-accent); text-shadow: 0 2px 14px rgba(var(--cfts-halo), .6); }
+html[data-cf-theme="anime"] #body .cfts-epn .of { font-size: var(--cf-fs-small); color: var(--cf-text-2) !important; text-decoration: none !important; text-shadow: 0 1px 8px rgba(var(--cfts-halo), .7); }
+html[data-cf-theme="anime"] .cfts-epn .of .cfts-jp { font-size: 22px; color: var(--cf-text); margin-left: 4px; }
+/* 危険度: the Japanese word as a label beside the meter (Dela 20 px), the meter
+   in the rating's rank colour */
+html[data-cf-theme="anime"] .cfts-dwrap { display: inline-flex; align-items: center; gap: 8px; }
+html[data-cf-theme="anime"] .cfts-dwrap > .cfts-jp { font-size: 20px; color: var(--cf-text); }
+html[data-cf-theme="anime"] .cfts-danger { display: inline-flex; align-items: center; gap: 9px; height: 30px; padding: 0 10px; border-radius: var(--cf-radius); background: var(--cf-surface-raised); border: 1px solid var(--cf-line); }
+html[data-cf-theme="anime"] .cfts-danger .m { display: inline-flex; gap: 3px; }
+html[data-cf-theme="anime"] .cfts-danger .m i { width: 10px; height: 16px; transform: skewX(-18deg); border-radius: 2px; background: var(--cf-line-strong); }
+html[data-cf-theme="anime"] .cfts-danger .m i.on { background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 55%, transparent); }
+html[data-cf-theme="anime"] .cfts-danger .n { font: 500 var(--cf-fs-meta) var(--cf-font-ui); color: var(--cf-text-3); }
+/* ---- 次回予告 ---- */
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) tr.cfts-hero.cfts-yokoku {
+  /* the picture shows between the two columns; the countdown column keeps its own scrim
+     (the base veil fades out to the right, right where a scene's moon is: 2.52:1 there) */
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--lc-anime-scrim) 94%, transparent) 0%, color-mix(in srgb, var(--lc-anime-scrim) 80%, transparent) 34%, color-mix(in srgb, var(--lc-anime-scrim) 62%, transparent) 46%, color-mix(in srgb, var(--lc-anime-scrim) 62%, transparent) 52%, color-mix(in srgb, var(--lc-anime-scrim) 86%, transparent) 62%, color-mix(in srgb, var(--lc-anime-scrim) 86%, transparent) 100%), var(--cf-scene-wall) !important; background-size: cover, cover; background-position: 0 0, 50% 30%;
+  border-color: color-mix(in srgb, var(--cf-accent) 40%, var(--cf-line-strong)); }
+html[data-cf-theme="anime"] .cfts-yk { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+html[data-cf-theme="anime"] .cfts-yk .cfts-jp { font-size: 22px; letter-spacing: .12em; color: var(--cf-accent); text-shadow: 0 2px 12px rgba(var(--cfts-halo), .6); }
+html[data-cf-theme="anime"] .cfts-yk span:last-child { font: 650 var(--cf-fs-label) var(--cf-font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--cf-text-2); }
+html[data-cf-theme="anime"] .cfts-ykcd { display: flex; gap: 8px; margin-top: 4px; font: 400 36px/1 "Dela Gothic One", sans-serif; letter-spacing: 0; text-transform: none; color: var(--cf-text); text-shadow: 0 3px 18px rgba(var(--cfts-halo), .55); }
+html[data-cf-theme="anime"] .cfts-ykcd i { font: 600 14px var(--cf-font-ui); font-style: normal; color: var(--cf-text-2); margin-left: 2px; }
+html[data-cf-theme="anime"] tr.cfts-yokoku .cfts-dcount { display: none; }
+/* ---- the character sheet ---- */
+html[data-cf-theme="anime"] .cfts-shogo { display: flex; align-items: center; gap: 8px; margin: 2px 0 6px; font: 650 var(--cf-fs-small) var(--cf-font-ui); }
+html[data-cf-theme="anime"] .cfts-shogo .cfts-jp { font-size: 20px; color: var(--lc-accent-2, var(--cf-accent)); }
+html[data-cf-theme="anime"] .cfts-lv { position: absolute; right: 20px; bottom: 18px; text-align: right; }
+html[data-cf-theme="anime"] .cfts-lv .k { font: 400 16px "Dela Gothic One", sans-serif; color: var(--cf-text-2); }
+html[data-cf-theme="anime"] .cfts-lv b { font: 400 40px/1 "Dela Gothic One", sans-serif; }
+html[data-cf-theme="anime"] .cfts-lv small { display: block; margin-top: 4px; font-size: var(--cf-fs-meta); color: var(--cf-text-3); }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-phead > .info > .badge { bottom: auto !important; top: 64px !important; }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-tile { border-top: 2px solid color-mix(in srgb, var(--cf-accent) 70%, transparent); }
+html[data-cf-theme="anime"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-tile .tv { font-family: "Dela Gothic One", sans-serif; font-weight: 400; }
+/* ---- ambient motes: transform and opacity only, behind the content ---- */
+html[data-cf-theme="anime"] .cfts-motes { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; contain: strict; }
+html[data-cf-theme="anime"] .cfts-motes[hidden] { display: none; }
+html[data-cf-theme="anime"] .cfts-motes i {
+  position: absolute; left: 0; right: 0; top: -900px; height: calc(100vh + 900px);
+  background: color-mix(in srgb, var(--lc-accent-2, #fff) 70%, white);
+  -webkit-mask: var(--cf-mote-mask) 0 0 / 720px 900px repeat; mask: var(--cf-mote-mask) 0 0 / 720px 900px repeat;
+  will-change: transform; animation: cfts-fall-near 34s linear infinite;
+}
+html[data-cf-theme="anime"] .cfts-motes i.near { opacity: .5; }
+html[data-cf-theme="anime"] .cfts-motes i.far { opacity: .3; -webkit-mask-position: 310px 430px; mask-position: 310px 430px; transform: scale(.8); animation: cfts-fall-far 52s linear infinite; }
+html[data-cf-theme="anime"] .cfts-motes.paused i { animation-play-state: paused; }
+/* each loop moves exactly one tile (900 px), so it is seamless; fixed values, no var() */
+@keyframes cfts-fall-near { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(60px, 900px, 0); } }
+@keyframes cfts-fall-far { from { transform: translate3d(0, 0, 0) scale(.8); } to { transform: translate3d(-40px, 900px, 0) scale(.8); } }
+@media (prefers-reduced-motion: reduce) { html[data-cf-theme="anime"] .cfts-motes { display: none; } }
+
+/* the episode header's arc chip names the scene on screen (anime.js: --cf-scene-name) */
+html[data-cf-theme="anime"] .cfts-scenechip::before { content: var(--cf-scene-name, ""); }

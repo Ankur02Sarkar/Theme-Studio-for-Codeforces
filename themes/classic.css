@@ -1,0 +1,198 @@
+/* =============================================================================
+   Classic  (theme id "classic") — Codeforces' colours, a modern finish.
+
+   The design system (core.css) in a light palette drawn from Codeforces
+   itself: a white sheet on a pale grey page, Codeforces' blue as the one
+   accent, grey hairlines. Classic keeps Codeforces' positions, so every
+   link, tab and column stays where Codeforces put it; src/classic.js adds
+   the quality of life and the beginner guide, styled below on the tokens.
+   Rank inks: core.css's light set (hue kept, 4.5:1 on white).
+   Same performance rules: no :has(), no universal selectors, no rightmost
+   multi-argument :is(), no blend modes.
+============================================================================= */
+html[data-cf-theme="classic"] {
+  color-scheme: light;
+  --lc-desk: #f3f4f6;          /* page */
+  --lc-bg2: #ffffff;           /* card */
+  --lc-bg3: #f1f3f6;           /* raised: chips, samples, inputs */
+  --lc-nav-bg: #ffffff;
+
+  --lc-text: #1b1f24;  --lc-text2: #454c57;  --lc-text3: #5f6672;
+  --lc-hairline: rgba(15, 23, 42, .09);
+  --lc-border: #d3d7de;
+
+  --lc-accent: #2a5db0;  --lc-accent-contrast: #ffffff;  --lc-accent-2: #7a4fc4;
+  --lc-green: #116329;   /* #1a7f37 read 4.1:1 on its own Accepted pill */   --lc-red: #c62828;   --lc-yellow: #9a6700;
+
+  --lc-font-ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-prose: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-display: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-code: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --lc-prose-measure: 74ch;
+
+  --cfc-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 1px 1px rgba(15, 23, 42, .04);
+}
+/* cards lift off the page a little (the page is pale grey, the cards white).
+   #pageContent keeps core.css's shadow copy 20 px up: it is the card's top,
+   holding the sub-tab row (and /ratings' filter, raised to that row) */
+html[data-cf-theme="classic"] #pageContent { box-shadow: 0 -20px 0 0 var(--cf-surface-card), var(--cfc-shadow); }
+html[data-cf-theme="classic"] #sidebar > .roundbox,
+html[data-cf-theme="classic"] .roundbox.menu-box { box-shadow: var(--cfc-shadow); }
+html[data-cf-theme="classic"] .cfts-hidden { display: none !important; }
+
+/* ---- rank inks (ratings, the guide's rank list) ------------------------------ */
+html[data-cf-theme="classic"] .cfts-c-r-gray { color: var(--cf-rank-gray) !important; }
+html[data-cf-theme="classic"] .cfts-c-r-green { color: var(--cf-rank-green) !important; }
+html[data-cf-theme="classic"] .cfts-c-r-cyan { color: var(--cf-rank-cyan) !important; }
+html[data-cf-theme="classic"] .cfts-c-r-blue { color: var(--cf-rank-blue) !important; }
+html[data-cf-theme="classic"] .cfts-c-r-violet { color: var(--cf-rank-violet) !important; }
+html[data-cf-theme="classic"] .cfts-c-r-orange { color: var(--cf-rank-orange) !important; }
+html[data-cf-theme="classic"] .cfts-c-r-red { color: var(--cf-rank-red) !important; }
+html[data-cf-theme="classic"] table.problems .ProblemRating { font-weight: 650; cursor: help; }
+
+/* ---- small text buttons (topics, copy all, dismiss, hide) ---------------------
+   button + :not(.cfts-spec) outrank core.css's #body button:not(.cfts-spec) */
+html[data-cf-theme="classic"] #body button.cfts-c-topics:not(.cfts-spec),
+html[data-cf-theme="classic"] #body button.cfts-c-copyall:not(.cfts-spec),
+html[data-cf-theme="classic"] #body button.cfts-c-dismiss:not(.cfts-spec),
+html[data-cf-theme="classic"] .cfts-c-guide .g-hide {
+  font: 500 var(--cf-fs-meta) var(--cf-font-ui); color: var(--cf-accent) !important;
+  /* a 4 px taller, 6 px wider hit area, cancelled by margins: nothing moves */
+  background: none !important; border: 0 !important; padding: 4px 6px; margin: -4px -6px -4px calc(var(--cf-sp-3) - 6px);
+  box-shadow: none;              /* core.css fills buttons with an inset shadow */
+  text-transform: none; letter-spacing: normal; cursor: pointer;
+}
+html[data-cf-theme="classic"] #body button.cfts-c-topics:hover:not(.cfts-spec),
+html[data-cf-theme="classic"] #body button.cfts-c-copyall:hover:not(.cfts-spec),
+html[data-cf-theme="classic"] #body button.cfts-c-dismiss:hover:not(.cfts-spec),
+html[data-cf-theme="classic"] .cfts-c-guide .g-hide:hover { text-decoration: underline; box-shadow: none; }
+
+/* ---- problem page: rating + Submit on the title line --------------------------- */
+html[data-cf-theme="classic"] .problem-statement .header .title .cfts-c-rate {
+  display: inline-block; vertical-align: middle; margin-left: var(--cf-sp-3); padding: 2px var(--cf-sp-2);
+  font: 650 var(--cf-fs-meta) var(--cf-font-ui); white-space: nowrap; cursor: help;
+  background: var(--cf-surface-raised); border: 1px solid var(--cf-line-strong); border-radius: var(--cf-radius);
+}
+html[data-cf-theme="classic"] #body .problem-statement .header .title .cfts-c-submit {
+  display: inline-block; vertical-align: middle; margin-left: var(--cf-sp-2); padding: 4px var(--cf-sp-4);
+  font: 600 var(--cf-fs-table) var(--cf-font-ui); color: var(--cf-on-accent) !important; text-decoration: none !important;
+  background: var(--cf-accent) !important; border-radius: var(--cf-radius);
+}
+html[data-cf-theme="classic"] #body .problem-statement .header .title .cfts-c-submit:hover { filter: brightness(1.08); }
+html[data-cf-theme="classic"] .cfts-c-tagbox .caption .cfts-c-topics { float: right; }
+html[data-cf-theme="classic"]:not([data-cf-topics="on"]) .cfts-c-tagbox .cfts-c-topic,
+html[data-cf-theme="classic"]:not([data-cf-topics="on"]) .cfts-c-tagbox .notice { display: none !important; }
+
+/* ---- problemset ----------------------------------------------------------------- */
+html[data-cf-theme="classic"]:not([data-cf-topics="on"]) table.problems td:nth-child(2) > div:nth-child(2) { display: none !important; }
+html[data-cf-theme="classic"] .cfts-c-captools { float: right; font: 500 var(--cf-fs-meta) var(--cf-font-ui); text-transform: none; letter-spacing: normal; white-space: nowrap; }
+/* inside the icon box: inline, left of the magnifier */
+html[data-cf-theme="classic"] .datatable > .rb + div > div > .cfts-c-captools { float: none; display: inline-block; vertical-align: middle; margin-right: var(--cf-sp-3); line-height: 28px; }
+html[data-cf-theme="classic"] #body .cfts-c-captools .cfts-c-start { color: var(--cf-accent) !important; text-decoration: none !important; }
+html[data-cf-theme="classic"] #body .cfts-c-captools .cfts-c-start:hover { text-decoration: underline !important; }
+
+/* ---- contests and home: who a round is rated for --------------------------------- */
+/* #body + !important: inside a post title, core.css's .topic .title rule
+   (font, weight, colour, all !important) would make the chip title-sized */
+html[data-cf-theme="classic"] #body .cfts-c-div {
+  display: inline-block; margin-left: var(--cf-sp-2); padding: 1px var(--cf-sp-2); vertical-align: middle;
+  font: 500 var(--cf-fs-meta)/1.5 var(--cf-font-ui) !important; letter-spacing: normal; color: var(--cf-text-2) !important; white-space: nowrap; cursor: help;
+  background: var(--cf-surface-raised); border: 1px solid var(--cf-line-strong); border-radius: var(--cf-radius);
+}
+/* a post title is a link around a block <p>: inline, so the chip follows the title on its line */
+html[data-cf-theme="classic"] .topic .title.cfts-c-hinted > a,
+html[data-cf-theme="classic"] .topic .title.cfts-c-hinted > a > p { display: inline; }
+html[data-cf-theme="classic"] .cfts-dcount { font-weight: 650; font-variant-numeric: tabular-nums; }
+
+/* ---- home: "New to Codeforces?" -------------------------------------------------- */
+html[data-cf-theme="classic"] .cfts-c-welcome .body { padding: var(--cf-sp-3) var(--cf-sp-4) var(--cf-sp-4); font: var(--cf-fs-small)/1.55 var(--cf-font-ui); color: var(--cf-text); }
+html[data-cf-theme="classic"] .cfts-c-welcome .body p { margin: 0 0 var(--cf-sp-3); }
+html[data-cf-theme="classic"] .cfts-c-welcome .body .acts { margin: 0; display: flex; align-items: center; }
+html[data-cf-theme="classic"] #body .cfts-c-welcome .cfts-c-open {
+  font: 600 var(--cf-fs-small) var(--cf-font-ui); padding: 6px var(--cf-sp-3); cursor: pointer;
+  color: var(--cf-on-accent) !important; background: var(--cf-accent) !important; border: 0 !important; border-radius: var(--cf-radius);
+  box-shadow: none;
+}
+html[data-cf-theme="classic"] #body .cfts-c-welcome .cfts-c-open:hover { filter: brightness(1.08); box-shadow: none; }
+
+/* ---- standings: jump to my row ------------------------------------------------------ */
+html[data-cf-theme="classic"] .cfts-c-jump {
+  position: fixed; left: 16px; bottom: 16px; z-index: 50;
+  font: 600 var(--cf-fs-small) var(--cf-font-ui); padding: 8px var(--cf-sp-4); cursor: pointer;
+  color: var(--cf-on-accent); background: var(--cf-accent); border: 0; border-radius: var(--cf-radius);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .18);
+}
+html[data-cf-theme="classic"] .cfts-c-jump:hover { filter: brightness(1.08); }
+
+/* ---- the main menu's "Start here" and the guide ------------------------------------- */
+html[data-cf-theme="classic"] #body .main-menu-list > li.cfts-c-navitem > a { color: var(--cf-accent) !important; font-weight: 600; }
+html[data-cf-theme="classic"] .cfts-c-guide {
+  position: absolute; z-index: 1000; width: 700px; max-width: calc(100vw - 16px); box-sizing: border-box;
+  padding: var(--cf-sp-4) var(--cf-sp-5) var(--cf-sp-3); text-align: left;
+  font: var(--cf-fs-small)/1.55 var(--cf-font-ui); color: var(--cf-text); text-transform: none; letter-spacing: normal;
+  background: var(--cf-surface-card); border: 1px solid var(--cf-line-strong); border-radius: calc(var(--cf-radius) + 2px);
+  box-shadow: 0 12px 36px rgba(15, 23, 42, .16);
+}
+html[data-cf-theme="classic"] .cfts-c-guide a { color: var(--cf-accent); text-decoration: none; }
+html[data-cf-theme="classic"] .cfts-c-guide a:hover { text-decoration: underline; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-head { display: flex; align-items: baseline; gap: var(--cf-sp-3); padding-bottom: var(--cf-sp-3); border-bottom: 1px solid var(--cf-line); }
+html[data-cf-theme="classic"] .cfts-c-guide .g-head b { font-size: var(--cf-fs-section); font-weight: 650; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-head span { color: var(--cf-text-3); flex: 1 1 auto; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-x { font-size: 14px; color: var(--cf-text-3); background: none; border: 0; cursor: pointer; padding: 0 2px; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-x:hover { color: var(--cf-text); }
+html[data-cf-theme="classic"] .cfts-c-guide .g-cols { display: grid; grid-template-columns: 1.15fr 1fr; gap: var(--cf-sp-5); }
+html[data-cf-theme="classic"] .cfts-c-guide h3 {
+  margin: var(--cf-sp-4) 0 var(--cf-sp-2); font: 650 var(--cf-fs-label) var(--cf-font-ui); color: var(--cf-text-3); text-transform: uppercase; letter-spacing: .07em;
+}
+html[data-cf-theme="classic"] .cfts-c-guide ol { margin: 0; padding-left: 18px; }
+html[data-cf-theme="classic"] .cfts-c-guide ol li { margin-bottom: 6px; }
+html[data-cf-theme="classic"] .cfts-c-guide dl { margin: 0; }
+html[data-cf-theme="classic"] .cfts-c-guide dt { font-weight: 650; }
+html[data-cf-theme="classic"] .cfts-c-guide dd { margin: 0 0 var(--cf-sp-2); color: var(--cf-text-2); }
+html[data-cf-theme="classic"] .cfts-c-guide .g-map,
+html[data-cf-theme="classic"] .cfts-c-guide .g-keys { list-style: none; margin: 0; padding: 0; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-map li { margin-bottom: 6px; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-map a { font-weight: 600; }
+html[data-cf-theme="classic"] .cfts-c-guide .g-map span { display: block; color: var(--cf-text-3); font-size: var(--cf-fs-meta); }
+html[data-cf-theme="classic"] .cfts-c-guide .g-keys li { display: inline-block; margin: 0 var(--cf-sp-3) var(--cf-sp-1) 0; color: var(--cf-text-2); }
+html[data-cf-theme="classic"] .cfts-c-guide kbd {
+  display: inline-block; min-width: 1.5em; padding: 0 5px; margin-right: 4px; text-align: center;
+  font: 500 var(--cf-fs-meta) var(--cf-font-code); color: var(--cf-text);
+  background: var(--cf-surface-raised); border: 1px solid var(--cf-line-strong); border-bottom-width: 2px; border-radius: 5px;
+}
+html[data-cf-theme="classic"] .cfts-c-guide .g-foot { margin-top: var(--cf-sp-3); padding-top: var(--cf-sp-2); border-top: 1px solid var(--cf-line); color: var(--cf-text-3); font-size: var(--cf-fs-meta); }
+html[data-cf-theme="classic"] .cfts-c-guide .g-foot .g-hide { margin: -4px calc(var(--cf-sp-3) - 6px) -4px -6px; }
+
+/* ---- problem: your state beside the title (from "Last submissions") ------------- */
+html[data-cf-theme="classic"] .problem-statement .header .title .cfts-c-state {
+  display: inline-block; vertical-align: middle; margin-left: var(--cf-sp-2); padding: 2px var(--cf-sp-2);
+  font: 650 var(--cf-fs-meta) var(--cf-font-ui); white-space: nowrap; cursor: help; border-radius: var(--cf-radius);
+}
+html[data-cf-theme="classic"] .problem-statement .header .title .cfts-c-state.ok { color: var(--lc-green); background: color-mix(in srgb, var(--lc-green) 12%, #fff); }
+html[data-cf-theme="classic"] .problem-statement .header .title .cfts-c-state.tried { color: var(--lc-yellow); background: color-mix(in srgb, var(--lc-yellow) 12%, #fff); }
+
+/* ---- problemset filter: Reset beside Apply --------------------------------------- */
+html[data-cf-theme="classic"] #body a.cfts-c-reset { margin-left: var(--cf-sp-3); font: 500 var(--cf-fs-meta) var(--cf-font-ui); color: var(--cf-accent) !important; text-decoration: none !important; }
+html[data-cf-theme="classic"] #body a.cfts-c-reset:hover { text-decoration: underline !important; }
+
+/* ---- status: your rows ------------------------------------------------------------ */
+html[data-cf-theme="classic"] table.status-frame-datatable tr.highlighted-row > td:first-child { box-shadow: inset 3px 0 0 var(--cf-accent); }
+html[data-cf-theme="classic"] .cfts-c-yours { display: inline-block; vertical-align: middle; margin-right: var(--cf-sp-3); line-height: 28px; font: 500 var(--cf-fs-meta)/28px var(--cf-font-ui); color: var(--cf-text-2); text-transform: none; letter-spacing: normal; white-space: nowrap; }
+html[data-cf-theme="classic"] #body .cfts-c-yours button:not(.cfts-spec) {
+  font: 600 var(--cf-fs-meta) var(--cf-font-ui); color: var(--cf-accent) !important; background: none !important; border: 0 !important;
+  box-shadow: none; padding: 4px 6px; margin: -4px -6px -4px 0; cursor: pointer;
+}
+html[data-cf-theme="classic"] #body .cfts-c-yours button:hover:not(.cfts-spec) { text-decoration: underline; box-shadow: none; }
+
+/* ---- posts: a Moscow start time in your own time ------------------------------------ */
+html[data-cf-theme="classic"] .cfts-c-localtime { margin-left: 6px; padding: 0 6px; font: 500 var(--cf-fs-meta) var(--cf-font-ui); color: var(--cf-text-2); white-space: nowrap; cursor: help; background: var(--cf-surface-raised); border-radius: var(--cf-radius); }
+
+/* ---- profile: the current streak -------------------------------------------------- */
+html[data-cf-theme="classic"] .cfts-c-streak { margin-top: var(--cf-sp-2); font: 600 var(--cf-fs-small) var(--cf-font-ui); color: var(--cf-text-2); }
+
+/* ---- the row cursor (j / k): a frame, paint only ------------------------------------ */
+html[data-cf-theme="classic"] tr.cfts-c-cursor > td { box-shadow: inset 0 1px 0 var(--cf-accent), inset 0 -1px 0 var(--cf-accent); background-color: var(--cf-accent-tint) !important; }
+html[data-cf-theme="classic"] tr.cfts-c-cursor > td:first-child { box-shadow: inset 3px 0 0 var(--cf-accent), inset 0 1px 0 var(--cf-accent), inset 0 -1px 0 var(--cf-accent); }
+
+/* ---- the bell, focused from the keyboard ------------------------------------------- */
+html[data-cf-theme="classic"] #header .header-bell:focus-visible { outline: 2px solid var(--cf-accent); outline-offset: 3px; border-radius: 6px; }

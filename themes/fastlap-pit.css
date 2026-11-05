@@ -1,0 +1,104 @@
+/* =============================================================================
+   THE PIT WALL (fastlap/src/Pitwall.tsx): solve on the problem page.
+   html[data-fl-pit] while the panel is open: the statement keeps the left,
+   the panel is docked on the right under the bar, the sidebar steps aside.
+   The CODE chip (bottom right) opens it on any problem page.
+============================================================================= */
+html[data-fl-shell] { --pit-w: clamp(440px, 42vw, 780px); --pit-top: 56px; }
+html[data-fl-shell][data-fl-tabs] { --pit-top: 100px; }
+
+/* the chip */
+#fl-root .fl-codebtn { position: fixed; z-index: 901; right: 24px; bottom: 24px; display: inline-flex; align-items: center; gap: 12px; height: 46px; padding: 0 28px 0 20px; background: #E10A1E; color: #fff;
+  font: italic 900 15px "Titillium Web", sans-serif; letter-spacing: .1em; clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); transition: filter .15s; }
+#fl-root .fl-codebtn:hover { filter: brightness(1.12); }
+#fl-root .fl-codebtn kbd { border-color: rgba(255,255,255,.5); color: #fff; font-style: normal; }
+html[data-fl-pit] #fl-root .fl-codebtn { display: none; }
+
+/* the split */
+html[data-fl-pit] body { padding-right: var(--pit-w) !important; }
+/* Codeforces gives #body a 920 px min-width: it must be able to shrink beside the panel */
+html[data-fl-pit] #body { min-width: 0 !important; width: auto !important; max-width: none !important; margin-right: 0 !important; padding-left: 32px !important; padding-right: 32px !important; }
+html[data-fl-pit] #sidebar { display: none !important; }
+html[data-fl-pit] #pageContent { margin-right: 0 !important; width: auto !important; }
+
+/* the panel */
+#fl-pit .fl-pit-panel { position: fixed; z-index: 880; top: var(--pit-top); right: 0; bottom: 0; width: var(--pit-w); display: flex; flex-direction: column; background: #0E0E10; box-shadow: inset 1px 0 0 #26262C;
+  color: #fff; font: 14px/1.5 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; animation: fl-pit-in .28s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes fl-pit-in { from { transform: translateX(40px); opacity: 0; } }
+#fl-pit .fl-pit-panel div, #fl-pit .fl-pit-panel span, #fl-pit .fl-pit-panel pre, #fl-pit .fl-pit-panel button, #fl-pit .fl-pit-panel select, #fl-pit .fl-pit-panel textarea { box-sizing: border-box; }
+#fl-pit button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; cursor: pointer; }
+#fl-pit button:disabled { cursor: not-allowed; opacity: .45; }
+#fl-pit button:focus-visible, #fl-pit select:focus-visible, #fl-pit a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+#fl-pit a { color: inherit; }
+#fl-pit kbd { display: inline-flex; align-items: center; height: 19px; padding: 0 5px; border: 1px solid #34343C; color: #B4B4BE; font: 700 10px "Titillium Web", sans-serif; letter-spacing: .06em; }
+
+#fl-pit .fl-pit-head { display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 12px 0 18px; box-shadow: inset 0 -1px 0 #26262C; background: #151518; }
+#fl-pit .fl-pit-k { display: flex; align-items: center; gap: 10px; margin-right: auto; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .2em; color: #B4B4BE; white-space: nowrap; }
+#fl-pit .fl-stripe { width: 30px; height: 8px; background: repeating-linear-gradient(115deg, #E10A1E 0 4px, transparent 4px 8px); }
+#fl-pit .fl-pit-lang { max-width: 58%; height: 34px; padding: 0 30px 0 10px; border: 1px solid #34343C; border-radius: 0; color: #fff; font: 600 13px "Titillium Web", sans-serif; letter-spacing: .02em; appearance: none; cursor: pointer;
+  background: #0E0E10 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E") right 9px center / 12px no-repeat; }
+#fl-pit .fl-pit-lang option { background: #151518; }
+#fl-pit .fl-pit-x { width: 34px; height: 34px; color: #8C8C97; font-size: 15px; }
+#fl-pit .fl-pit-x:hover { color: #fff; }
+
+/* the editor: a gutter of line numbers, a plain textarea */
+#fl-pit .fl-pit-ed { position: relative; flex: 1 1 auto; min-height: 160px; display: flex; overflow: hidden; }
+#fl-pit .fl-pit-gutter { flex: none; width: 48px; padding: 14px 10px 14px 0; overflow: hidden; background: #0B0B0D; color: #4C4C55; text-align: right; font: 13px/1.6 "JetBrains Mono", Consolas, monospace; user-select: none; }
+#fl-pit .fl-pit-gutter span { display: block; }
+#fl-pit .fl-pit-code { flex: 1; min-width: 0; margin: 0; padding: 14px 16px; border: 0; border-radius: 0; outline: 0; resize: none; background: #0E0E10; color: #EDEDF2; caret-color: #E10A1E;
+  font: 13px/1.6 "JetBrains Mono", Consolas, monospace !important; tab-size: 4; white-space: pre; overflow: auto; }   /* !important: a site-wide textarea face would win */
+#fl-pit .fl-pit-code::placeholder { color: #4C4C55; }
+#fl-pit .fl-pit-code:focus { box-shadow: inset 0 2px 0 #E10A1E; }
+
+/* samples */
+#fl-pit .fl-pit-samples { flex: 0 1 auto; max-height: 38%; overflow: auto; padding: 10px 14px; box-shadow: inset 0 1px 0 #26262C; background: #121215; }
+#fl-pit .fl-pit-sample { margin-bottom: 10px; background: #151518; box-shadow: inset 3px 0 0 #34343C; }
+#fl-pit .fl-pit-sample.ok { box-shadow: inset 3px 0 0 #22C55E; }
+#fl-pit .fl-pit-sample.no { box-shadow: inset 3px 0 0 #FACC15; }
+#fl-pit .fl-pit-sample.err { box-shadow: inset 3px 0 0 #E10A1E; }
+#fl-pit .fl-pit-sh { display: flex; align-items: center; gap: 12px; padding: 8px 12px; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .18em; color: #8C8C97; }
+#fl-pit .fl-pit-sh b { color: #fff; }
+#fl-pit .fl-pit-sample.ok .fl-pit-sh span { color: #22C55E; }
+#fl-pit .fl-pit-sample.no .fl-pit-sh span { color: #FACC15; }
+#fl-pit .fl-pit-sample.err .fl-pit-sh span { color: #FF8A8A; }
+#fl-pit .fl-pit-sh .run { color: #B4B4BE; }
+#fl-pit .fl-pit-io { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: #26262C; }
+#fl-pit .fl-pit-io > div { min-width: 0; padding: 8px 12px 10px; background: #0E0E10; }
+#fl-pit .fl-pit-io small { display: block; margin-bottom: 4px; font: 700 10px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-pit .fl-pit-io pre { margin: 0; max-height: 140px; overflow: auto; color: #EDEDF2; font: 12.5px/1.5 "JetBrains Mono", Consolas, monospace; white-space: pre; }
+#fl-pit .fl-pit-io em { display: block; margin-top: 6px; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .1em; font-style: normal; color: #8C8C97; }
+#fl-pit .fl-pit-note { margin: 0; padding: 6px 12px 9px; color: #B4B4BE; font-size: 12px; }
+#fl-pit .fl-pit-note a { color: #EDEDF2; text-decoration: underline; text-underline-offset: 2px; }
+#fl-pit .fl-pit-io pre.why { white-space: pre-wrap; overflow-wrap: anywhere; color: #FF8A8A; font-family: Inter, system-ui, sans-serif; }   /* a reason, not output: it wraps */
+
+/* the bar: the verdict on the left, RUN and SUBMIT on the right */
+#fl-pit .fl-pit-bar { flex: none; display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 10px 14px; background: #151518; box-shadow: inset 0 1px 0 #26262C; }
+#fl-pit .fl-pit-sp { flex: 1; }
+#fl-pit .fl-pit-hint { font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .14em; color: #8C8C97; white-space: nowrap; }
+#fl-pit .fl-pit-run { height: 42px; padding: 0 18px; border: 1px solid #34343C; color: #B4B4BE; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .12em; white-space: nowrap; }
+#fl-pit .fl-pit-run:hover:not(:disabled) { border-color: #fff; color: #fff; }
+#fl-pit .fl-pit-go { height: 42px; padding: 0 30px 0 22px; background: #E10A1E; color: #fff; font: italic 900 15px "Titillium Web", sans-serif; letter-spacing: .1em; white-space: nowrap; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-pit .fl-pit-go:hover:not(:disabled) { filter: brightness(1.12); }
+#fl-pit .fl-pit-v { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 6px 12px; background: #0E0E10; box-shadow: inset 3px 0 0 var(--vc, #34343C); }
+#fl-pit .fl-pit-v b { font: 700 13px "Titillium Web", sans-serif; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--vt, #fff); }
+#fl-pit .fl-pit-v span { font: 700 11px "Titillium Web", sans-serif; letter-spacing: .12em; color: #8C8C97; white-space: nowrap; }
+#fl-pit .fl-pit-v a { font: 700 11px "Titillium Web", sans-serif; color: #8C8C97; text-decoration: none; }
+#fl-pit .fl-pit-v a:hover { color: #fff; }
+#fl-pit .fl-pit-v.wait { --vc: #E10A1E; }
+#fl-pit .fl-pit-v.wait b::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; background: #E10A1E; transform: skewX(-14deg); vertical-align: 1px; }
+#fl-pit .fl-pit-v.ac, #fl-pit .fl-pit-v.pretests { --vc: #22C55E; --vt: #B8F5CD; }
+#fl-pit .fl-pit-v.wa, #fl-pit .fl-pit-v.err { --vc: #E10A1E; --vt: #FFB3B9; }
+#fl-pit .fl-pit-v.tle, #fl-pit .fl-pit-v.mle { --vc: #FACC15; --vt: #FDE68A; }
+#fl-pit .fl-pit-v.ce, #fl-pit .fl-pit-v.other { --vc: #8C8C97; --vt: #B4B4BE; }
+@media (max-width: 1100px) { html[data-fl-shell] { --pit-w: min(100vw, 520px); } html[data-fl-pit] body { padding-right: 0 !important; } }
+@media (prefers-reduced-motion: reduce) { #fl-pit .fl-pit-panel { animation: none; } }
+
+/* CodeMirror (the editor chunk) fills the box once it is in; the textarea stood in until then */
+#fl-pit .fl-pit-cm { display: none; flex: 1; min-width: 0; height: 100%; }
+#fl-pit .fl-pit-ed.cm .fl-pit-cm { display: block; }
+#fl-pit .fl-pit-ed.cm .fl-pit-gutter, #fl-pit .fl-pit-ed.cm .fl-pit-code { display: none; }
+#fl-pit .fl-pit-cm .cm-editor { height: 100%; }
+#fl-pit .fl-pit-code, #fl-pit .fl-pit-io pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+#fl-pit .fl-pit-samples, #fl-pit .fl-pit-io pre, #fl-pit .fl-pit-code { scrollbar-width: thin; scrollbar-color: #34343C transparent; }
+#fl-pit .fl-pit-retry { height: 34px; padding: 0 12px; border: 1px solid #E10A1E; color: #fff; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .14em; }
+#fl-pit .fl-pit-retry:hover { background: #E10A1E; }

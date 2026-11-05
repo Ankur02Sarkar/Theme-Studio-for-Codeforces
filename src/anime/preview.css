@@ -1,0 +1,36 @@
+/* Layout for the preview's miniature Codeforces page: the few things
+   Codeforces' own stylesheet does (floats, list resets, the sub-tab row's
+   position). Colours, glass, type and the Guided header all come from the
+   real themes/*.css (preview.js inserts them); this file only places things. */
+html, body { margin: 0; }
+body { font-size: 13px; }
+#body { max-width: 1200px; margin: 0 auto; padding-top: 10.5px; }
+#header { position: relative; height: 44px; }
+#header > div:first-child { float: left; }
+#header .lang-chooser { float: right; }
+#header::after, .menu-box::after, .pv-columns::after { content: ""; display: block; clear: both; }
+.pv-logo { display: inline-flex; align-items: center; gap: 10px; height: 44px; font: 700 22px/1 var(--cf-font-ui, sans-serif); color: var(--cf-text); text-decoration: none; letter-spacing: -.01em; }
+/* three plain bars: a stand-in, not Codeforces' logo */
+.pv-logo .bars { display: inline-flex; align-items: flex-end; gap: 3px; height: 22px; }
+.pv-logo .bars i { width: 6px; border-radius: 2px; background: var(--cf-text-3); }
+.pv-logo .bars i:nth-child(1) { height: 12px; } .pv-logo .bars i:nth-child(2) { height: 22px; } .pv-logo .bars i:nth-child(3) { height: 16px; }
+.menu-box { position: relative; }
+.menu-list { list-style: none; margin: 0; padding: 0; }
+.menu-list li { float: left; position: relative; top: 5px; margin-right: 1.2em; padding: 0 0 1px; }
+.menu-list li a { display: block; float: left; }
+.menu-box form { margin: 0; }
+.menu-box input.search { float: right; width: 200px; }
+.pv-columns { position: relative; }
+/* Codeforces: #sidebar 20em floated right, .content-with-sidebar margin-right 22em
+   (written in the px the themed page measures at 14 px) */
+#sidebar { float: right; width: 280px; margin: 14px 14px 14px -308px; }
+#pageContent { position: relative; margin: 14px 308px 14px 14px; }
+.second-level-menu { position: absolute; top: -12px; left: 30px; }
+.second-level-menu-list { list-style: none; margin: 0; padding: 0; }
+.second-level-menu-list li { float: left; }
+.second-level-menu-list li a { display: block; float: left; text-decoration: none; }
+.rtable { width: 100%; border-collapse: collapse; }
+.problemindexholder { position: relative; }
+.problem-statement .property-title { display: none; }
+.sample-test pre { margin: 0; }
+[hidden] { display: none !important; }

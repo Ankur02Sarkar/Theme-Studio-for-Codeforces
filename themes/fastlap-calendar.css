@@ -1,0 +1,141 @@
+/* =============================================================================
+   THE RACE CALENDAR (fastlap/src/Calendar.tsx): FASTLAP's /contests, after
+   mockups/race/contests.html. html[data-fl-cal] while #fl-cal is mounted;
+   Codeforces' page is hidden behind it (never removed) and comes back with
+   CLASSIC. #fl-cal sits outside #body: everything here is set explicitly.
+============================================================================= */
+html[data-fl-cal] #pageContent,
+html[data-fl-cal] #sidebar,
+html[data-fl-cal] #footer { display: none !important; }
+
+#fl-cal { max-width: 1320px; margin: 0 auto; padding: 36px 40px 72px; box-sizing: border-box; color: #fff; font: 15px/1.5 "Inter", "Segoe UI", system-ui, sans-serif; font-feature-settings: "tnum"; -webkit-font-smoothing: antialiased; }
+#fl-cal div, #fl-cal section, #fl-cal a, #fl-cal span, #fl-cal button, #fl-cal h1, #fl-cal h2 { box-sizing: border-box; }
+#fl-cal a { color: inherit; text-decoration: none; }
+#fl-cal button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; box-shadow: none; }
+#fl-cal a:focus-visible, #fl-cal button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* ---- the head ---- */
+#fl-cal .fl-cal-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+#fl-cal .fl-kick { display: flex; align-items: center; gap: 14px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .24em; color: #8C8C97; }
+#fl-cal .fl-stripe { width: 46px; height: 10px; background: repeating-linear-gradient(115deg, #E10A1E 0 6px, transparent 6px 11px); }
+#fl-cal .fl-title { margin: 14px 0 0; padding: 0; font: italic 900 132px/.8 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.015em; color: #fff; }
+#fl-cal .fl-title span { display: block; padding-bottom: .04em; animation: fl-cal-rise .7s cubic-bezier(.16, 1, .3, 1) both; }
+#fl-cal .fl-title .ol { color: transparent; -webkit-text-stroke: 2px #fff; animation-delay: .08s; }
+@keyframes fl-cal-rise { from { opacity: 0; transform: translateY(.35em); } }
+#fl-cal .fl-ghost { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border: 1px solid #34343C; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .16em; color: #B4B4BE; white-space: nowrap; transition: border-color .15s, color .15s; }
+#fl-cal .fl-ghost:hover { border-color: #fff; color: #fff; }
+
+/* ---- the next round: a start-lights board ---- */
+#fl-cal .fl-board-wrap { position: relative; display: grid; grid-template-columns: minmax(280px, 400px) minmax(0, 1fr); gap: 56px; align-items: center; margin-top: 44px; padding: 52px 56px; background: #151518; box-shadow: inset 5px 0 0 #E10A1E; overflow: hidden; }
+#fl-cal .fl-board-wrap::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 220px; background: repeating-linear-gradient(115deg, rgba(255,255,255,.04) 0 22px, transparent 22px 64px); pointer-events: none; }
+#fl-cal .fl-lightbox { position: relative; display: flex; flex-direction: column; gap: 16px; }
+#fl-cal .fl-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 16px; background: #0A0A0C; box-shadow: inset 0 0 0 1px #26262C; }
+#fl-cal .fl-board span { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px 0; background: #151518; }
+#fl-cal .fl-board i { width: 34px; height: 34px; border-radius: 50%; background: #3A0B11; box-shadow: inset 0 2px 4px rgba(0,0,0,.6); transition: background-color .08s; }
+#fl-cal .fl-board span.on i { background: radial-gradient(circle at 38% 34%, #FF7A84 0, #E10A1E 46%, #B00616 100%); box-shadow: none; }
+#fl-cal .fl-demo { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 12px 0 0; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .18em; color: #B4B4BE; transition: color .15s; }
+#fl-cal .fl-demo::before { content: ""; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent currentColor; }
+#fl-cal .fl-demo:hover { color: #fff; }
+#fl-cal .fl-lightbox.out .fl-demo { visibility: hidden; }
+#fl-cal .fl-lightbox.out::after { content: "LIGHTS OUT"; position: absolute; left: 0; bottom: -4px; font: italic 900 22px/1 "Titillium Web", sans-serif; letter-spacing: .02em; animation: fl-cal-lo .5s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes fl-cal-lo { from { opacity: 0; transform: translateX(-14px); } }
+#fl-cal .fl-nr { position: relative; z-index: 1; min-width: 0; }
+#fl-cal .fl-nr-k { display: flex; align-items: center; gap: 14px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .24em; color: #8C8C97; }
+#fl-cal .fl-nr-name { margin: 14px 0 0; font: italic 900 42px/1 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.005em; text-wrap: balance; }
+#fl-cal .fl-clock { display: flex; gap: 6px; margin-top: 26px; }
+#fl-cal .fl-clock span { display: flex; flex-direction: column; align-items: center; flex: 0 1 100px; min-width: 70px; padding: 14px 0 12px; background: #0E0E10; box-shadow: inset 0 3px 0 #E10A1E; }
+#fl-cal .fl-clock b { font: 900 48px/1 "Titillium Web", sans-serif; font-variant-numeric: tabular-nums; }
+#fl-cal .fl-clock small { margin-top: 8px; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-cal .fl-nr-wait { margin-top: 22px; font: 900 48px/1 "Titillium Web", sans-serif; }
+#fl-cal .fl-nr-wait small { font: 700 11px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-cal .fl-nr-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; margin-top: 28px; }
+#fl-cal .fl-reg { display: inline-flex; align-items: center; gap: 16px; height: 54px; padding: 0 34px 0 24px; background: #E10A1E; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); transition: filter .15s; }
+#fl-cal .fl-reg:hover { filter: brightness(1.12); }
+#fl-cal .fl-reg b { font: italic 900 19px "Titillium Web", sans-serif; letter-spacing: .06em; }
+#fl-cal .fl-reg small { font: 700 12px "Titillium Web", sans-serif; letter-spacing: .14em; opacity: .9; white-space: nowrap; }
+#fl-cal .fl-nr-note, #fl-cal .fl-nr-meta { font: 700 12px "Titillium Web", sans-serif; letter-spacing: .16em; color: #8C8C97; }
+
+/* ---- division plates ---- */
+#fl-cal .fl-div { display: inline-flex; align-items: stretch; height: 22px; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .1em; white-space: nowrap; }
+#fl-cal .fl-div b { display: flex; align-items: center; padding: 0 8px; background: var(--c); color: #0E0E10; }
+#fl-cal .fl-div span { display: flex; align-items: center; padding: 0 8px; border: 1px solid #34343C; border-left: 0; color: #B4B4BE; }
+
+/* ---- the lists ---- */
+#fl-cal .fl-sec { margin-top: 72px; }
+#fl-cal .fl-sec-h { display: flex; align-items: center; gap: 16px; margin: 0 0 18px; font: italic 900 30px/1 "Titillium Web", sans-serif; text-transform: uppercase; }
+#fl-cal .fl-sec-h::after { content: ""; flex: 1; height: 1px; background: #34343C; }
+#fl-cal .fl-crow { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: center; gap: 0 22px; min-height: 84px; padding: 10px 0; border-bottom: 1px solid #26262C; }
+#fl-cal .fl-crow.up { grid-template-columns: 96px minmax(0, 1fr) 160px 150px; }
+#fl-cal .fl-date { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 64px; background: #151518; }
+#fl-cal .fl-date b { font: 900 30px/1 "Titillium Web", sans-serif; }
+#fl-cal .fl-date span { margin-top: 4px; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-cal .fl-crow-main { min-width: 0; }
+#fl-cal .fl-crow-name { display: block; font: 700 17px/1.3 "Titillium Web", sans-serif; letter-spacing: .01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fl-cal .fl-crow-name:hover { text-decoration: underline; text-underline-offset: 4px; }
+#fl-cal .fl-crow-meta { display: flex; align-items: center; gap: 12px; margin-top: 8px; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .14em; color: #8C8C97; white-space: nowrap; overflow: hidden; }
+#fl-cal .fl-crow-time { text-align: right; white-space: nowrap; }
+#fl-cal .fl-crow-time b { display: block; font: 900 24px/1 "Titillium Web", sans-serif; }
+#fl-cal .fl-crow-time small { display: block; margin-top: 6px; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-cal .fl-crow-acts { display: flex; justify-content: flex-end; gap: 4px; }
+#fl-cal .fl-btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 1px solid #B4B4BE; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .14em; white-space: nowrap; transition: border-color .15s, background-color .15s, color .15s; }
+#fl-cal .fl-btn:hover { background: #fff; border-color: #fff; color: #0E0E10; }
+#fl-cal .fl-btn.quiet { border-color: #34343C; color: #B4B4BE; }
+#fl-cal .fl-btn.quiet:hover { background: none; border-color: #fff; color: #fff; }
+#fl-cal .fl-crow-note { font: 700 11px/1.5 "Titillium Web", sans-serif; letter-spacing: .14em; color: #8C8C97; white-space: nowrap; text-align: right; }
+#fl-cal .fl-pages { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 26px; }
+#fl-cal .fl-pages a, #fl-cal .fl-pages span { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 36px; padding: 0 10px; border: 1px solid #34343C; font: 700 13px "Titillium Web", sans-serif; color: #B4B4BE; }
+#fl-cal .fl-pages a:hover { border-color: #fff; color: #fff; }
+#fl-cal .fl-pages .on { background: #fff; border-color: #fff; color: #0E0E10; }
+#fl-cal .fl-empty { margin-top: 44px; padding: 60px 0; text-align: center; background: #151518; }
+#fl-cal .fl-empty b { display: block; font: italic 900 34px "Titillium Web", sans-serif; }
+#fl-cal .fl-empty span { color: #8C8C97; }
+
+/* J / K: the cursor row reads like a hovered one */
+#fl-cal .fl-crow.fl-cursor { background: linear-gradient(90deg, rgba(255,255,255,.04), transparent 70%); }
+#fl-cal .fl-crow.fl-cursor::before { transform: scaleY(1); }
+/* ---- registered: a green plate in place of REGISTER ---- */
+#fl-cal .fl-reg.on { background: #15803D; cursor: default; }
+#fl-cal .fl-reg.on:hover { filter: none; }
+
+/* ---- a round's own page before the start: the pre-race view ---- */
+/* the facts: four timing panels, slid in one after another */
+#fl-cal .fl-pre-facts { display: grid; grid-template-columns: 1.3fr .8fr .8fr 1.4fr; gap: 6px; margin-top: 6px; }
+#fl-cal .fl-pre-facts > div { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 22px 24px; background: #151518; box-shadow: inset 0 3px 0 #26262C; animation: fl-pre-in .55s cubic-bezier(.16, 1, .3, 1) both; }
+#fl-cal .fl-pre-facts > div:nth-child(2) { animation-delay: .06s; }
+#fl-cal .fl-pre-facts > div:nth-child(3) { animation-delay: .12s; }
+#fl-cal .fl-pre-facts > div:nth-child(4) { animation-delay: .18s; }
+@keyframes fl-pre-in { from { opacity: 0; transform: translateY(14px); } }
+#fl-cal .fl-pre-facts small { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .22em; color: #8C8C97; }
+#fl-cal .fl-pre-facts b { font: italic 900 26px/1.1 "Titillium Web", sans-serif; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+#fl-cal .fl-pre-facts .w span { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+#fl-cal .fl-pre-facts .w a { font: 900 19px/1.2 "Titillium Web", sans-serif; letter-spacing: .02em; }
+#fl-cal .fl-pre-facts .w a:hover { text-decoration: underline !important; text-underline-offset: 3px; }
+/* the briefing: three numbered notes */
+#fl-cal .fl-pre-brief { margin-top: 56px; }
+#fl-cal .fl-pre-brief ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; counter-reset: fl-brief; }
+#fl-cal .fl-pre-brief li { counter-increment: fl-brief; position: relative; display: flex; flex-direction: column; gap: 10px; padding: 26px 26px 26px 76px; background: #151518; transition: background-color .2s, box-shadow .25s cubic-bezier(.16, 1, .3, 1); }
+#fl-cal .fl-pre-brief li:hover { background: #19191D; box-shadow: inset 4px 0 0 #E10A1E; }
+#fl-cal .fl-pre-brief li::before { content: counter(fl-brief, decimal-leading-zero); position: absolute; left: 22px; top: 22px; font: italic 900 34px/1 "Titillium Web", sans-serif; color: transparent; -webkit-text-stroke: 1.5px #4A4A54; transition: color .2s, -webkit-text-stroke-color .2s; }
+#fl-cal .fl-pre-brief li:hover::before { color: #E10A1E; -webkit-text-stroke-color: #E10A1E; }
+#fl-cal .fl-pre-brief li b { font: italic 900 20px/1.15 "Titillium Web", sans-serif; text-transform: uppercase; }
+#fl-cal .fl-pre-brief li span { color: #B4B4BE; font-size: 14.5px; line-height: 1.55; }
+
+@media (max-width: 1280px) {
+  #fl-cal .fl-pre-facts { grid-template-columns: 1fr 1fr; }
+  #fl-cal .fl-pre-brief ol { grid-template-columns: 1fr; }
+  #fl-cal .fl-title { font-size: 104px; }
+  #fl-cal .fl-board-wrap { grid-template-columns: 260px minmax(0, 1fr); gap: 36px; padding: 40px; }
+  #fl-cal .fl-board i { width: 26px; height: 26px; }
+  #fl-cal .fl-clock b { font-size: 40px; }
+  #fl-cal .fl-nr-name { font-size: 34px; }
+}
+@media (max-width: 1100px) {
+  #fl-cal { padding: 28px 24px 64px; }
+  #fl-cal .fl-board-wrap { grid-template-columns: 1fr; }
+  #fl-cal .fl-lightbox { max-width: 360px; }
+  #fl-cal .fl-crow.up { grid-template-columns: 80px minmax(0, 1fr) auto; }
+  #fl-cal .fl-crow.up .fl-crow-acts { grid-column: 2 / -1; justify-content: flex-start; }
+  #fl-cal .fl-crow { grid-template-columns: 80px minmax(0, 1fr); }
+  #fl-cal .fl-crow:not(.up) .fl-crow-acts { grid-column: 2; justify-content: flex-start; margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { #fl-cal .fl-title span, #fl-cal .fl-lightbox.out::after, #fl-cal .fl-pre-facts > div { animation: none; } #fl-cal .fl-board i { transition: none; } }

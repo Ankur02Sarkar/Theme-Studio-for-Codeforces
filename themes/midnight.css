@@ -1,0 +1,338 @@
+/* =============================================================================
+   Midnight  (theme id "midnight") — OBSERVATORY
+
+   DESIGN DIRECTION
+   Concept   Codeforces after dark, seen from an observatory. The page is a
+             clear night sky; the content sits on instrument panels in front of
+             it. Calm enough to code in for hours: the sky lives ONLY in the
+             margins and behind the masthead, never behind text.
+   Palette   ink-indigo, not grey: page #070a14, panels #0c1020 / #141a2c,
+             lines tinted toward the sky (rgba(150,170,255,.09)). Ink #e8ecf6 /
+             #aeb7cc / #8e98b0 (muted >= 4.5:1 on every panel incl. row hover).
+             One accent, instrument BRASS #d9b36c, solid (a plate with one tonal
+             sheen, never a hue-to-hue gradient, never a neon glow: the blue to
+             violet gradient of the first build read as generic AI UI, user Oct 30 2026). States borrow the aurora: Accepted is
+             aurora green #3ddc97, failures #ff7b86, warnings #f3c25a.
+   Type      Inter for the UI (titles 700, tightened), JetBrains Mono for every
+             figure and for the instrument labels (column heads, sidebar
+             captions, chips): the page reads like a well-made instrument.
+   Motifs    the HORIZON (a 1 px brass hairline under the
+             masthead and on the edge of key panels), STARS (two static bitmaps in
+             the margins; the active nav item carries a small star), RIM LIGHT
+             (a 1 px cool edge on every panel, deep soft shadows for depth), the
+             ORBIT chart above the problem header's actions and in the profile hero, and handles that
+             GLOW in their own rank colour on the profile hero.
+   Motion    ONE ambient animation: an aurora breathing behind the masthead
+             (a single composited transform on one fixed layer; 0 when the user
+             prefers reduced motion). Micro-interactions on hover/focus only:
+             buttons lift their glow, rows light a starlight edge.
+   Unforgettable: the first screen. A living aurora over a starfield, a
+             horizon line, panels lit from above, and the title of the problem
+             you are about to solve set against an orbit chart.
+
+   SCOPE: the roles block below is shared with the LeetCode theme, which wears
+   Midnight on the pages it does not rebuild and overrides every role (see the
+   end of this file). Everything that is Midnight's own identity is scoped
+   html[data-cf-theme="midnight"]:not([data-cf-wearer]).
+   PERFORMANCE (CLAUDE.md rule 5): no :has(), no blend modes, no
+   backdrop-filter, no universal selectors, no rightmost multi-argument :is();
+   the sky is two pseudo-elements of <body> (no JS, so Off removes them with
+   the attribute), each its own compositor layer, the stars two bitmaps.
+============================================================================= */
+html[data-cf-theme="midnight"] {
+  color-scheme: dark;
+  --lc-desk: #0b0d12;          /* page */
+  --lc-bg2: #13161d;           /* card */
+  --lc-bg3: #1b1f28;           /* raised */
+  --lc-nav-bg: #13161d;
+
+  --lc-text: #e8eaef;  --lc-text2: #aab1be;  --lc-text3: #8f97a8;
+  --lc-hairline: rgba(255,255,255,.07);
+  --lc-border: #2b313d;
+
+  --lc-accent: #5b9dff;  --lc-accent-contrast: #06101f;  --lc-accent-2: #c297ff;
+  --lc-green: #3fb950;   --lc-red: #f47067;   --lc-yellow: #d29922;
+
+  --lc-font-ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-prose: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-display: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-code: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --lc-prose-measure: 74ch;
+}
+
+/* ========================== OBSERVATORY: roles ============================= */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) {
+  --lc-bg2: #0c1020;           /* panel */
+  --lc-bg3: #141a2c;           /* raised: chips, samples, inputs */
+  --lc-nav-bg: rgba(12,16,32,.66);
+  --lc-text: #e8ecf6;  --lc-text2: #aeb7cc;  --lc-text3: #8e98b0;
+  --lc-hairline: rgba(150,170,255,.09);
+  --lc-border: #283149;
+  --lc-accent: #d9b36c;  --lc-accent-contrast: #15100a;  --lc-accent-2: #a9bbdf;
+  --lc-green: #3ddc97;   --lc-red: #ff7b86;   --lc-yellow: #f3c25a;
+  --cf-surface-page: #070a14;
+  --cf-fw-title: 700;
+
+  /* Midnight's own tokens */
+  --mn-grad: linear-gradient(180deg, #e6c684 0%, #d9b36c 46%, #c79f58 100%);   /* a brass plate: one hue, machined top to bottom */
+  --mn-horizon: linear-gradient(90deg, rgba(217,179,108,0) 0%, rgba(217,179,108,.75) 16%, rgba(217,179,108,.75) 84%, rgba(217,179,108,0) 100%);
+  --mn-rim: rgba(150,175,255,.13);
+  --mn-lift: 0 1px 0 rgba(255,255,255,.04) inset, 0 22px 48px -30px rgba(0,0,0,.95);
+  --mn-glow: inset 0 1px 0 rgba(255,244,214,.55), inset 0 -1px 0 rgba(90,62,20,.35), 0 1px 2px rgba(0,0,0,.5);
+  --mn-glow-hi: inset 0 1px 0 rgba(255,250,232,.75), inset 0 -1px 0 rgba(90,62,20,.3), 0 2px 8px rgba(0,0,0,.55);
+  --cf-graph-line: #9fb8ff;
+}
+
+/* ========================== THE SKY ========================================
+   body::before = the starfield: two BITMAP tiles (never SVG: an SVG tile is
+   replayed into every repaint of the page), a horizon glow at the bottom, a
+   cool haze top left. body::after = the aurora, the ONE animation.
+   Both fixed, behind everything (z-index -1 in the root stacking context). */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background:
+    url("chrome-extension://__MSG_@@extension_id__/textures/midnight/stars-near.webp") 0 0 / 640px 640px repeat,
+    url("chrome-extension://__MSG_@@extension_id__/textures/midnight/stars-far.webp") 130px 70px / 420px 420px repeat,
+    radial-gradient(120% 60% at 50% 118%, rgba(70,80,190,.26), rgba(70,80,190,0) 62%),
+    radial-gradient(55% 45% at 0% 0%, rgba(40,130,150,.10), rgba(40,130,150,0) 70%),
+    linear-gradient(180deg, #060914 0%, #080b18 55%, #0b0d1e 100%);
+  will-change: transform;
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) body::after {
+  content: "";
+  position: fixed; left: -20vw; right: -20vw; top: -16vh; height: 64vh; z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 46% at 22% 42%, rgba(61,220,151,.15), rgba(61,220,151,0) 72%),
+    radial-gradient(30% 40% at 48% 30%, rgba(80,190,200,.13), rgba(80,190,200,0) 72%),
+    radial-gradient(32% 44% at 68% 36%, rgba(61,200,160,.12), rgba(61,200,160,0) 72%),
+    radial-gradient(26% 38% at 88% 46%, rgba(50,150,140,.09), rgba(50,150,140,0) 72%);
+  transform-origin: 50% 0;
+  will-change: transform;
+  animation: mn-aurora 42s ease-in-out infinite alternate;
+}
+/* fixed values (no var() in keyframes: it would block compositing) */
+@keyframes mn-aurora {
+  0%   { transform: translate3d(-6vw, 0, 0) scale(1, 1); }
+  50%  { transform: translate3d(1vw, -3vh, 0) scale(1.1, 1.22); }
+  100% { transform: translate3d(7vw, 1vh, 0) scale(.95, 1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-cf-theme="midnight"]:not([data-cf-wearer]) body::after { animation: none; transform: none; }
+}
+
+/* ========================== MASTHEAD ======================================= */
+/* the masthead is a window: the aurora shows through it, a horizon line under the nav */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #header {
+  background: linear-gradient(180deg, rgba(12,16,32,.42), rgba(12,16,32,.66));
+  box-shadow: inset 0 1px 0 rgba(200,215,255,.08), inset 1px 0 0 rgba(200,215,255,.04), inset -1px 0 0 rgba(200,215,255,.04);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body > .menu-box {
+  background: var(--mn-horizon) 0 100% / 100% 1px no-repeat, rgba(12,16,32,.74) !important;
+  border-top: 1px solid rgba(150,175,255,.08) !important;
+  box-shadow: 0 18px 40px -26px rgba(0,0,0,.9), 0 10px 30px -22px rgba(217,179,108,.35);
+}
+/* the active section: a pill and a small star under it (absolute: nothing moves) */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .menu-list li a { position: relative; transition: color .15s, background-color .15s; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .menu-list li.current a {
+  color: #dfe7ff !important;
+  background: rgba(217,179,108,.14);
+  box-shadow: inset 0 0 0 1px rgba(217,179,108,.3);
+}
+/* the star on the horizon: the li (Codeforces clips the a), centred on the horizon line 9 px below it */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .menu-list li.current::after {
+  content: ""; position: absolute; left: 50%; bottom: -11px; width: 5px; height: 5px; margin-left: -2.5px;
+  border-radius: 50%; background: #f2f5ff; pointer-events: none;
+  box-shadow: 0 0 4px rgba(214,226,255,.8);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) input.search {
+  background-color: rgba(20,26,44,.8) !important;
+  border-color: rgba(150,175,255,.16) !important;
+  transition: border-color .15s, box-shadow .15s;
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #header .lang-chooser > div:nth-child(2) a {
+  background: rgba(20,26,44,.7);
+  border-color: rgba(150,175,255,.18);
+}
+
+/* ========================== PANELS ========================================= */
+/* the main column: lit from above (rim light), floating (deep soft shadow). The first shadow is core.css's
+   20 px copy that takes in the tab row; the two rings outline the copy and the box as one shape */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #pageContent {
+  box-shadow:
+    0 -20px 0 0 var(--cf-surface-card),
+    0 -20px 0 1px var(--mn-rim),
+    0 0 0 1px rgba(150,175,255,.07),
+    0 30px 70px -36px rgba(0,0,0,.95);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #sidebar > .roundbox {
+  border-color: rgba(150,175,255,.09) !important;
+  box-shadow: inset 0 1px 0 rgba(200,215,255,.07), 0 22px 44px -30px rgba(0,0,0,.95);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #footer {
+  background: rgba(12,16,32,.72);
+  box-shadow: inset 0 1px 0 rgba(200,215,255,.06);
+}
+
+/* ========================== ACTIONS ======================================== */
+/* the one solid action per region is a brass plate; hover lightens it, nothing floats or glows */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body a.cfts-btn.primary,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body a.red-link,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #header .lang-chooser > div:nth-child(2) a[href^="/register"] {
+  background: var(--mn-grad) !important;
+  background-color: #d9b36c !important;   /* the gradient's mid tone: what checks and forced colours read as the fill */
+  border-color: transparent !important;
+  color: var(--cf-on-accent) !important;
+  box-shadow: var(--mn-glow);
+  transition: box-shadow .15s, filter .15s;
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body input.cfts-primary-input {
+  background: var(--mn-grad) !important;
+  background-color: #d9b36c !important;
+  border-color: transparent !important;
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body a.cfts-btn.primary:hover,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body a.red-link:hover,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #header .lang-chooser > div:nth-child(2) a[href^="/register"]:hover {
+  filter: brightness(1.07); box-shadow: var(--mn-glow-hi);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body a.cfts-btn:not(.primary) { transition: border-color .15s, background-color .15s, color .15s; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body a.cfts-btn:not(.primary):hover { border-color: rgba(217,179,108,.55); }
+
+/* ========================== TYPE ===========================================
+   Titles 700, tightened; every instrument label (column heads, sidebar
+   captions, sample heads) in JetBrains Mono caps: the page's readouts */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .datatable > .rb + div,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .header .title { letter-spacing: -.025em !important; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .section-title { letter-spacing: -.01em; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .datatable tr:first-child > th,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .roundbox .rtable tr:first-child > th:not(.cfts-spec),
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .sample-tests .title {
+  font-family: var(--cf-font-code) !important;
+  font-weight: 600 !important;
+  letter-spacing: .09em !important;
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .roundbox .caption,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .caption {
+  font-family: var(--cf-font-code) !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: .05em;
+  color: #9aa6c4 !important;
+}
+/* the mono caption's arrow-space is narrower than Inter's */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #sidebar .roundbox .caption.titled { text-indent: -.62em !important; }   /* the space after the hidden arrow, in the mono face */
+/* a contest's name is the one header cell in these tables that is a name, not a label */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .roundbox .rtable th a:not(.rated-user) { font-family: var(--cf-font-ui) !important; letter-spacing: 0 !important; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .cfts-sidecap { font-size: 11.5px; letter-spacing: .05em; color: #9aa6c4; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .datatable tr:first-child > th { border-bottom-color: rgba(150,175,255,.2) !important; }
+
+/* ========================== TABLES =========================================
+   The row under the pointer: a cool lift and a starlight edge on its first
+   cell */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) { --cf-pill-neutral: color-mix(in srgb, #9fb4ff 9%, var(--cf-solid)); }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .datatable table:not(.standings) tr:hover > td:first-child { box-shadow: inset 2px 0 0 var(--cf-accent); }
+/* problem IDs: chips with a cool edge */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .datatable td.id a:is(:link, :visited) { border-color: rgba(150,175,255,.14); background: #121831; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .header .title { font-size: 32px !important; }
+/* section titles carry a small four-point star in the margin (absolute: the text stays put) */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .section-title { position: relative; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .section-title::before {
+  content: ""; position: absolute; left: -20px; top: 50%; width: 9px; height: 9px; margin-top: -4.5px;
+  background: var(--mn-grad);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+/* samples: instrument panels with a rim light; the copier lights up */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .sample-tests .input,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .sample-tests .output {
+  background: #10152a;
+  border-color: rgba(150,175,255,.12) !important;
+  box-shadow: inset 0 1px 0 rgba(200,215,255,.06);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .sample-tests .title { background: rgba(217,179,108,.05); }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .input-output-copier { transition: color .15s, border-color .15s, box-shadow .15s; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .input-output-copier:hover { border-color: var(--cf-accent); }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement .tex-font-style-tt,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problem-statement code:not(.cfts-spec) { background: #141b33; border-color: rgba(150,175,255,.14); color: #dfe6ff !important; }
+
+/* ========================== COUNTDOWNS =====================================
+   the key numbers are brass numerals, solid */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .countdown,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .cfts-dcount {
+  color: #d9b36c !important;
+  -webkit-text-fill-color: #d9b36c;   /* the hero's countdown ink comes from a stronger shared rule */
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .cfts-tile { background: #10152a; border-color: rgba(150,175,255,.11); box-shadow: inset 0 1px 0 rgba(200,215,255,.05); }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .cfts-tile .ti { background: linear-gradient(135deg, rgba(217,179,108,.24), rgba(217,179,108,.18)); color: #c9d6ff; box-shadow: inset 0 0 0 1px rgba(150,170,255,.22); }
+
+/* ========================== HOME ===========================================
+   the "New to Codeforces?" card: the same lit panel as the next contest */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .cfts-newbie {
+  background:
+    radial-gradient(55% 120% at 100% 0%, rgba(217,179,108,.12), rgba(217,179,108,0) 65%),
+    linear-gradient(180deg, #121931, #0e1328) !important;
+  border-color: rgba(150,165,255,.28) !important;
+  box-shadow: inset 0 1px 0 rgba(210,220,255,.09);
+}
+
+/* ========================== COMPONENTS (Nov 1 2026) ========================
+   Midnight is Codeforces, in place: nothing moves. What changes is the finish of each part */
+
+/* the nav: a tight pill so the lit item and the one under the pointer never touch (labels are 17 px apart); the padding is
+   cancelled by its margin, so every label stays where Codeforces put it */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .menu-list li a { padding: 6px 8px !important; margin: -6px -8px !important; border-radius: 8px; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .menu-list li:not(.current) a:hover { background: rgba(170,190,255,.1); }
+
+/* one focus ring, not a border, an outline and a shadow at once */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body input:focus-visible:not(.cfts-spec),
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body select:focus-visible:not(.cfts-spec),
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body textarea:focus-visible:not(.cfts-spec) { outline: 0 !important; border-color: var(--cf-accent) !important; box-shadow: 0 0 0 1px var(--cf-accent); }
+
+/* buttons: one height, one corner; the form's own action in #pageContent is the brass plate, the sidebar's stay quiet */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body input[type="submit"]:not(.cfts-spec),
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body input[type="button"]:not(.cfts-spec),
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body button:not(.cfts-spec) { min-height: 32px; padding: 0 14px; border-radius: 8px; font: 600 13px var(--cf-font-ui); transition: border-color .15s, filter .15s; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #body input::file-selector-button { height: 28px; padding: 0 12px; border-radius: 8px; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #pageContent form input[type="submit"]:not(.datatable *):not(.cfts-spec) {
+  background: var(--mn-grad) !important; background-color: #d9b36c !important;
+  border-color: transparent !important; color: var(--cf-on-accent) !important; box-shadow: var(--mn-glow);
+}
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #pageContent form input[type="submit"]:not(.datatable *):not(.cfts-spec):hover { filter: brightness(1.07); box-shadow: var(--mn-glow-hi); }
+
+/* the header's links keep clear of each other, whatever Codeforces puts after Logout */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) #header .lang-chooser > div:nth-child(2) a { margin-left: 6px; white-space: nowrap; }
+
+/* a row you touched: one tint across the row and a thin edge, not a block of colour behind its buttons */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) { --cf-tint-ok: color-mix(in srgb, var(--cf-ok) 7%, transparent); --cf-tint-bad: color-mix(in srgb, var(--cf-fail) 7%, transparent); --cf-tint-mine: color-mix(in srgb, #9fb4ff 7%, transparent); }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problems .accepted-problem > td { background-color: var(--cf-tint-ok) !important; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problems .rejected-problem > td { background-color: var(--cf-tint-bad) !important; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problems .accepted-problem td.id,
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .problems .rejected-problem td.id { border-left-width: 2px !important; }
+
+/* Status: room for the time zone, so it never ends in an ellipsis */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) table.status-frame-datatable { --w-when: 184px; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) table.status-frame-datatable .tz-superscript { white-space: nowrap; }
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) table.standings td[acceptedsubmissionid] { background-color: color-mix(in srgb, var(--cf-ok) 4%, transparent) !important; }
+
+/* a countdown stays one piece, whatever the column's width */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .countdown { white-space: nowrap; }
+
+/* the profile's icons: one size, one column */
+html[data-cf-theme="midnight"]:not([data-cf-wearer]) .userbox .info ul li img { width: 18px !important; height: 18px !important; margin: 0 10px 0 0 !important; vertical-align: -4px; }
+
+/* LeetCode wears Midnight on the pages it does not rebuild (content.js data-cf-wearer): the same design, LeetCode's dark
+   palette (its neutral greys, blue links, green/red/amber), so a talk, blog or standings page matches the rebuilt ones.
+   Muted ink #9a9a9a: 4.9:1 on the raised #333333, 6.2:1 on the page */
+html[data-cf-theme="midnight"][data-cf-wearer="leetcode"] {
+  --lc-desk: #1a1a1a;
+  --lc-bg2: #282828;
+  --lc-bg3: #333333;
+  --lc-nav-bg: #282828;
+  --lc-text: #eff1f6;  --lc-text2: #bcbcbc;  --lc-text3: #9a9a9a;
+  --lc-hairline: rgba(255,255,255,.1);
+  --lc-border: #3e3e3e;
+  --lc-accent: #3c9bff;  --lc-accent-contrast: #06101f;  --lc-accent-2: #c297ff;
+  --lc-green: #2cbb5d;   --lc-red: #ef4743;   --lc-yellow: #ffc01e;
+}

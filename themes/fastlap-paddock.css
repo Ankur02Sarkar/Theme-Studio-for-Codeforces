@@ -1,0 +1,64 @@
+/* =============================================================================
+   THE PADDOCK (fastlap/src/Paddock.tsx): FASTLAP's Home hero, above
+   Codeforces' own home. #fl-paddock sits outside #body (no element styles
+   reach it), html[data-fl-paddock] while it is mounted. Built from
+   mockups/race/home.html: a giant stacked title, the driver plate, three
+   tiles (the red one is the action).
+============================================================================= */
+#fl-paddock { max-width: 1320px; margin: 0 auto; padding: 36px 54px 8px;   /* 54 = #body's 40 + Codeforces' own 14: the edges line up with the content below */
+  box-sizing: border-box; color: #fff; font: 15px/1.5 "Inter", "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#fl-paddock div, #fl-paddock a, #fl-paddock span, #fl-paddock h1 { box-sizing: border-box; }
+#fl-paddock a { color: inherit; text-decoration: none; }
+#fl-paddock a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+html[data-fl-paddock] #body { padding-top: 12px !important; }
+
+#fl-paddock .fl-pd-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+#fl-paddock .fl-kick { display: flex; align-items: center; gap: 14px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .24em; color: #8C8C97; }
+#fl-paddock .fl-stripe { width: 46px; height: 10px; background: repeating-linear-gradient(115deg, #E10A1E 0 6px, transparent 6px 11px); }
+#fl-paddock .fl-title { margin: 14px 0 0; padding: 0; border: 0; font: italic 900 132px/.8 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.015em; color: #fff; }
+#fl-paddock .fl-title span { display: block; padding-bottom: .04em; animation: fl-pd-rise .7s cubic-bezier(.16, 1, .3, 1) both; }
+#fl-paddock .fl-title .ol { color: transparent; -webkit-text-stroke: 2px #fff; animation-delay: .08s; }
+@keyframes fl-pd-rise { from { opacity: 0; transform: translateY(.35em); } }
+
+/* the driver plate */
+#fl-paddock .fl-pd-driver { display: flex; align-items: center; gap: 26px; min-width: 340px; padding: 26px 32px; background: #151518; box-shadow: inset 5px 0 0 #B4B4BE; margin-bottom: 8px; }
+#fl-paddock .fl-pd-driver .no { font: italic 900 64px/1 "Titillium Web", sans-serif; color: #B4B4BE; }
+#fl-paddock .fl-pd-driver span { display: flex; flex-direction: column; gap: 6px; }
+#fl-paddock .fl-pd-driver span b { font: 900 24px/1 "Titillium Web", sans-serif; letter-spacing: .02em; }
+#fl-paddock .fl-pd-driver span b:not([class*="user-"]) { color: #fff; }
+#fl-paddock .fl-pd-driver small { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-paddock .fl-pd-driver.out { flex-direction: column; align-items: flex-start; gap: 18px; box-shadow: inset 5px 0 0 #E10A1E; }
+#fl-paddock .fl-pd-driver .acts { flex-direction: row; gap: 6px; }
+#fl-paddock .fl-pd-driver .acts a { display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border: 1px solid #34343C; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .1em; transition: border-color .15s; }
+#fl-paddock .fl-pd-driver .acts a:hover { border-color: #fff; }
+#fl-paddock .fl-pd-driver .acts a.red { border: 0; padding-right: 22px; background: #E10A1E; font-style: italic; font-weight: 900; clip-path: polygon(0 0, 100% 0, calc(100% - 9px) 100%, 0 100%); }
+
+/* the tiles */
+#fl-paddock .fl-pd-tiles { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 6px; margin-top: 44px; }
+#fl-paddock .fl-pd-tile { position: relative; display: flex; flex-direction: column; min-height: 210px; padding: 30px 28px 26px; background: #151518; overflow: hidden; transition: background-color .2s; }
+#fl-paddock .fl-pd-tile:hover { background: #1C1C21; }
+#fl-paddock .fl-pd-tile .k { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .22em; color: #8C8C97; }
+#fl-paddock .fl-pd-tile b { margin-top: 14px; font: italic 900 34px/1 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: .005em; }
+#fl-paddock .fl-pd-tile b.nm { font-size: 30px; text-wrap: balance; }
+#fl-paddock .fl-pd-tile .m { margin-top: 12px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .14em; color: #B4B4BE; }
+#fl-paddock .fl-pd-tile .big { margin-top: 10px; font: 900 56px/1 "Titillium Web", sans-serif; letter-spacing: -.01em; }
+#fl-paddock .fl-pd-tile .go { margin-top: auto; padding-top: 22px; font: italic 900 14px "Titillium Web", sans-serif; letter-spacing: .08em; transition: transform .25s cubic-bezier(.16, 1, .3, 1); }
+#fl-paddock .fl-pd-tile:hover .go { transform: translateX(6px); }
+#fl-paddock .fl-pd-tile[style*="--c"]::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--c); }
+/* the action: race red with speed stripes at its right edge */
+#fl-paddock .fl-pd-tile.red { background: #E10A1E; }
+#fl-paddock .fl-pd-tile.red:hover { background: #EC1226; }
+#fl-paddock .fl-pd-tile.red .k, #fl-paddock .fl-pd-tile.red .m { color: rgba(255,255,255,.82); }
+#fl-paddock .fl-pd-tile.red::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 34%; background: repeating-linear-gradient(115deg, rgba(0,0,0,.12) 0 14px, transparent 14px 30px); pointer-events: none; }
+
+@media (max-width: 1280px) {
+  #fl-paddock .fl-title { font-size: 104px; }
+  #fl-paddock .fl-pd-tile b { font-size: 30px; } #fl-paddock .fl-pd-tile b.nm { font-size: 26px; } #fl-paddock .fl-pd-tile .big { font-size: 46px; }
+}
+@media (max-width: 1100px) {
+  #fl-paddock { padding: 28px 24px 8px; }
+  #fl-paddock .fl-pd-head { flex-direction: column; align-items: flex-start; gap: 22px; }
+  #fl-paddock .fl-pd-tiles { grid-template-columns: 1fr 1fr; }
+  #fl-paddock .fl-pd-tile.red { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { #fl-paddock .fl-title span, #fl-paddock .fl-pd-tile, #fl-paddock .fl-pd-tile .go { animation: none; transition: none; } }

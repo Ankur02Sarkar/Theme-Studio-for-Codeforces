@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <!-- original art: two soft light motes per tile, used as a CSS mask -->
+  <defs><radialGradient id="g"><stop offset="0" stop-opacity="1"/><stop offset="1" stop-opacity="0"/></radialGradient></defs>
+  <circle cx="160" cy="200" r="10" fill="url(#g)"/>
+  <circle cx="540" cy="620" r="7" fill="url(#g)"/>
+</svg>

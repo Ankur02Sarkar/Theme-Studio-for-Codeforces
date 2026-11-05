@@ -1,0 +1,166 @@
+/* =============================================================================
+   THE TIMING TOWER (fastlap/src/Tower.tsx): FASTLAP's /problemset.
+   html[data-fl-tower] is set only while #fl-tower is mounted; Codeforces' own
+   list, sidebar and footer are HIDDEN behind it (never removed) and come back
+   with CLASSIC. #fl-tower sits outside #body so none of Codeforces' (or
+   core.css's) element styles reach it: everything here is set explicitly.
+   Rows are a virtual list: absolutely placed at n * 58 px (Tower.tsx ROW).
+============================================================================= */
+html[data-fl-tower] #pageContent,
+html[data-fl-tower] #sidebar,
+html[data-fl-tower] #footer { display: none !important; }
+
+#fl-tower { --c: #fff; max-width: 1320px; margin: 0 auto; padding: 36px 40px 64px; box-sizing: border-box; color: #fff; font: 15px/1.5 "Inter", "Segoe UI", system-ui, sans-serif; font-feature-settings: "tnum"; -webkit-font-smoothing: antialiased; }
+/* no universal selectors (CLAUDE.md rule 5): the tower's element types, listed */
+#fl-tower div, #fl-tower span, #fl-tower button, #fl-tower label, #fl-tower input, #fl-tower select, #fl-tower a, #fl-tower i { box-sizing: border-box; }
+#fl-tower a { color: inherit; text-decoration: none; }
+#fl-tower button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; box-shadow: none; text-transform: none; }
+#fl-tower button:disabled { cursor: not-allowed; opacity: .4; }
+#fl-tower kbd { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border: 1px solid #34343C; color: #B4B4BE; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .08em; background: none; box-shadow: none; border-radius: 0; }
+#fl-tower a:focus-visible, #fl-tower button:focus-visible, #fl-tower select:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ---- the head: a giant stacked title, the second line outlined ---- */
+#fl-tower .fl-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+#fl-tower .fl-kick { display: flex; align-items: center; gap: 14px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .24em; color: #8C8C97; text-transform: uppercase; }
+#fl-tower .fl-stripe { width: 46px; height: 10px; background: repeating-linear-gradient(115deg, #E10A1E 0 6px, transparent 6px 11px); }
+#fl-tower .fl-title { margin: 14px 0 0; padding: 0; font: italic 900 132px/.8 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.015em; color: #fff; border: 0; background: none; }
+#fl-tower .fl-title span { display: block; padding-bottom: .04em; animation: fl-rise .7s cubic-bezier(.16, 1, .3, 1) both; }
+#fl-tower .fl-title .ol { color: transparent; -webkit-text-stroke: 2px #fff; animation-delay: .08s; }
+@keyframes fl-rise { from { opacity: 0; transform: translateY(.35em); } }
+#fl-tower .fl-stats { display: flex; padding-bottom: 8px; }
+#fl-tower .fl-stats > div { padding-left: 28px; margin-left: 28px; box-shadow: inset 1px 0 0 #34343C; }
+#fl-tower .fl-stats b { display: block; font: 900 46px/1 "Titillium Web", sans-serif; }
+#fl-tower .fl-stats span { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+
+/* ---- the pit board: every filter on one strip ---- */
+#fl-tower .fl-pit { display: flex; align-items: stretch; margin-top: 40px; border: 1px solid #34343C; background: #151518; }
+#fl-tower .fl-ptabs { display: flex; }
+#fl-tower .fl-ptabs button { height: 52px; padding: 0 18px; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .1em; color: #B4B4BE; white-space: nowrap; transition: color .15s; }
+#fl-tower .fl-ptabs button:hover:not(:disabled) { color: #fff; }
+#fl-tower .fl-ptabs button.on { color: #fff; background: #E10A1E; padding-right: 26px; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-tower .fl-q { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; padding: 0 16px; box-shadow: inset 1px 0 0 #34343C; cursor: text; }
+#fl-tower .fl-q input { flex: 1; min-width: 0; height: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; outline: 0; box-shadow: none; background: none; color: #fff; font: 15px "Inter", system-ui, sans-serif; }
+#fl-tower .fl-q input::placeholder { color: #8C8C97; }
+#fl-tower .fl-q:focus-within { box-shadow: inset 1px 0 0 #34343C, inset 0 -3px 0 #fff; }
+#fl-tower .fl-tagbtn,
+#fl-tower .fl-classic { display: flex; align-items: center; gap: 8px; padding: 0 18px; box-shadow: inset 1px 0 0 #34343C; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .16em; color: #B4B4BE; white-space: nowrap; transition: color .15s, background-color .15s; }
+#fl-tower .fl-tagbtn:hover, #fl-tower .fl-classic:hover, #fl-tower .fl-tagbtn.on { color: #fff; background: #1C1C21; }
+#fl-tower .fl-tagbtn em { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; background: #fff; color: #0E0E10; font: 900 12px "Titillium Web", sans-serif; font-style: normal; letter-spacing: 0; }
+#fl-tower .fl-sort { display: flex; align-items: center; gap: 10px; padding: 0 16px; box-shadow: inset 1px 0 0 #34343C; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .18em; color: #8C8C97; white-space: nowrap; }
+#fl-tower .fl-sort select { height: 34px; margin: 0; padding: 0 28px 0 10px; border: 1px solid #34343C; border-radius: 0; box-shadow: none; color: #fff; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .06em; appearance: none; -webkit-appearance: none; cursor: pointer;
+  background: #0E0E10 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E") right 9px center / 12px no-repeat; }
+#fl-tower .fl-sort select option { background: #151518; color: #fff; }
+
+/* ---- tags ---- */
+#fl-tower .fl-tagpanel { padding: 18px; border: 1px solid #34343C; border-top: 0; background: #151518; animation: fl-open .18s cubic-bezier(.16, 1, .3, 1); }
+@keyframes fl-open { from { opacity: 0; transform: translateY(-4px); } }
+#fl-tower .fl-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+#fl-tower .fl-chips button { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border: 1px solid #34343C; font: 600 13px "Inter", system-ui, sans-serif; color: #B4B4BE; white-space: nowrap; transition: border-color .15s, color .15s; }
+#fl-tower .fl-chips button small { font: 700 11px "Titillium Web", sans-serif; color: #8C8C97; letter-spacing: .04em; }
+#fl-tower .fl-chips button:hover { border-color: #fff; color: #fff; }
+#fl-tower .fl-chips button.on { background: #fff; border-color: #fff; color: #0E0E10; }
+#fl-tower .fl-chips button.on small { color: #4a4a52; }
+#fl-tower .fl-tagfoot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; padding-top: 14px; box-shadow: inset 0 1px 0 #26262C; }
+#fl-tower .fl-sw { display: inline-flex; align-items: center; gap: 12px; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .16em; color: #B4B4BE; cursor: pointer; user-select: none; }
+#fl-tower .fl-sw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+#fl-tower .fl-sw i { position: relative; width: 34px; height: 18px; border: 1px solid #34343C; transition: background-color .15s, border-color .15s; }
+#fl-tower .fl-sw i::after { content: ""; position: absolute; left: 2px; top: 2px; width: 12px; height: 12px; background: #8C8C97; transition: transform .2s cubic-bezier(.16, 1, .3, 1), background-color .15s; }
+#fl-tower .fl-sw input:checked + i { background: #E10A1E; border-color: #E10A1E; }
+#fl-tower .fl-sw input:checked + i::after { transform: translateX(16px); background: #fff; }
+#fl-tower .fl-sw input:focus-visible + i { outline: 2px solid #fff; outline-offset: 2px; }
+#fl-tower .fl-clear { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .16em; color: #B4B4BE; }
+#fl-tower .fl-clear:hover { color: #fff; }
+
+/* ---- difficulty bands: a segmented gauge in the rank ladder ---- */
+#fl-tower .fl-bands { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; margin-top: 10px; }
+#fl-tower .fl-bands button { position: relative; display: flex; align-items: baseline; gap: 8px; height: 44px; padding: 0 14px; border: 1px solid #26262C; background: #151518; text-align: left; white-space: nowrap; overflow: hidden; transition: border-color .15s, background-color .15s; }
+#fl-tower .fl-bands button::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--c); opacity: .5; transition: opacity .15s, height .2s cubic-bezier(.16, 1, .3, 1); }
+#fl-tower .fl-bands b { font: 900 16px/44px "Titillium Web", sans-serif; }
+#fl-tower .fl-bands small { font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .18em; color: #8C8C97; }
+#fl-tower .fl-bands button:hover { border-color: #34343C; }
+#fl-tower .fl-bands button:hover::before { opacity: 1; }
+#fl-tower .fl-bands button.on { background: #1D1D22; border-color: var(--c); }
+#fl-tower .fl-bands button.on::before { opacity: 1; height: 5px; }
+
+/* ---- the tower ---- */
+#fl-tower .fl-th,
+#fl-tower .fl-row { display: grid; grid-template-columns: 56px 34px 92px minmax(0, 1fr) 132px 150px 92px; align-items: center; gap: 0 14px; }
+#fl-tower .fl-th { position: sticky; z-index: 2; top: 56px; height: 44px; margin-top: 26px; padding-right: 16px; border-bottom: 2px solid #fff; background: #0E0E10; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+html[data-fl-tabs] #fl-tower .fl-th { top: 100px; }
+#fl-tower .fl-th .r { text-align: right; }
+#fl-tower .fl-list { position: relative; contain: strict; width: 100%; }
+#fl-tower .fl-row { position: absolute; left: 0; right: 0; top: 0; height: 58px; padding-right: 16px; border-bottom: 1px solid #26262C; background: #0E0E10; transition: background-color .15s; }
+#fl-tower .fl-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #E10A1E; transform: scaleY(0); transform-origin: 50% 100%; transition: transform .22s cubic-bezier(.16, 1, .3, 1); }
+#fl-tower .fl-row:hover, #fl-tower .fl-row.cur { background: #16161A; }
+#fl-tower .fl-row:hover::before, #fl-tower .fl-row.cur::before { transform: scaleY(1); }
+#fl-tower .fl-pos { display: grid; place-items: center; height: 100%; font: italic 900 22px "Titillium Web", sans-serif; color: #B4B4BE; background: #151518; }
+#fl-tower .fl-row.lead .fl-pos { background: #fff; color: #0E0E10; }
+#fl-tower .fl-sc { display: grid; place-items: center; }
+#fl-tower .fl-sc i { width: 16px; height: 16px; background: #34343C; clip-path: polygon(25% 0, 100% 0, 75% 100%, 0 100%); }
+#fl-tower .fl-sc.pb i { background: #A855F7; }
+#fl-tower .fl-sc.ok i { background: #22C55E; }
+#fl-tower .fl-sc.no i { background: #FACC15; clip-path: polygon(0 0, 100% 15%, 100% 70%, 0 100%); }
+#fl-tower .fl-id { font: 900 18px "Titillium Web", sans-serif; letter-spacing: .02em; white-space: nowrap; }
+#fl-tower .fl-id:hover { text-decoration: underline; text-underline-offset: 4px; }
+#fl-tower .fl-nm { min-width: 0; }
+#fl-tower .fl-nm a { display: block; font: 600 16px/1.3 "Inter", system-ui, sans-serif; letter-spacing: -.005em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fl-tower .fl-nm a:hover { text-decoration: underline; text-underline-offset: 3px; }
+#fl-tower .fl-nm small { display: block; margin-top: 2px; color: #8C8C97; font-size: 12.5px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fl-tower .fl-tw.notags .fl-nm small { display: none; }
+#fl-tower .fl-rt { display: flex; align-items: center; gap: 10px; font: 900 22px "Titillium Web", sans-serif; color: var(--c); white-space: nowrap; }
+#fl-tower .fl-rt i { width: 5px; height: 26px; background: var(--c); transform: skewX(-16deg); }
+#fl-tower .fl-sv { text-align: right; white-space: nowrap; }
+#fl-tower .fl-sv b { display: block; font: 900 20px/1.15 "Titillium Web", sans-serif; }
+#fl-tower .fl-sv small { display: block; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .12em; color: #8C8C97; }
+#fl-tower .fl-row.lead .fl-sv small { color: #C38BFA; }
+#fl-tower .fl-mk { justify-self: end; padding: 6px 10px; border: 1px solid #34343C; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .14em; color: #B4B4BE; white-space: nowrap; transition: border-color .15s, color .15s, background-color .15s; }
+#fl-tower .fl-mk:hover { border-color: #fff; color: #fff; }
+#fl-tower .fl-mk.on { background: #fff; border-color: #fff; color: #0E0E10; }
+
+/* loading: grey bars, no shimmer */
+#fl-tower .fl-skel i { display: block; height: 14px; background: #1C1C21; }
+#fl-tower .fl-skel i:first-child { height: 100%; background: #151518; }
+#fl-tower .fl-skel i:nth-child(2) { grid-column: 3; }
+#fl-tower .fl-skel i:nth-child(3) { width: 60%; }
+#fl-tower .fl-skel i:nth-child(4) { grid-column: 6; }
+
+/* ---- empty and error states ---- */
+#fl-tower .fl-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 70px 0; text-align: center; border-bottom: 1px solid #26262C; }
+#fl-tower .fl-empty b { font: italic 900 40px/1 "Titillium Web", sans-serif; text-transform: uppercase; }
+#fl-tower .fl-empty span { color: #8C8C97; overflow-wrap: anywhere; max-width: 60ch; }
+#fl-tower .fl-acts { display: flex; gap: 10px; margin-top: 14px; }
+#fl-tower .fl-red, #fl-tower .fl-ghost { height: 40px; padding: 0 18px; font: italic 900 13px "Titillium Web", sans-serif; letter-spacing: .1em; }
+#fl-tower .fl-red { padding-right: 26px; background: #E10A1E; color: #fff; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-tower .fl-red:hover { filter: brightness(1.12); }
+#fl-tower .fl-ghost { border: 1px solid #34343C; font-style: normal; font-weight: 700; color: #B4B4BE; }
+#fl-tower .fl-ghost:hover { border-color: #fff; color: #fff; }
+
+/* ---- footer: counts and keys ---- */
+#fl-tower .fl-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 18px; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .16em; color: #8C8C97; }
+#fl-tower .fl-foot b { font-weight: 900; color: #fff; }
+#fl-tower .fl-foot b.ok { color: #22C55E; }
+#fl-tower .fl-foot b.no { color: #FACC15; }
+#fl-tower .fl-keys { white-space: nowrap; }
+#fl-tower .fl-keys kbd { margin: 0 6px 0 14px; }
+#fl-tower .fl-keys kbd + kbd { margin-left: 0; }
+
+@media (max-width: 1280px) {
+  #fl-tower .fl-title { font-size: 104px; }
+  #fl-tower .fl-th, #fl-tower .fl-row { grid-template-columns: 50px 30px 84px minmax(0, 1fr) 112px 126px 84px; }
+  #fl-tower .fl-bands small { display: none; }
+  #fl-tower .fl-ptabs button { padding: 0 14px; }
+  #fl-tower .fl-ptabs button.on { padding-right: 22px; }
+}
+@media (max-width: 1100px) {
+  #fl-tower { padding: 28px 24px 56px; }
+  #fl-tower .fl-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+  #fl-tower .fl-stats > div:first-child { margin-left: 0; padding-left: 0; box-shadow: none; }
+  #fl-tower .fl-pit { flex-wrap: wrap; }
+  #fl-tower .fl-ptabs { flex-basis: 100%; }
+  #fl-tower .fl-q { height: 48px; box-shadow: inset 0 1px 0 #34343C; }
+  #fl-tower .fl-tagbtn, #fl-tower .fl-sort, #fl-tower .fl-classic { box-shadow: inset 1px 0 0 #34343C, inset 0 1px 0 #34343C; }
+  #fl-tower .fl-keys { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #fl-tower .fl-title span, #fl-tower .fl-tagpanel, #fl-tower .fl-row, #fl-tower .fl-row::before, #fl-tower button, #fl-tower .fl-sw i, #fl-tower .fl-sw i::after, #fl-tower .fl-bands button::before { animation: none !important; transition: none !important; }
+}

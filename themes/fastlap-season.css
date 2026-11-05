@@ -1,0 +1,102 @@
+/* =============================================================================
+   THE SEASON (fastlap/src/Season.tsx): FASTLAP's /calendar. #fl-season sits
+   outside #body (everything here is set explicitly), html[data-fl-season]
+   while it is mounted. Codeforces' Google Calendar frame stays below it,
+   darkened with a filter (a cross-origin frame can't be styled inside).
+============================================================================= */
+#fl-season { max-width: 1320px; margin: 0 auto; padding: 36px 40px 8px; box-sizing: border-box; color: #fff; font: 15px/1.5 "Inter", "Segoe UI", system-ui, sans-serif; font-feature-settings: "tnum"; -webkit-font-smoothing: antialiased; }
+#fl-season div, #fl-season section, #fl-season a, #fl-season span, #fl-season button, #fl-season h1, #fl-season h2 { box-sizing: border-box; }
+#fl-season a { color: inherit; text-decoration: none; }
+#fl-season button { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; margin: 0; cursor: pointer; }
+#fl-season a:focus-visible, #fl-season button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* ---- the head: the stacked title, the next round's plate ---- */
+#fl-season .fl-ss-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+#fl-season .fl-kick { display: flex; align-items: center; gap: 14px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .24em; color: #8C8C97; }
+#fl-season .fl-stripe { width: 46px; height: 10px; background: repeating-linear-gradient(115deg, #E10A1E 0 6px, transparent 6px 11px); }
+#fl-season .fl-title { margin: 14px 0 0; padding: 0; font: italic 900 132px/.8 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.015em; color: #fff; }
+#fl-season .fl-title span { display: block; padding-bottom: .04em; animation: fl-ss-rise .7s cubic-bezier(.16, 1, .3, 1) both; }
+#fl-season .fl-title .ol { color: transparent; -webkit-text-stroke: 2px #fff; animation-delay: .08s; }
+@keyframes fl-ss-rise { from { opacity: 0; transform: translateY(.35em); } }
+#fl-season .fl-ss-next { --c: #E10A1E; position: relative; display: flex; flex-direction: column; gap: 8px; min-width: 420px; max-width: 520px; padding: 24px 30px 22px; background: #151518; box-shadow: inset 5px 0 0 var(--c); margin-bottom: 8px; transition: background-color .2s; }
+#fl-season .fl-ss-next:hover { background: #1C1C21; }
+#fl-season .fl-ss-next .k { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .22em; color: #8C8C97; }
+#fl-season .fl-ss-next .nm { font: italic 900 24px/1.05 "Titillium Web", sans-serif; text-transform: uppercase; text-wrap: balance; }
+#fl-season .fl-ss-next .clock { display: flex; gap: 6px; margin-top: 6px; }
+#fl-season .fl-ss-next .clock > span { display: flex; flex-direction: column; align-items: center; min-width: 74px; padding: 8px 0 6px; background: #0E0E10; box-shadow: inset 0 3px 0 #E10A1E; }
+#fl-season .fl-ss-next .clock b { font: 900 34px/1 "Titillium Web", sans-serif; }
+#fl-season .fl-ss-next .clock small { margin-top: 4px; font: 700 10px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-season .fl-ss-next .when { margin-top: 4px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .14em; color: #B4B4BE; }
+
+/* ---- the month board ---- */
+#fl-season .fl-ss-board { margin-top: 44px; background: #151518; box-shadow: inset 0 3px 0 #E10A1E; }
+#fl-season .fl-ss-bar { display: flex; align-items: center; gap: 10px; padding: 18px 22px; box-shadow: inset 0 -1px 0 #26262C; }
+#fl-season .fl-ss-bar h2 { margin: 0 6px; min-width: 240px; text-align: center; font: italic 900 30px/1 "Titillium Web", sans-serif; text-transform: uppercase; }
+#fl-season .fl-ss-bar h2 span { color: #8C8C97; }
+#fl-season .fl-ss-bar .nav { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #34343C; font-size: 22px; line-height: 1; color: #B4B4BE; transition: border-color .15s, color .15s; }
+#fl-season .fl-ss-bar .nav:hover { border-color: #fff; color: #fff; }
+#fl-season .fl-ss-bar .sp { flex: 1; }
+#fl-season .fl-ss-bar .count { font: 700 12px "Titillium Web", sans-serif; letter-spacing: .18em; color: #8C8C97; }
+#fl-season .fl-ss-bar .today { height: 36px; padding: 0 16px; border: 1px solid #34343C; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .16em; color: #B4B4BE; transition: border-color .15s, color .15s; }
+#fl-season .fl-ss-bar .today:hover { border-color: #fff; color: #fff; }
+#fl-season .fl-ss-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1px; background: #1E1E23; }
+#fl-season .fl-ss-dow { padding: 10px 12px; background: #151518; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-season .fl-ss-dow.we { color: #B4B4BE; }
+#fl-season .fl-ss-cell { position: relative; display: flex; flex-direction: column; gap: 4px; min-height: 112px; padding: 8px 8px 10px; background: #111114; }
+#fl-season .fl-ss-cell.we { background: #131317; }
+#fl-season .fl-ss-cell.void { background: #0E0E10; }
+#fl-season .fl-ss-cell .n { font: 700 14px "Titillium Web", sans-serif; color: #B4B4BE; }
+#fl-season .fl-ss-cell.past .n { color: #5A5A64; }
+/* a race day: the cell lifts, a chequered corner flags it */
+#fl-season .fl-ss-cell.race { background: #17171B; }
+#fl-season .fl-ss-cell.race::after { content: ""; position: absolute; top: 0; right: 0; width: 22px; height: 22px; background: repeating-conic-gradient(#3A3A44 0 25%, transparent 0 50%) 0 0 / 11px 11px; clip-path: polygon(0 0, 100% 0, 100% 100%); opacity: .8; }
+#fl-season .fl-ss-cell.today { box-shadow: inset 0 0 0 2px #E10A1E; }
+#fl-season .fl-ss-cell.today .n { display: inline-grid; place-items: center; align-self: flex-start; min-width: 26px; height: 22px; padding: 0 6px; background: #E10A1E; color: #fff; clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%); }
+/* a round's plate: the division colour as its bar, the short name, the local time */
+#fl-season .fl-ss-plate { --c: #8C8C97; display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; padding: 5px 8px 5px 10px; background: #1F1F25; box-shadow: inset 3px 0 0 var(--c); transition: background-color .15s, transform .2s cubic-bezier(.16, 1, .3, 1); }
+#fl-season .fl-ss-plate:hover { background: #2A2A31; transform: translateX(2px); }
+#fl-season .fl-ss-plate b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: italic 900 13px "Titillium Web", sans-serif; letter-spacing: .02em; }
+#fl-season .fl-ss-plate span { flex: none; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .06em; color: #B4B4BE; }
+#fl-season .fl-ss-plate.done { opacity: .55; }
+#fl-season .fl-ss-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; padding: 14px 22px; box-shadow: inset 0 1px 0 #26262C; font: 700 11px "Titillium Web", sans-serif; letter-spacing: .16em; color: #8C8C97; }
+#fl-season .fl-ss-legend span { display: inline-flex; align-items: center; gap: 8px; }
+#fl-season .fl-ss-legend i { width: 14px; height: 10px; background: var(--c); transform: skewX(-18deg); }
+#fl-season .fl-ss-legend .tz { margin-left: auto; color: #5A5A64; }
+
+/* ---- the coming rounds as round cards ---- */
+#fl-season .fl-ss-rounds { margin-top: 56px; }
+#fl-season .fl-sec-h { display: flex; align-items: center; gap: 16px; margin: 0 0 18px; font: italic 900 30px/1 "Titillium Web", sans-serif; text-transform: uppercase; }
+#fl-season .fl-sec-h::after { content: ""; flex: 1; height: 1px; background: #34343C; }
+#fl-season .fl-ss-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+#fl-season .fl-ss-card { --c: #8C8C97; position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 220px; padding: 22px 22px 20px; background: #151518; box-shadow: inset 0 4px 0 var(--c); transition: background-color .2s; }
+#fl-season .fl-ss-card:hover { background: #1C1C21; }
+#fl-season .fl-ss-card .date { display: flex; align-items: baseline; gap: 8px; }
+#fl-season .fl-ss-card .date b { font: italic 900 46px/1 "Titillium Web", sans-serif; }
+#fl-season .fl-ss-card .date small { font: 700 13px "Titillium Web", sans-serif; letter-spacing: .2em; color: #B4B4BE; }
+#fl-season .fl-ss-card .k { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; }
+#fl-season .fl-ss-card .nm { font: italic 900 19px/1.1 "Titillium Web", sans-serif; text-transform: uppercase; text-wrap: balance; }
+#fl-season .fl-ss-card .m { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .12em; color: #B4B4BE; }
+#fl-season .fl-ss-card .go { margin-top: auto; padding-top: 10px; font: italic 900 13px "Titillium Web", sans-serif; letter-spacing: .08em; transition: transform .25s cubic-bezier(.16, 1, .3, 1); }
+#fl-season .fl-ss-card:hover .go { transform: translateX(6px); }
+#fl-season .fl-ss-empty { display: flex; flex-direction: column; gap: 8px; margin-top: 44px; padding: 36px 40px; background: #151518; box-shadow: inset 5px 0 0 #E10A1E; }
+#fl-season .fl-ss-empty b { font: italic 900 22px "Titillium Web", sans-serif; letter-spacing: .02em; }
+#fl-season .fl-ss-empty span { color: #B4B4BE; }
+#fl-season .fl-ss-empty a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+#fl-season .fl-ss-all { margin-top: 64px; }
+#fl-season .fl-ss-all small { font: 700 11.5px "Titillium Web", sans-serif; font-style: normal; letter-spacing: .16em; color: #8C8C97; white-space: nowrap; }
+
+/* ---- Codeforces' Google Calendar frame below: darkened to the board's ink ---- */
+html[data-fl-season] #pageContent iframe { filter: invert(.9) hue-rotate(180deg) saturate(.9); }
+
+@media (max-width: 1280px) {
+  #fl-season .fl-title { font-size: 104px; }
+  #fl-season .fl-ss-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1100px) {
+  #fl-season { padding: 28px 24px 8px; }
+  #fl-season .fl-ss-head { flex-direction: column; align-items: flex-start; gap: 22px; }
+  #fl-season .fl-ss-next { min-width: 0; max-width: none; width: 100%; }
+  #fl-season .fl-ss-cell { min-height: 92px; }
+  #fl-season .fl-ss-plate span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { #fl-season .fl-title span { animation: none; } #fl-season .fl-ss-plate, #fl-season .fl-ss-card .go { transition: none; } }

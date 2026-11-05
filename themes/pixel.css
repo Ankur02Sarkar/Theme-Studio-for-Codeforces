@@ -1,0 +1,170 @@
+/* =============================================================================
+   Pixel Art  (theme id "pixel") -- an 8-bit game (PLAN.md phase 4)
+
+   The sister's Sweetie-16 night level (Theme Studio for LeetCode,
+   themes/pixel.css): square corners, 2 px black outlines, hard 4 px shadows,
+   Jersey for the chrome, a readable face (Inter) for statements and
+   post text. Nothing moves at rest. Problems are levels, difficulty is hearts
+   in the rating's rank colour; Home is a game screen (guided.js world layer).
+
+   Jersey 15 at 15 px and Jersey 10 at 20 px are drawn on the grid; every size here is one of those.
+
+   Statements stay on the plain panel (no dither behind text): f4f4f4 on
+   262b44 = 12.4:1. Code inks: the sister's Pixel palette.
+   Its moments (arcade fighter) are src/moments/cf-fx.js + themes/fx.css.
+============================================================================= */
+html[data-cf-theme="pixel"] {
+  color-scheme: dark;
+  --lc-desk: #14121e; --lc-bg2: #1e1b2e; --lc-bg3: #2a2640; --lc-nav-bg: #1e1b2e;
+  --lc-text: #f6f1e3; --lc-text2: #c2bcd2; --lc-text3: #9b95b0;
+  --lc-hairline: rgba(244,244,244,.10); --lc-border: #4e4870;
+  --lc-accent: #ffcd75; --lc-accent-2: #73eff7; --lc-accent-contrast: #1a1c2c;
+  --lc-green: #a7f070; --lc-red: #ff6f86; --lc-yellow: #ffcd75;
+  --lc-font-ui: "PX Small", "JetBrains Mono", "Segoe UI", system-ui, sans-serif;
+  --lc-font-prose: "Inter", "Segoe UI", system-ui, sans-serif;
+  --lc-font-display: "PX", "JetBrains Mono", system-ui, sans-serif;
+  --lc-font-code: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --lc-prose-measure: 72ch;
+  --cf-radius: 0px;
+  --cf-fw-title: 400;
+  --cf-fs-title: 40px; --cf-fs-section: 20px; --cf-fs-body: 15px; --cf-fs-table: 15px; --cf-fs-small: 15px; --cf-fs-meta: 15px; --cf-fs-label: 15px;
+  font-synthesis: none;
+  --cf-tint-mine: #262238; --cf-stripe: transparent; --cf-surface-page: #14121e; --cf-surface-card: #1e1b2e; --cf-surface-raised: #2a2640; --cf-solid: #1e1b2e;
+}
+/* readable faces where the reading happens; Jersey for chrome, tables and titles */
+html[data-cf-theme="pixel"] .ttypography:not(#cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .comment-content:not(#cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-chip:not(#cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-div:not(#cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-rate .w:not(#cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-rate.none .n:not(#cfts-spec):not(cfts-spec) { font-family: "Inter", "Segoe UI", system-ui, sans-serif !important; }
+/* hard edges */
+html[data-cf-theme="pixel"] #header:not(.cfts-spec),
+html[data-cf-theme="pixel"] #body > .menu-box { box-shadow: 0 0 0 2px #0d0e17 !important; }
+html[data-cf-theme="pixel"] #body > .menu-box { box-shadow: 0 0 0 2px #0d0e17, 0 4px 0 2px #0d0e17 !important; }
+html[data-cf-theme="pixel"] #pageContent { box-shadow: 0 -20px 0 0 var(--cf-surface-card), 0 0 0 2px #0d0e17, 0 -20px 0 2px #0d0e17, 4px 4px 0 2px #0d0e17 !important; }
+html[data-cf-theme="pixel"] #sidebar > .roundbox { border: 0 !important; box-shadow: 0 0 0 2px #0d0e17, 4px 4px 0 2px #0d0e17 !important; }
+html[data-cf-theme="pixel"] .menu-list li.current a,
+html[data-cf-theme="pixel"] .second-level-menu > .second-level-menu-list:last-of-type li:is(.current, .selectedLava) a { background: #ffcd75 !important; color: #1a1c2c !important; }
+html[data-cf-theme="pixel"] #header .lang-chooser > div:nth-child(2) a[href^="/register"],
+html[data-cf-theme="pixel"] #body a.cfts-btn.primary,
+html[data-cf-theme="pixel"] #body input.cfts-primary-input { background: #ffcd75 !important; border-color: #09080f !important; color: #2b1a10 !important;
+  box-shadow: inset 2px 2px 0 #ffe7ae, inset -2px -2px 0 #b9762e !important; }
+html[data-cf-theme="pixel"] #body a.cfts-btn.primary:active { transform: translateY(2px); }
+html[data-cf-theme="pixel"] .cfts-chip:not(.cfts-spec):not(cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-div:not(.cfts-spec):not(cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-rate:not(.cfts-spec):not(cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .datatable td.id a { box-shadow: 0 0 0 1px #0d0e17; }
+html[data-cf-theme="pixel"] .datatable td,
+html[data-cf-theme="pixel"] .datatable th { border-bottom-width: 2px !important; border-bottom-color: #1a1c2c !important; }
+html[data-cf-theme="pixel"] .problem-statement .section-title { color: var(--cf-accent) !important; font-family: var(--cf-font-display) !important; }
+html[data-cf-theme="pixel"] .problem-statement .sample-tests .input,
+html[data-cf-theme="pixel"] .problem-statement .sample-tests .output { box-shadow: 0 0 0 2px #0d0e17; border: 0 !important; }
+/* code: the sister's Pixel inks */
+html[data-cf-theme="pixel"] .prettyprint .pln,
+html[data-cf-theme="pixel"] .prettyprint .opn,
+html[data-cf-theme="pixel"] .prettyprint .clo { color: #f4f4f4 !important; }
+html[data-cf-theme="pixel"] .prettyprint .pun { color: #ffa36b !important; }
+html[data-cf-theme="pixel"] .prettyprint .kwd,
+html[data-cf-theme="pixel"] .prettyprint .tag { color: #ffcd75 !important; }
+html[data-cf-theme="pixel"] .prettyprint .typ,
+html[data-cf-theme="pixel"] .prettyprint .atn,
+html[data-cf-theme="pixel"] .prettyprint .dec,
+html[data-cf-theme="pixel"] .prettyprint .var { color: #6cb6ff !important; }
+html[data-cf-theme="pixel"] .prettyprint .str,
+html[data-cf-theme="pixel"] .prettyprint .atv { color: #a7f070 !important; }
+html[data-cf-theme="pixel"] .prettyprint .lit { color: #c9a0ff !important; }
+html[data-cf-theme="pixel"] .prettyprint .com { color: #8b9bb4 !important; font-style: italic; }
+html[data-cf-theme="pixel"] .prettyprint .fun { color: #73eff7 !important; }
+
+
+/* =============================== GUIDED: the game ============================== */
+/* Home: a game screen. Posts are RPG dialog boxes: a 3 px white frame with
+   stepped corners (shadows offset along one axis leave the corners notched),
+   a black outline, the author as the speaker's name tag */
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] #pageContent > .cfts-post {
+  position: relative; margin: 14px 8px 22px !important; padding: 16px 20px 14px !important; background: #1a1c2c; border: 0 !important; border-radius: 0;
+  box-shadow: 0 -3px #f4f4f4, 0 3px #f4f4f4, -3px 0 #f4f4f4, 3px 0 #f4f4f4,
+    0 -6px #0d0e17, 0 6px #0d0e17, -6px 0 #0d0e17, 6px 0 #0d0e17, -3px -3px #0d0e17, 3px -3px #0d0e17, -3px 3px #0d0e17, 3px 3px #0d0e17; }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] #pageContent > .cfts-post:hover {
+  background: #1a1c2c; box-shadow: 0 -3px #ffcd75, 0 3px #ffcd75, -3px 0 #ffcd75, 3px 0 #ffcd75,
+    0 -6px #0d0e17, 0 6px #0d0e17, -6px 0 #0d0e17, 6px 0 #0d0e17, -3px -3px #0d0e17, 3px -3px #0d0e17, -3px 3px #0d0e17, 3px 3px #0d0e17; }
+/* the speaker's name tag: Codeforces' own info line, lifted onto the frame */
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .info {
+  justify-self: start; width: max-content; max-width: 100%; margin: 0 0 12px !important; box-sizing: border-box; padding: 6px 12px !important; line-height: 16px !important; background: #0d0e17;
+  box-shadow: 0 -2px #f4f4f4, 0 2px #f4f4f4, -2px 0 #f4f4f4, 2px 0 #f4f4f4; font: 500 11px var(--lc-font-prose) !important; color: var(--cf-text-3) !important; }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .info a.rated-user { font: 700 14px var(--cf-font-display) !important; }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .info img { display: none; }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .title p,
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .title a { font: 700 20px/1.3 var(--cf-font-display) !important; }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post .topic-read-more { font-family: var(--cf-font-display) !important; }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post .topic-read-more::before { content: "▶ "; }
+/* votes with a pixel coin */
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-pmeta-row .topic-rating::before {
+  content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px;
+  background: radial-gradient(circle at 50% 50%, #ffcd75 0 3px, #ef7d57 3px 4px, #ffcd75 4px 6px, #b13e53 6px 7px, transparent 7px); }
+html[data-cf-theme="pixel"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-pmeta-row .left-meta ul { border-radius: 0; }
+/* the welcome card is a system dialog */
+html[data-cf-theme="pixel"] .cfts-newbie { border-radius: 0 !important; border: 0 !important; background: #1a1c2c !important; margin: 6px 8px 10px !important;   /* 6 px: room for the frame, no empty band */
+  box-shadow: 0 -3px #f4f4f4, 0 3px #f4f4f4, -3px 0 #f4f4f4, 3px 0 #f4f4f4, 0 -6px #0d0e17, 0 6px #0d0e17, -6px 0 #0d0e17, 6px 0 #0d0e17, -3px -3px #0d0e17, 3px -3px #0d0e17, -3px 3px #0d0e17, 3px 3px #0d0e17; }
+html[data-cf-theme="pixel"] .cfts-newbie .cfts-kicker { color: #ffcd75 !important; }
+html[data-cf-theme="pixel"] .cfts-newbie .sn { border-radius: 0 !important; background: #ffcd75 !important; color: #1a1c2c !important; }
+html[data-cf-theme="pixel"] .cfts-newbie .st { font-family: var(--lc-font-prose) !important; }
+/* sidebar: NEXT STAGE (PRESS START), HIGH SCORES, QUEST LOG */
+html[data-cf-theme="pixel"] #sidebar .cfts-upcoming .countdown,
+html[data-cf-theme="pixel"] #sidebar .cfts-upcoming .cfts-dcount { color: #ffcd75 !important; }
+html[data-cf-theme="pixel"] #sidebar a.cfts-press { font: 700 16px var(--cf-font-display) !important; letter-spacing: .08em; height: 40px !important; }
+html[data-cf-theme="pixel"] #sidebar .cfts-recent .recent-actions li > div::before { content: "▸ "; color: #ffcd75; }
+html[data-cf-theme="pixel"] #sidebar .cfts-hiscore .rtable tr:nth-child(2) td:nth-child(2) a::before { content: "♛ "; color: #ffcd75; }
+/* the welcome card is inserted after the world layer: its label is renamed here */
+html[data-cf-theme="pixel"] .cfts-newbie .cfts-kicker { font-size: 0 !important; }
+html[data-cf-theme="pixel"] .cfts-newbie .cfts-kicker::before { content: "PLAYER 1 · NEW GAME?"; font: 700 12px var(--cf-font-display); letter-spacing: .1em; }
+/* reading text stays in Inter: limit chips, the sidebar's body copy, the contest name */
+html[data-cf-theme="pixel"] .cfts-pslede p:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] .cfts-lede:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] #sidebar .cfts-pay a[href^="/contest"]:not(.cfts-btn),
+html[data-cf-theme="pixel"] .cfts-lim:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-short:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-taghint p:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] .cfts-mat a:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] #sidebar .recent-actions:not(.cfts-spec):not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-ptopics:not(#cfts-spec):not(.cfts-spec):not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="pixel"] .cfts-crumb > :not(.cfts-div):not(#cfts-spec):not(.cfts-spec):not(cfts-spec) { font-family: "Inter", "Segoe UI", system-ui, sans-serif !important; }
+html[data-cf-theme="pixel"] .cfts-lvlsel { margin: var(--cf-sp-4) 0 -8px; }
+
+/* a table's zebra is noise on this grid; a page the app doesn't draw yet still sits on the app's width */
+html[data-px-hud] #body { max-width: 1240px; width: auto !important; margin: 0 auto; padding: 12px 16px 0; background: none !important; }
+html[data-cf-theme="pixel"] .datatable td.dark:not(.cfts-spec) { background: transparent !important; }
+html[data-cf-theme="pixel"] .datatable tr:nth-child(even) td:not(.cfts-spec) { background: transparent !important; }
+/* Codeforces' back-to-top is a window-tall strip down the left edge: here, one button in the left gutter, clear of the sidebar */
+html[data-cf-theme="pixel"] .button-up { width: 44px !important; height: 44px !important; left: 12px !important; right: auto !important; top: auto !important; bottom: 16px !important; opacity: 1 !important; font-size: 0 !important; line-height: 0 !important; background: #2a2640 !important; border: 2px solid #09080f; box-shadow: inset 2px 2px 0 #5d5684, inset -2px -2px 0 #211d33; z-index: 40; }
+html[data-cf-theme="pixel"] .button-up:hover { background: #443d63 !important; }
+html[data-cf-theme="pixel"] .button-up > * { display: none !important; }
+html[data-cf-theme="pixel"] .button-up::before { content: ""; position: absolute; left: 10px; top: 10px; width: 20px; height: 20px; background: #ffcd75;
+  clip-path: polygon(40% 0, 60% 0, 60% 10%, 70% 10%, 70% 20%, 80% 20%, 80% 30%, 90% 30%, 90% 40%, 100% 40%, 100% 60%, 70% 60%, 70% 100%, 30% 100%, 30% 60%, 0 60%, 0 40%, 10% 40%, 10% 30%, 20% 30%, 20% 20%, 30% 20%, 30% 10%, 40% 10%); }
+/* the catalog, read by src/pixel/app.js: dark ink it could not place, folders, entries */
+html[data-px-hud] .px-ink { color: #9b95b0 !important; -webkit-text-fill-color: #9b95b0; }
+html[data-px-hud] .px-dir { margin: 14px 0 6px; font: 20px/24px "PX", monospace !important; }
+html[data-px-hud] .px-dir a:not(.rated-user), html[data-px-hud] a.px-dir:not(.rated-user) { color: #ffcd75 !important; font: 20px/24px "PX", monospace !important; }
+html[data-px-hud] .px-dir img { filter: brightness(0) invert(.8); }
+html[data-px-hud] .px-doc { margin: 2px 0 !important; padding: 6px 10px; background: #2a2640; border-left: 4px solid #4e4870; font-size: 15px !important; }
+html[data-px-hud] .px-doc:hover { background: #363150; border-left-color: #ffcd75; }
+html[data-px-hud] .px-doc a:not(.rated-user) { color: #f6f1e3 !important; font: 20px/24px "PX", monospace !important; }
+html[data-px-hud] .px-doc a.rated-user { font: 15px/18px "PX Small", monospace !important; }
+html[data-px-hud] .px-doc img { filter: invert(1) brightness(.7); }
+
+/* form fields on the pages the app doesn't draw: one height, one border, one focus. Focus is the border turning gold, inside the field */
+html[data-cf-theme="pixel"] #body input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="file"]):not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] #body select:not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] #body textarea:not(.cfts-spec):not(.cfts-spec) {
+  box-sizing: border-box; min-height: 32px; padding: 0 8px; border: 2px solid #09080f !important; border-radius: 0 !important; background: #2a2640 !important; color: #f6f1e3 !important;
+  box-shadow: inset 2px 2px 0 #151222 !important; font: 15px/1 "PX Small", monospace !important; vertical-align: middle; }
+html[data-cf-theme="pixel"] #body select:not(.cfts-spec):not(.cfts-spec) { max-width: 100%; }
+html[data-cf-theme="pixel"] #body textarea:not(.cfts-spec):not(.cfts-spec) { padding: 6px 8px; line-height: 20px !important; font-family: "JetBrains Mono", monospace !important; font-size: 14px !important; }
+html[data-cf-theme="pixel"] #body input:focus:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="file"]):not(.cfts-spec):not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] #body select:focus:not(.cfts-spec):not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="pixel"] #body textarea:focus:not(.cfts-spec):not(.cfts-spec):not(.cfts-spec) { outline: none !important; border-color: #ffcd75 !important; }
+html[data-cf-theme="pixel"] #body option { background: #2a2640; color: #f6f1e3; font: 15px "PX Small", monospace; }
+html[data-cf-theme="pixel"] #body .SumoSelect { max-width: 100%; }
+html[data-cf-theme="pixel"] #body .SumoSelect > .CaptionCont { border: 2px solid #09080f !important; border-radius: 0 !important; box-shadow: inset 2px 2px 0 #151222; min-height: 32px; font: 15px/20px "PX Small", monospace; }
+html[data-cf-theme="pixel"] #body .SumoSelect > .optWrapper { z-index: 30; border: 2px solid #09080f !important; border-radius: 0 !important; box-shadow: 4px 4px 0 #09080f !important; font: 15px/20px "PX Small", monospace; }

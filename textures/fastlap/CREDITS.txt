@@ -1,0 +1,4 @@
+FASTLAP track assets, all CC0 (public domain) from Poly Haven (polyhaven.com):
+- asphalt-diff.jpg, asphalt-nor.jpg, asphalt-rough.jpg: "Asphalt Track" (polyhaven.com/a/asphalt_track), 1k, re-encoded
+- grass-diff.jpg: "Aerial Grass Rock" (polyhaven.com/a/aerial_grass_rock), 1k, re-encoded
+- night-sky.hdr: "Rogland Clear Night" (polyhaven.com/a/rogland_clear_night), 1k

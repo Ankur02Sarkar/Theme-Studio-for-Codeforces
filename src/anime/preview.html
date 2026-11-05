@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- The Anime Studio preview. A Codeforces problem page in miniature, built
+     from the hooks the real one has (#header, .menu-box, #sidebar .roundbox,
+     #pageContent, .second-level-menu, .problem-statement) and the markup
+     guided.js adds to it (the episode header, rating badge, limit chips,
+     actions), styled by the real themes/core.css, guided.css and anime.css.
+     What it shows is what Codeforces gets. The problem, the round and the
+     handles are made up for the preview. -->
+<html lang="en" data-cf-theme="anime" data-cf-look data-cf-mode="dark" data-cf-layout="guided" data-cfts-page="problem">
+<head>
+  <meta charset="UTF-8" />
+  <title>Preview</title>
+  <link rel="stylesheet" href="preview.css" />
+</head>
+<body>
+<div id="body">
+  <div id="header">
+    <div><a href="#" class="pv-logo" tabindex="-1"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>Codeforces</a></div>
+    <div class="lang-chooser">
+      <div><a href="#" tabindex="-1">Enter</a> | <a href="#" tabindex="-1">Register</a></div>
+    </div>
+  </div>
+  <div class="roundbox menu-box">
+    <div class="menu-list-container">
+      <ul class="menu-list main-menu-list">
+        <li><a href="#" tabindex="-1">Home</a></li><li><a href="#" tabindex="-1">Top</a></li><li><a href="#" tabindex="-1">Catalog</a></li><li><a href="#" tabindex="-1">Contests</a></li><li><a href="#" tabindex="-1">Gym</a></li><li class="current"><a href="#" tabindex="-1">Problemset</a></li><li><a href="#" tabindex="-1">Groups</a></li><li><a href="#" tabindex="-1">Rating</a></li><li><a href="#" tabindex="-1">Edu</a></li><li><a href="#" tabindex="-1">Calendar</a></li><li><a href="#" tabindex="-1">Help</a></li>
+      </ul>
+      <form><input class="search" placeholder="Search problems, users…" tabindex="-1" /></form>
+    </div>
+  </div>
+  <div class="pv-columns">
+    <div id="sidebar">
+      <div class="roundbox sidebox cfts-pcontest">
+        <div class="cfts-sidecap">Contest</div>
+        <div class="cfts-pcbadge"><span class="cfts-div" style="--c:var(--cf-rank-blue)"><b>Div. 2</b><span>Intermediate</span></span></div>
+        <table class="rtable"><tbody>
+          <tr><th class="left"><a href="#" tabindex="-1">Lantern Festival Round (Div. 2)</a></th></tr>
+          <tr><td class="left bottom"><span class="contest-state-phase">Finished</span></td></tr>
+        </tbody></table>
+        <div class="cfts-mat"><a href="#" tabindex="-1"><span class="cfts-ico"><svg viewBox="0 0 24 24"><path d="M3 11v3l12 5V6z"></path><path d="M15 9a4 4 0 0 1 0 6"></path></svg></span>Announcement</a><a href="#" tabindex="-1"><span class="cfts-ico"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path></svg></span>Tutorial</a></div>
+      </div>
+      <div class="roundbox sidebox">
+        <div class="caption titled">→ Top rated</div>
+        <table class="rtable smaller"><tbody>
+          <tr><th class="left">#</th><th>User</th><th class="right">Rating</th></tr>
+          <tr><td class="left">1</td><td><a href="#" tabindex="-1" class="rated-user user-legendary"><span class="legendary-user-first-letter">k</span>itsune</a></td><td class="right">3412</td></tr>
+          <tr><td class="left">2</td><td><a href="#" tabindex="-1" class="rated-user user-red">aurora_k</a></td><td class="right">2650</td></tr>
+          <tr><td class="left">3</td><td><a href="#" tabindex="-1" class="rated-user user-orange">lanternfish</a></td><td class="right">2380</td></tr>
+          <tr><td class="left">4</td><td><a href="#" tabindex="-1" class="rated-user user-violet">mochi</a></td><td class="right">1987</td></tr>
+          <tr><td class="left">5</td><td><a href="#" tabindex="-1" class="rated-user user-blue">tidepool</a></td><td class="right">1720</td></tr>
+          <tr><td class="left">6</td><td><a href="#" tabindex="-1" class="rated-user user-cyan">ferrywind</a></td><td class="right">1488</td></tr>
+          <tr><td class="left bottom">7</td><td class="bottom"><a href="#" tabindex="-1" class="rated-user user-green">pebble</a></td><td class="right bottom">1250</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div id="pageContent" class="content-with-sidebar">
+      <div class="second-level-menu">
+        <ul class="second-level-menu-list">
+          <li class="current selectedLava"><a href="#" tabindex="-1">Problems</a></li><li><a href="#" tabindex="-1">Submit</a></li><li><a href="#" tabindex="-1">Status</a></li><li><a href="#" tabindex="-1">Standings</a></li><li><a href="#" tabindex="-1">Custom test</a></li>
+        </ul>
+      </div>
+      <div class="problemindexholder">
+        <div class="ttypography">
+          <div class="problem-statement">
+            <div class="header cfts-episode" id="pvHeader">
+              <div class="cfts-eptop">
+                <div class="cfts-arc" id="pvArc"><span class="cfts-jp" id="pvArcJp">修行編</span><span class="cfts-chip cfts-scenechip" id="pvArcEn">rated 1400–2300</span></div>
+                <div class="cfts-epn"><span class="cfts-jp no">第3話</span><a class="of" href="#" tabindex="-1">Lantern Festival Round (Div. 2) <span class="cfts-jp">編</span></a></div>
+              </div>
+              <div class="title">C. Paper Lanterns</div>
+              <div class="cfts-pmeta"><span class="cfts-rate" id="pvRate" style="--c:var(--cf-rank-blue)"><span class="n">1700</span><span class="w">Medium</span></span></div>
+              <span class="cfts-dwrap" id="pvDanger"><span class="cfts-jp">危険度</span><span class="cfts-danger" style="--c:var(--cf-rank-blue)"><span class="m"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="n">3/5</span></span></span>
+              <div class="time-limit cfts-lim"><div class="property-title">time limit per test</div><span class="cfts-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg></span>1 second per test</div>
+              <div class="memory-limit cfts-lim"><div class="property-title">memory limit per test</div>256 megabytes</div>
+              <div class="input-file input-standard cfts-lim cfts-plain"><div class="property-title">input</div>standard input / output</div>
+              <div class="cfts-ptopics"><span class="lbl">Topics</span><span class="hid">2 topics hidden</span><button type="button" class="cfts-showtopics" tabindex="-1">Show</button></div>
+              <div class="cfts-pact"><a class="cfts-btn primary xl" href="#" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M21 3 10.5 13.5"></path><path d="M21 3l-6.5 18-4-7.5L3 9.5z"></path></svg> Submit</a><div class="sec"><a class="cfts-btn quiet" href="#" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path></svg> Tutorial</a><a class="cfts-btn quiet" href="#" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M3 11v3l12 5V6z"></path><path d="M15 9a4 4 0 0 1 0 6"></path></svg> Announcement</a></div><div class="sec"><a class="cfts-btn ghost" href="#" tabindex="-1">Status</a><a class="cfts-btn ghost" href="#" tabindex="-1">Standings</a></div></div>
+            </div>
+            <div>
+              <p>Mira hangs <i>n</i> paper lanterns along the shrine path; the <i>i</i>-th has brightness <i>a<sub>i</sub></i>. A visitor walking from the gate sees a lantern only if it is brighter than <span class="tex-font-style-bf">every</span> lantern before it.</p>
+              <p>Before the festival opens, Mira may swap two neighbouring lanterns at most <i>k</i> times. What is the largest number of lanterns a visitor can see?</p>
+            </div>
+            <div class="input-specification">
+              <div class="section-title">Input</div>
+              <p>The first line contains <i>t</i> (1 ≤ <i>t</i> ≤ 10<sup>4</sup>), the number of test cases. Each test case is two lines: <i>n</i> and <i>k</i> (1 ≤ <i>n</i> ≤ 2·10<sup>5</sup>, 0 ≤ <i>k</i> ≤ 10<sup>9</sup>), then <i>a</i><sub>1</sub>, …, <i>a<sub>n</sub></i> (1 ≤ <i>a<sub>i</sub></i> ≤ 10<sup>9</sup>).</p>
+            </div>
+            <div class="output-specification">
+              <div class="section-title">Output</div>
+              <p>For each test case, print one integer on its own line: the largest number of lanterns a visitor can see.</p>
+            </div>
+            <div class="sample-tests">
+              <div class="section-title">Example</div>
+              <div class="sample-test">
+                <div class="input"><div class="title">Input</div><pre>3
+4 1
+3 1 4 2
+3 0
+1 2 3
+5 2
+5 4 3 2 1</pre></div>
+                <div class="output"><div class="title">Output</div><pre>3
+3
+2</pre></div>
+              </div>
+            </div>
+            <div class="note">
+              <div class="section-title">Note</div>
+              <p>In the first test case, swapping the first two lanterns gives 1 3 4 2: the visitor sees 1, 3 and 4.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="css.js"></script>
+<script src="cf-block.js"></script>
+<script src="../moments/cf-fx.js"></script>
+<script src="../pixel/shatter.js"></script>
+<script src="sakuga.js"></script>
+<script src="onair.js"></script>
+<script src="manga.js"></script>
+<script src="preview.js"></script>
+</body>
+</html>

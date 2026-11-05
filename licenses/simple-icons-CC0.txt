@@ -1,0 +1,4 @@
+Language marks in src/modern/app.js (LOGO) are from Simple Icons 13.21.0
+https://github.com/simple-icons/simple-icons
+Released under CC0 1.0 Universal (public domain dedication): https://creativecommons.org/publicdomain/zero/1.0/
+The marks themselves remain trademarks of their owners; they are shown only to identify each programming language.

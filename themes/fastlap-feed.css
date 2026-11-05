@@ -1,0 +1,144 @@
+/* =============================================================================
+   FASTLAP Home feed: Codeforces' own posts and sidebar under the paddock, as a
+   race broadcast's news desk. CSS only, on Codeforces' (and guided.js') markup:
+   nothing added, moved or requested.
+   - posts are race reports: square plates numbered like timing-tower places
+     (01, 02 ... a CSS counter), a lower-third WIPE as each scrolls in (a
+     red-edged cover slides off it: transform only, driven by the scroll
+     timeline, no script), and on hover a red edge, a speed line along the top,
+     the number lit and "Read more" stepping forward
+   - "Three steps to get started" is the formation lap: grid slots P1 P2 P3
+   - Recent actions is the live race-control feed (one pulsing LIVE pip);
+     Top rated and Top contributors get the podium (P1 white, P2 and P3 grey)
+   Scoped html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"]
+   (the shell is on, Guided, not live): Off never sees it.
+============================================================================= */
+
+/* ---- the race reports ----------------------------------------------------- */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent { counter-reset: fl-post; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post {
+  counter-increment: fl-post; position: relative; overflow: clip;   /* clip, not hidden: hidden makes the post a scroll container and the wipe's view() timeline would watch the post itself (always finished) */
+  margin: 0 0 6px !important; padding: 24px 28px 18px 96px !important;
+  border: 0 !important; border-radius: 0 !important; background: var(--fl-pit) !important;
+  box-shadow: inset 4px 0 0 var(--fl-line-2);
+  transition: background-color .2s, box-shadow .25s cubic-bezier(.16, 1, .3, 1);
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post:hover { background: #19191D !important; box-shadow: inset 6px 0 0 var(--fl-red); }
+/* the place: an outlined number, lit on hover */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post::before {
+  content: counter(fl-post, decimal-leading-zero); position: absolute; left: 26px; top: 22px;
+  font: italic 900 44px/1 var(--fl-disp); letter-spacing: -.02em; color: transparent; -webkit-text-stroke: 1.5px #3E3E48;
+  transition: color .2s, -webkit-text-stroke-color .2s;
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post:hover::before { color: var(--fl-red); -webkit-text-stroke-color: var(--fl-red); }
+/* the speed line along the top: drawn from the left on hover */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, var(--fl-red) 0 60%, transparent);
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post:hover > .topic::after { transform: scaleX(1); }
+
+/* the byline: tracked caps, the handle keeps its rank colour */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > .info {
+  font: 700 12px var(--fl-disp) !important; letter-spacing: .12em; text-transform: uppercase; color: var(--fl-ink-3) !important;
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > .info a.rated-user { font: 900 13px var(--fl-disp) !important; letter-spacing: .04em; text-transform: none; }
+/* the headline */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > .title { margin: 8px 0 10px !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > .title p {
+  font: italic 900 25px/1.1 var(--fl-disp) !important; text-transform: uppercase; letter-spacing: .005em; color: #fff; text-wrap: balance;
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > .title .cfts-div { border-radius: 0 !important; }
+/* a post announcing two rounds has two "Announcement of" lines; guided gives both
+   the one "ann" area, so they printed over each other: the second gets its own row */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic { grid-template-areas: "info info" "title title" "ex ex" "ann ann" "ann2 ann2" "more meta" !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > div[style*="font-size: 1.1rem"] + div[style*="font-size: 1.1rem"] { grid-area: ann2 !important; }
+/* the excerpt */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic > .content > .ttypography { color: var(--fl-ink-2) !important; }
+
+/* Read more: a slanted plate that steps forward */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post a.topic-read-more {
+  display: inline-flex; align-items: center; height: 32px; padding: 0 18px 0 12px; background: #fff; color: var(--fl-carbon) !important;
+  font: italic 900 13px var(--fl-disp) !important; letter-spacing: .08em; text-transform: uppercase; text-decoration: none !important;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); transition: transform .25s cubic-bezier(.16, 1, .3, 1), background-color .15s;
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post:hover a.topic-read-more { transform: translateX(6px); }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post a.topic-read-more:hover { background: var(--fl-red); color: #fff !important; }
+/* votes and comments: a sector chip and a radio count */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post .left-meta ul { border-radius: 0 !important; border-color: var(--fl-line-2) !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post .topic-rating { font: italic 900 17px var(--fl-disp) !important; font-variant-numeric: tabular-nums; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post .topic-rating[style*="green"] { color: var(--fl-green) !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post .topic-rating[style*="red"] { color: #FF8A8A !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post .cfts-comments a { font: 700 12px var(--fl-disp) !important; letter-spacing: .12em; text-transform: uppercase; }
+
+/* the lower-third wipe, as each report scrolls in: a carbon cover with a red
+   leading edge slides off the plate (transform only, on the scroll timeline).
+   A report already on screen at load is past its range and simply shows. */
+@supports (animation-timeline: view()) {
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic { animation: none; }   /* the shell's rise: the wipe replaces it here */
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post::after {
+    content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background: var(--fl-carbon); box-shadow: inset 6px 0 0 var(--fl-red), -14px 0 0 0 rgba(225, 10, 30, .35);
+    transform: translateX(110%);   /* past the plate with its trailing glow (101% left the glow at the right edge) */
+    animation: fl-wipe linear both; animation-timeline: view(); animation-range: entry 10% entry 85%;
+  }
+}
+@keyframes fl-wipe { from { transform: translateX(0); } 40% { transform: translateX(0); } to { transform: translateX(110%); } }
+
+/* ---- the formation lap (guided's "Three steps to get started") ------------- */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie {
+  position: relative; border: 0 !important; border-radius: 0 !important; background: var(--fl-pit) !important;
+  box-shadow: inset 0 3px 0 var(--fl-red) !important; padding: 22px 26px 16px !important;
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .cfts-kicker { font: 700 12px var(--fl-disp) !important; letter-spacing: .22em; color: #FF8A8A !important; }   /* text red: race red #E10A1E is too dark for words on carbon (regress) */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .nbt { font: italic 900 30px/1 var(--fl-disp) !important; text-transform: uppercase; margin-top: 8px !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #body .cfts-newbie .x { border-radius: 0 !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .steps li {
+  grid-template-columns: 58px minmax(0, 1fr) auto !important; padding: 12px 0 !important; border-top-color: var(--fl-line) !important;
+  transition: box-shadow .25s cubic-bezier(.16, 1, .3, 1), padding-left .25s cubic-bezier(.16, 1, .3, 1);
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .steps li:hover { box-shadow: inset 3px 0 0 var(--fl-red); padding-left: 10px !important; }
+/* the grid slot: P1, P2, P3 on a slanted white plate */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .sn {
+  width: 50px !important; height: 30px !important; border-radius: 0 !important; background: #fff !important; color: var(--fl-carbon) !important;
+  font: italic 900 17px/1 var(--fl-disp) !important; clip-path: polygon(0 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
+  display: flex !important; align-items: center; justify-content: center; white-space: nowrap;   /* guided's grid would stack "P" over the number */
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .sn::before { content: "P"; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .st { font: 700 17px var(--fl-disp) !important; letter-spacing: .02em; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #body .cfts-newbie a.cfts-btn.quiet {
+  border-radius: 0 !important; font: 700 12.5px var(--fl-disp) !important; letter-spacing: .1em; text-transform: uppercase; transition: border-color .15s, transform .25s cubic-bezier(.16, 1, .3, 1);
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #body .cfts-newbie .steps li:hover a.cfts-btn.quiet { border-color: #fff !important; color: #fff !important; transform: translateX(4px); }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] .cfts-newbie .cfts-div { border-radius: 0 !important; }
+
+/* ---- the sidebar: live race control, the podium ---------------------------- */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .cfts-recent > .caption::after {
+  content: "LIVE"; display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; padding: 2px 7px 2px 16px; vertical-align: 1px;
+  background: radial-gradient(circle at 7px 50%, var(--fl-red) 0 3.5px, transparent 4px) no-repeat, #2A0A0E;
+  font: 700 10px/1.4 var(--fl-disp); letter-spacing: .18em; color: #FF8A8A;
+  animation: fl-live 1.6s ease-in-out infinite;
+}
+@keyframes fl-live { 50% { opacity: .55; } }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .cfts-recent .recent-actions li > div {
+  position: relative; padding-left: 12px !important; transition: box-shadow .2s, background-color .2s;
+}
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .cfts-recent .recent-actions li > div:hover { box-shadow: inset 3px 0 0 var(--fl-red); background: #19191D; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .cfts-recent .recent-actions a.rated-user { font: 900 13px var(--fl-disp) !important; letter-spacing: .02em; }
+/* Top rated / Top contributors: the place in the display face, the podium plated */
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .top-contributed .rtable td:first-child { font: italic 900 15px var(--fl-disp) !important; text-align: center; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .top-contributed .rtable tr:nth-child(2) td:first-child { background: #fff !important; color: var(--fl-carbon) !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .top-contributed .rtable tr:nth-child(3) td:first-child,
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .top-contributed .rtable tr:nth-child(4) td:first-child { background: #4A4A54 !important; color: #fff !important; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .top-contributed .rtable td:last-child { font: 900 14px var(--fl-disp) !important; font-variant-numeric: tabular-nums; }
+html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .top-contributed .rtable tr:hover td { background-color: #19191D; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post::after { display: none; }
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #sidebar .cfts-recent > .caption::after { animation: none; }
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post,
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post::before,
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post > .topic::after,
+  html[data-cf-theme="fastlap"][data-fl-shell][data-fl-page="home"] #pageContent > .cfts-post a.topic-read-more { transition: none; }
+}

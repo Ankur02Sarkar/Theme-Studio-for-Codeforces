@@ -1,0 +1,113 @@
+/* =============================================================================
+   THE DRIVE (fastlap/src/drive, chunk src/fastlap/drive.js): FASTLAP's
+   Profile hero. #fl-drive is a runway (its height is the career) holding a
+   sticky full-screen stage: the WebGL track, the driver card, the broadcast
+   HUD. Mounted before #body, outside Codeforces' styles; removed on Off.
+============================================================================= */
+#fl-drive { position: relative; margin: -100px 0 0; color: #fff; font: 15px/1.5 "Inter", "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+html:not([data-fl-tabs]) #fl-drive { margin-top: -56px; }
+#fl-drive div, #fl-drive a, #fl-drive span, #fl-drive h1 { box-sizing: border-box; }
+#fl-drive .fl-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #0E0E10; }
+#fl-drive canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .6s; }
+#fl-drive.fl-ready canvas { opacity: 1; }
+
+/* the driver card: the handle, huge, in its rank colour */
+#fl-drive .fl-hero { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; padding: 0 56px 52px; pointer-events: none; will-change: opacity, transform;
+  background: linear-gradient(0deg, rgba(14,14,16,.94) 0%, rgba(14,14,16,.6) 45%, rgba(14,14,16,0) 100%); }
+#fl-drive .fl-over { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .24em; color: #8C8C97; }
+#fl-drive .fl-plate { display: inline-flex; align-items: center; height: 26px; padding: 0 16px 0 10px; background: var(--c); color: #0E0E10; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .14em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); white-space: nowrap; }
+#fl-drive .fl-stripe { display: inline-block; width: 46px; height: 10px; background: repeating-linear-gradient(115deg, #E10A1E 0 6px, transparent 6px 11px); }
+#fl-drive .fl-name { margin: 0; padding-bottom: .04em; font: italic 900 clamp(96px, 15vw, 240px)/.82 "Titillium Web", sans-serif; letter-spacing: -.02em; text-transform: uppercase; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+#fl-drive .fl-name span { display: inline-block; }
+#fl-drive.fl-ready .fl-name span { animation: fl-drop .9s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(var(--i) * 35ms + 150ms); }
+@keyframes fl-drop { from { transform: translateY(105%); opacity: 0; } }
+#fl-drive .fl-name.user-gray { color: #ababab; }
+#fl-drive .fl-name.user-green { color: #4fd24f; }
+#fl-drive .fl-name.user-cyan { color: #2fd3c5; }
+#fl-drive .fl-name.user-blue { color: #8c9cff; }
+#fl-drive .fl-name.user-violet { color: #e27be2; }
+#fl-drive .fl-name.user-orange { color: #ffa033; }
+#fl-drive .fl-name.user-red,
+#fl-drive .fl-name.user-legendary { color: #ff6464; }
+#fl-drive .fl-name.user-legendary span:first-child { color: #fff; }
+#fl-drive .fl-meta { display: flex; align-items: flex-end; margin-top: 22px; }
+#fl-drive .fl-meta > div { padding: 0 34px; box-shadow: inset 1px 0 0 #34343C; }
+#fl-drive .fl-meta > div:first-child { padding-left: 0; box-shadow: none; }
+#fl-drive .fl-meta b { display: block; font: 900 44px/1 "Titillium Web", sans-serif; }
+#fl-drive .fl-meta span { font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .2em; color: #8C8C97; white-space: nowrap; }
+#fl-drive .fl-cue { margin-left: auto; display: flex; align-items: center; gap: 14px; align-self: center; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .24em; color: #fff; white-space: nowrap; }
+#fl-drive .fl-cue span { display: flex; flex-direction: column; gap: 2px; }
+#fl-drive .fl-cue i { width: 18px; height: 8px; border-right: 3px solid #E10A1E; border-bottom: 3px solid #E10A1E; transform: rotate(45deg) scale(.7); animation: fl-chev 1.4s cubic-bezier(.16, 1, .3, 1) infinite; }
+#fl-drive .fl-cue i:nth-child(2) { animation-delay: .15s; }
+#fl-drive .fl-cue i:nth-child(3) { animation-delay: .3s; }
+@keyframes fl-chev { 0%, 100% { opacity: .2; } 40% { opacity: 1; } }
+#fl-drive .fl-hero .fl-cue { position: absolute; right: 56px; bottom: 60px; }
+
+/* the HUD: a broadcast lower-third */
+#fl-drive .fl-hud { position: absolute; z-index: 3; left: 40px; bottom: 40px; width: 400px; opacity: 0; pointer-events: none; }
+#fl-drive .fl-hud .tag { display: flex; align-items: stretch; height: 34px; }
+#fl-drive .fl-hud .tag b { display: flex; align-items: center; padding: 0 18px 0 12px; background: #E10A1E; font: italic 900 18px "Titillium Web", sans-serif; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-drive .fl-hud .tag span { display: flex; align-items: center; padding: 0 16px; margin-left: -6px; background: #fff; color: #0E0E10; font: 700 13px "Titillium Web", sans-serif; letter-spacing: .1em; clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-drive .fl-hud .body { padding: 16px 18px 14px; background: rgba(14,14,16,.96); border-left: 4px solid #E10A1E; }
+#fl-drive .fl-hud .rr { display: flex; align-items: baseline; gap: 16px; }
+#fl-drive .fl-hud .r { font: 900 72px/.9 "Titillium Web", sans-serif; letter-spacing: -.01em; }
+#fl-drive .fl-hud .d { font: 900 26px "Titillium Web", sans-serif; }
+#fl-drive .fl-hud .d.up { color: #22C55E; }
+#fl-drive .fl-hud .d.dn { color: #FF8A8A; }
+#fl-drive .fl-hud .tier { display: inline-block; margin-top: 8px; padding: 2px 10px; font: 700 12px "Titillium Web", sans-serif; letter-spacing: .16em; color: #0E0E10; background: var(--c, #fff); }
+#fl-drive .fl-hud .nm { margin-top: 12px; font: 600 13px/1.35 "Titillium Web", sans-serif; letter-spacing: .02em; color: #B4B4BE; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#fl-drive .fl-hud .yrs { display: flex; justify-content: space-between; margin-top: 10px; font: 700 10.5px "Titillium Web", sans-serif; letter-spacing: .12em; color: #8C8C97; }
+#fl-drive .fl-hud .prog { height: 3px; margin-top: 8px; background: #26262C; }
+#fl-drive .fl-hud .prog i { display: block; height: 100%; background: #fff; transform-origin: 0 50%; transform: scaleX(0); }
+
+/* the way past it */
+#fl-drive .fl-skip { position: absolute; z-index: 4; right: 40px; top: 124px; display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border: 1px solid #34343C; background: rgba(14,14,16,.7); color: #B4B4BE; text-decoration: none; font: 700 11.5px "Titillium Web", sans-serif; letter-spacing: .18em; transition: color .15s, border-color .15s; }
+#fl-drive .fl-skip:hover { color: #fff; border-color: #fff; }
+#fl-drive .fl-skip:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+html:not([data-fl-tabs]) #fl-drive .fl-skip { top: 80px; }
+/* the modelled car's licence credit (CC BY 4.0 asks for it), shown only while that car is on track */
+#fl-drive .fl-credit { display: none; position: absolute; z-index: 4; right: 34px; bottom: 14px; padding: 7px 6px; font: 700 10px "Titillium Web", sans-serif; letter-spacing: .16em; color: #8C8C97; text-decoration: none; }
+#fl-drive[data-car="model"] .fl-credit { display: block; }
+#fl-drive .fl-credit:hover { color: #fff; }
+
+@media (max-width: 1280px) {
+  #fl-drive .fl-hero { padding: 0 40px 44px; }
+  #fl-drive .fl-meta > div { padding: 0 24px; }
+  #fl-drive .fl-meta b { font-size: 36px; }
+  #fl-drive .fl-hud { width: 360px; }
+  #fl-drive .fl-hud .r { font-size: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #fl-drive canvas { transition: none; }
+  #fl-drive .fl-name span, #fl-drive .fl-cue i { animation: none !important; }
+  #fl-drive .fl-hud { opacity: 1 !important; left: auto; right: 40px; }
+}
+
+/* a won round: a purple WIN plate on the HUD tag (purple = fastest, as in the tower) */
+#fl-drive .fl-hud .tag em { display: none; align-items: center; padding: 0 14px; margin-left: -6px; background: #A855F7; color: #fff; font: italic 900 14px "Titillium Web", sans-serif; letter-spacing: .1em; clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+#fl-drive .fl-hud.win .tag em { display: flex; animation: fl-win .35s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes fl-win { from { transform: translateX(-12px); opacity: 0; } }
+/* a new season: a chapter card wipes across the top of the stage */
+#fl-drive .fl-season { position: absolute; z-index: 2; left: 40px; top: 120px; display: flex; flex-direction: column; opacity: 0; pointer-events: none; }
+#fl-drive .fl-season small { font: 700 12px "Titillium Web", sans-serif; letter-spacing: .3em; color: #8C8C97; }
+#fl-drive .fl-season b { font: italic 900 120px/.85 "Titillium Web", sans-serif; letter-spacing: -.02em; color: transparent; -webkit-text-stroke: 2px #fff; }
+#fl-drive .fl-season.on { animation: fl-season 1.6s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes fl-season {
+  0% { opacity: 0; transform: translateX(-60px); clip-path: inset(0 100% 0 0); }
+  18% { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+  72% { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+  100% { opacity: 0; transform: translateX(30px); clip-path: inset(0 0 0 100%); }
+}
+@media (prefers-reduced-motion: reduce) { #fl-drive .fl-season { display: none; } #fl-drive .fl-hud.win .tag em { animation: none; } }
+
+/* the finale: a chequered-flag card at the line; the HUD steps aside */
+#fl-drive .fl-finish { position: absolute; z-index: 3; left: 0; bottom: 0; padding: 120px 140px 56px 56px; background: radial-gradient(120% 100% at 0% 100%, rgba(14,14,16,.92) 0%, rgba(14,14,16,.7) 45%, rgba(14,14,16,0) 75%); display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateX(-30px); pointer-events: none; transition: opacity .4s, transform .5s cubic-bezier(.16, 1, .3, 1); }
+#fl-drive .fl-flag { width: 72px; height: 40px; background: conic-gradient(#fff 25%, #0E0E10 0 50%, #fff 0 75%, #0E0E10 0) 0 0 / 18px 20px; box-shadow: inset 0 0 0 1px #34343C; transform: skewX(-12deg); }
+#fl-drive .fl-finish b { font: italic 900 clamp(80px, 11vw, 168px)/.82 "Titillium Web", sans-serif; letter-spacing: -.02em; color: #fff; }
+#fl-drive .fl-finish span { font: 700 13px "Titillium Web", sans-serif; letter-spacing: .22em; color: #B4B4BE; }
+#fl-drive.fl-fin .fl-finish { opacity: 1; transform: none; }
+#fl-drive.fl-fin .fl-hud { opacity: 0 !important; transition: opacity .3s; }
+@media (prefers-reduced-motion: reduce) { #fl-drive .fl-finish { transition: none; } }
+
+/* a cinematic vignette over the scene (under the HUD and the cards) */
+#fl-drive .fl-stage::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(130% 95% at 50% 45%, transparent 55%, rgba(4,4,6,.55) 100%); }

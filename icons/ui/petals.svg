@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <!-- original art: two drifting petals per tile, used as a CSS mask (the colour comes from the scene) -->
+  <path d="M0 -7 C6 -7 9 -2 7 3 C5 8 -2 9 -6 5 C-9 1 -6 -7 0 -7Z" transform="translate(140 180) rotate(25) scale(1.7)"/>
+  <path d="M0 -7 C6 -7 9 -2 7 3 C5 8 -2 9 -6 5 C-9 1 -6 -7 0 -7Z" transform="translate(520 640) rotate(-40) scale(1.3)"/>
+</svg>

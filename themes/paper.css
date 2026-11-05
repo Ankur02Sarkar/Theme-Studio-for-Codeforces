@@ -1,0 +1,396 @@
+/* =============================================================================
+   Vintage Paper  (theme id "paper") -- editorial (PAPER.md)
+
+   The sister's material (Theme Studio for LeetCode, themes/paper.css): crumpled kraft stock on a walnut desk. Two baked tiles
+   (SHEET 640x760 crumple and pulp, GRAIN 160x160 tooth and soot), each at its natural size, nothing computed at runtime. Her
+   mid-tone stock leaves Codeforces' rating inks at 1.7:1, so a cream VEIL (50%) lifts it: the relief stays, and the inks are
+   solved on the result (hue kept, 4.6:1 on the stock's darkest 1%). Roles only, plus the theme's signature
+   details; core.css does the mapping. Guided-only arrangement (the newspaper
+   front page, the exam paper) is guided.js's world layer + the end of this file.
+
+   RATING INKS keep their hue (within 1 degree). CODE INKS are the sister's Paper palette: no orange or
+   yellow, which go brown on cream.
+
+   FONTS: EB Garamond (text; Latin + a Cyrillic slice), IM Fell English
+   (display; Latin only: its Cyrillic falls back to PT Serif, declared under
+   IM Fell's own family name with a Cyrillic unicode-range), Courier Prime
+   (code; no Cyrillic: falls through to JetBrains Mono's Cyrillic slice).
+   Slices built by scripts/build-fonts.py; OFL licences in /fonts.
+============================================================================= */
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/garamond-400.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2190-2193, U+2212; }
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/garamond-400i.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2190-2193, U+2212; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/garamond-700.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2190-2193, U+2212; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/garamond-cyr.woff2") format("woff2"); unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400 700; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/garamond-cyr-i.woff2") format("woff2"); unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "IM Fell English"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/imfell-400.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2122, U+2190-2193; }
+@font-face { font-family: "IM Fell English"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/imfell-400i.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2122, U+2190-2193; }
+@font-face { font-family: "IM Fell English"; font-style: normal; font-weight: 400; font-display: swap;   /* its Cyrillic: PT Serif */
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/ptserif-cyr.woff2") format("woff2"); unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "IM Fell English"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/ptserif-cyr-i.woff2") format("woff2"); unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Courier Prime"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/courierprime-400.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-2193, U+2212; }
+@font-face { font-family: "Courier Prime"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/courierprime-700.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-2193, U+2212; }
+
+html[data-cf-theme="paper"] {
+  color-scheme: light;
+  --lc-desk: #140f0a;                      /* the walnut desk (page) */
+  --lc-bg2: #d5c29b;                       /* the sheet's mean: what sits under the tiles, and every opaque use of the card */
+  --lc-bg3: #e9dcbd;                       /* raised: a pale slip laid on the sheet (inputs, samples, code) */
+  --lc-nav-bg: #1c150e;
+  --lc-text: #1c1610; --lc-text2: #332818; --lc-text3: #3b3120;
+  --lc-hairline: rgba(58,38,12,.26); --lc-border: rgba(58,38,12,.55);
+  --lc-accent: #6d190e; --lc-accent-2: #083170; --lc-accent-contrast: #f0e3c4;
+  --lc-green: #204113; --lc-red: #6d190e; --lc-yellow: #523307;
+  --lc-font-ui: "EB Garamond", "Iowan Old Style", Palatino, Georgia, serif;
+  --lc-font-prose: "EB Garamond", "Iowan Old Style", Palatino, Georgia, serif;
+  --lc-font-display: "IM Fell English", "EB Garamond", Georgia, serif;
+  --lc-font-code: "Courier Prime", "JetBrains Mono", "Courier New", ui-monospace, monospace;
+  --lc-prose-measure: 72ch;
+  --cf-radius: 2px;
+  --cf-fw-title: 400;
+  --cf-fs-body: 17px;
+  --cf-fs-table: 15px;
+  /* Garamond's x-height is ~3/4 of Inter's: the small sizes of the scale read a size smaller than Midnight's at the
+     same px (a 12 px by-line was 9 px of Inter). One step up each, measured against overflow in Status' fixed columns */
+  --cf-fs-small: 14.5px;
+  --cf-fs-meta: 13.5px;
+  --cf-fs-label: 12.5px;
+
+  background-image: radial-gradient(150% 130% at 50% 30%, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%),
+    url("chrome-extension://__MSG_@@extension_id__/textures/paper/paper-desk.webp") !important;
+  background-size: 100% 100%, 420px 420px !important;
+  background-attachment: fixed, fixed !important;
+}
+/* rank inks: hue kept, darkened to 4.6:1 on the row hover (more specific than
+   core.css's generic light-mode inks) */
+html[data-cf-theme="paper"][data-cf-mode] {
+  --cf-rank-gray: #434343; --cf-rank-green: #004f00; --cf-rank-cyan: #014a46;
+  --cf-rank-blue: #0000e0; --cf-rank-violet: #7b007b; --cf-rank-orange: #663700;
+  --cf-rank-red: #8b0000; --cf-rank-yellow: #4d4d00; --cf-rank-legend: #000000;
+  --cf-rej: #0000aa;
+}
+/* the masthead is walnut: roles re-scoped light-on-dark inside it */
+html[data-cf-theme="paper"] #header:not(.cfts-spec),
+html[data-cf-theme="paper"] #body > .menu-box {
+  --cf-text: #f4ead3; --cf-text-2: #e3d4b4; --cf-text-3: #b9a988;
+  --cf-line: rgba(255,232,190,.12); --cf-line-strong: #4a3b29;
+  --cf-surface-raised: #2a2016; --cf-solid: #1c150e;
+  --cf-accent: #d9a441; --cf-on-accent: #1c1610; --cf-accent-tint: rgba(217,164,65,.16);
+  --cf-pill-neutral: rgba(255,232,190,.08);
+  --cf-rank-gray: #c9bfae; --cf-rank-green: #6fd26f; --cf-rank-cyan: #4fd6c9; --cf-rank-blue: #9aa8ff;
+  --cf-rank-violet: #e58be5; --cf-rank-orange: #ffad4d; --cf-rank-red: #ff7a7a; --cf-rank-legend: #ffffff;
+  background-image: linear-gradient(180deg, rgba(255,232,190,.05), rgba(0,0,0,.18)) !important;
+}
+html[data-cf-theme="paper"] #header a[href="/"] > img { filter: url(#cfts-logo-dark); }
+html[data-cf-theme="paper"] input.search { background-image: url("chrome-extension://__MSG_@@extension_id__/icons/ui/search-light.svg") !important; }
+html[data-cf-theme="paper"] .menu-list li a { font-variant: small-caps; letter-spacing: .06em !important; font-size: 16px !important; }
+html[data-cf-theme="paper"] .menu-list li.current a { background: none !important; color: #f4ead3 !important; box-shadow: inset 0 -1px 0 #d9a441, inset 0 -3px 0 #1c150e, inset 0 -4px 0 rgba(217,164,65,.55); border-radius: 0; }
+html[data-cf-theme="paper"] .second-level-menu-list li a { font-variant: small-caps; letter-spacing: .05em; font-size: 15px !important; }
+html[data-cf-theme="paper"] .second-level-menu > .second-level-menu-list:last-of-type li:is(.current, .selectedLava) a { background: none !important; box-shadow: inset 0 -1px 0 var(--cf-accent), inset 0 -3px 0 var(--cf-surface-card), inset 0 -4px 0 color-mix(in srgb, var(--cf-accent) 60%, transparent); border-radius: 0; }
+/* the sheet: printed edges on the dark desk */
+/* the main sheet reaches 20 px above its box (core.css: a shadow copy takes in the sub-tab row). Its edge was an INSET
+   ring on the box, so the ring's top line ran through the sub-tabs: the edge is two outer rings instead, one around the
+   raised copy and one around the box, the card copy painted over the part that would cross the sheet */
+html[data-cf-theme="paper"] #pageContent,
+html[data-cf-theme="paper"] #sidebar > .roundbox,
+html[data-cf-theme="paper"] #footer {
+  background:
+    url("chrome-extension://__MSG_@@extension_id__/textures/paper/paper-grain.png") 0 0 / 160px 160px,
+    linear-gradient(rgba(250,238,208,.5), rgba(250,238,208,.5)),
+    url("chrome-extension://__MSG_@@extension_id__/textures/paper/paper-sheet.webp") 0 0 / 640px 760px,
+    #d5c29b !important;
+}
+/* A second sheet shows under the first */
+html[data-cf-theme="paper"] #pageContent {
+  box-shadow: inset 0 0 0 1px rgba(52,36,12,.16), 4px 5px 0 -1px #bda67a, 4px 5px 0 0 rgba(52,36,12,.45), 0 2px 4px rgba(0,0,0,.46), 0 18px 38px -16px rgba(0,0,0,.72) !important;
+}
+/* the tab row sits ON the sheet: core.css's 20 px shadow copy is a flat colour and can't carry the stock, and a margin on
+   #pageContent collapses into its parent and moves the tabs and the sidebar. So the first box in the sheet climbs out of it:
+   36 px tall from 20 px above the card, taking no room; its tiles start 20 px down, so the stock runs on without a seam */
+html[data-cf-theme="paper"] #pageContent::before {
+  content: ""; display: block; height: 36px; margin: -36px -24px 0;
+  background:
+    url("chrome-extension://__MSG_@@extension_id__/textures/paper/paper-grain.png") 0 20px / 160px 160px,
+    linear-gradient(rgba(250,238,208,.5), rgba(250,238,208,.5)),
+    url("chrome-extension://__MSG_@@extension_id__/textures/paper/paper-sheet.webp") 0 20px / 640px 760px,
+    #d5c29b;
+  box-shadow: inset 0 1px 0 rgba(52,36,12,.16), inset 1px 0 0 rgba(52,36,12,.16), inset -1px 0 0 rgba(52,36,12,.16);
+}
+html[data-cf-theme="paper"] #sidebar > .roundbox { box-shadow: inset 0 0 0 1px rgba(52,36,12,.13), 0 2px 4px rgba(0,0,0,.46), 0 14px 30px -12px rgba(0,0,0,.6) !important; }
+html[data-cf-theme="paper"] #sidebar .caption { font-family: var(--cf-font-display) !important; font-variant: small-caps; text-transform: none !important; letter-spacing: .08em !important; font-size: 16px !important; }
+html[data-cf-theme="paper"] h1:not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="paper"] h2:not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="paper"] h3:not(.cfts-spec):not(.cfts-spec),
+html[data-cf-theme="paper"] .datatable > .rb + div { font-family: var(--cf-font-display) !important; font-weight: 400 !important; }
+html[data-cf-theme="paper"] .datatable tr:first-child > th { font-family: var(--cf-font-ui) !important; font-variant: small-caps; text-transform: none !important; letter-spacing: .1em !important; font-size: 14px !important; border-bottom: 2px solid var(--cf-text) !important; }
+html[data-cf-theme="paper"] .cfts-chip,
+html[data-cf-theme="paper"] .cfts-div,
+html[data-cf-theme="paper"] .cfts-rate { background: var(--cf-surface-raised); }
+/* code: the sister's Paper inks (prettify roles) */
+html[data-cf-theme="paper"] .ttypography pre,
+html[data-cf-theme="paper"] pre.prettyprint,
+html[data-cf-theme="paper"] .cfts-code:not(cfts-spec) { background: var(--cf-surface-raised) !important; }
+html[data-cf-theme="paper"] .prettyprint .pln,
+html[data-cf-theme="paper"] .prettyprint .opn,
+html[data-cf-theme="paper"] .prettyprint .clo { color: #241d14 !important; }
+html[data-cf-theme="paper"] .prettyprint .pun { color: #3a2d1d !important; }
+html[data-cf-theme="paper"] .prettyprint .kwd,
+html[data-cf-theme="paper"] .prettyprint .tag { color: #650500 !important; }
+html[data-cf-theme="paper"] .prettyprint .typ,
+html[data-cf-theme="paper"] .prettyprint .atn,
+html[data-cf-theme="paper"] .prettyprint .dec,
+html[data-cf-theme="paper"] .prettyprint .var { color: #4a007b !important; }
+html[data-cf-theme="paper"] .prettyprint .str,
+html[data-cf-theme="paper"] .prettyprint .atv { color: #003804 !important; }
+html[data-cf-theme="paper"] .prettyprint .lit { color: #00343f !important; }
+html[data-cf-theme="paper"] .prettyprint .com { color: #5c4c33 !important; font-style: italic; }
+html[data-cf-theme="paper"] .prettyprint .fun { color: #00208a !important; }
+
+/* =============================== GUIDED: the editorial pages =================== */
+/* Problem: an exam paper. Title in IM Fell over a double rule, the statement
+   justified in EB Garamond at 72 characters; examples in Courier Prime. */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header { border-bottom: 3px double var(--cf-text) !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header > .title { font: 400 40px/1.15 var(--cf-font-display) !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement .cfts-crumb { font-variant: small-caps; letter-spacing: .1em; font-size: 15px; }
+html[data-cf-theme="paper"] .problem-statement .ttypography,
+html[data-cf-theme="paper"] .problem-statement > :not(.header) { font-size: 18px !important; line-height: 1.62 !important; }
+/* statements are ragged-right (justification at 72ch opens rivers); hyphenation helps the rag */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > div:not(.header):not(.sample-tests),
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .input-specification:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .output-specification:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .note:not(.cfts-spec):not(cfts-spec) { text-align: left; hyphens: auto; }
+html[data-cf-theme="paper"] .problem-statement .section-title { font: 400 22px var(--cf-font-display) !important; font-variant: small-caps; letter-spacing: .06em; border-bottom: 1px solid var(--cf-line-strong); padding-bottom: 4px; }
+html[data-cf-theme="paper"] .problem-statement .sample-tests pre { font-family: "Courier Prime", "JetBrains Mono", monospace !important; font-size: 15px !important; background: #fbf4e3 !important; }
+/* Problemset: a printed archive */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) table.problems td:nth-child(2) > div:first-child a { font-size: 17px !important; font-weight: 400 !important; }
+html[data-cf-theme="paper"] .cfts-paper-kick { font: italic 400 16px var(--cf-font-ui); color: var(--cf-text-3); margin: var(--cf-sp-4) 0 -10px; }
+
+/* Home: the newspaper front page (guided.js world: .cfts-np, .cfts-lead, .cfts-cols) */
+html[data-cf-theme="paper"] .cfts-np { text-align: center; border-bottom: 3px double var(--cf-text); padding-bottom: 10px; margin: 4px 0 18px; }
+html[data-cf-theme="paper"] .cfts-np .top { display: flex; justify-content: space-between; font-variant: small-caps; letter-spacing: .06em; font-size: 14px; color: var(--cf-text-3); border-bottom: 1px solid var(--cf-line-strong); padding-bottom: 6px; }
+html[data-cf-theme="paper"] .cfts-np .name { font: 400 76px/1.05 var(--cf-font-display); margin: 10px 0 2px; color: var(--cf-text); }
+html[data-cf-theme="paper"] .cfts-np .sub { font: italic 400 16px var(--cf-font-ui); color: var(--cf-text-2); }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] #pageContent > .cfts-post.cfts-lead { border-bottom: 1px solid var(--cf-line-strong); padding-bottom: 18px; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-lead > .topic > .title,
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-lead > .topic > .title p,
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-lead > .topic > .title a { font: 400 40px/1.12 var(--cf-font-display) !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-lead > .topic > .content > .ttypography {
+  -webkit-line-clamp: 7; max-height: calc(1.62em * 7 + 2px); font-size: 18px !important; line-height: 1.62 !important; color: var(--cf-text) !important; text-align: justify; hyphens: auto; max-width: 72ch; }
+/* the drop cap: only on a lead that starts with a Latin letter (guided.js marks it) */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-dropcap > .topic > .content > .ttypography > :first-child::first-letter {
+  float: left; font: 400 92px/.82 var(--cf-font-display); padding: 6px 10px 0 0; color: var(--cf-accent); }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-dropcap > .topic > .content > .ttypography { display: block !important; -webkit-line-clamp: unset; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-dropcap > .topic > .content > .ttypography > :first-child { display: block !important; }
+/* the next posts: three columns under column rules */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--cf-line-strong); margin-bottom: 8px; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols > .cfts-post { margin: 0 !important; padding: 16px 18px !important; border: 0 !important; border-left: 1px solid var(--cf-line-strong) !important; border-radius: 0; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols > .cfts-post:first-child { border-left: 0 !important; padding-left: 0 !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols .cfts-post > .topic { grid-template-areas: "info info" "title title" "ex ex" "ann ann" "more more" "meta meta"; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols .cfts-post > .topic > .title p,
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols .cfts-post > .topic > .title a { font: 400 22px/1.2 var(--cf-font-display) !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols .cfts-post > .topic > .content > .ttypography { -webkit-line-clamp: 6; max-height: calc(1.55em * 6 + 2px); line-height: 1.55 !important; font-size: 16px !important; text-align: left !important; hyphens: auto; }   /* narrow columns: ragged-right */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols .cfts-pmeta-row { justify-self: start; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post .topic-read-more { font-style: italic; font-weight: 400 !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] #pageContent > .cfts-post:hover { background: transparent; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-feedhead { display: none; }
+/* a printed article: the kicker (division badge) over the headline, the byline under it */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic { grid-template-areas: "title title" "info info" "ex ex" "ann ann" "more meta"; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols .cfts-post > .topic { grid-template-areas: "title title" "info info" "ex ex" "ann ann" "more more" "meta meta"; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .title { flex-direction: column; align-items: flex-start !important; gap: 6px !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .title > .cfts-div { order: -1; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .info { margin-bottom: 10px !important; font-size: 14px !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-post > .topic > .info::before { content: "By "; color: var(--cf-text-3); }
+html[data-cf-theme="paper"] .cfts-newbie { background: var(--cf-surface-raised) !important; border-color: var(--cf-line-strong) !important; border-radius: 2px !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement .cfts-crumb { flex-wrap: nowrap; white-space: nowrap; letter-spacing: .05em; font-size: 14px; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement .cfts-crumb > a,
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement .cfts-crumb > span { white-space: nowrap; }
+/* Codeforces sets its own faces on handles and its tables (Helvetica, Verdana): in print, one face */
+html[data-cf-theme="paper"] #body a.rated-user:not(.cfts-spec),
+html[data-cf-theme="paper"] #body .rtable:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="paper"] #body .rtable td:not(.cfts-spec),
+html[data-cf-theme="paper"] #body .rtable th:not(.cfts-spec),
+html[data-cf-theme="paper"] #body .topic .info:not(cfts-spec),
+html[data-cf-theme="paper"] #body .comment-table .info:not(cfts-spec),
+html[data-cf-theme="paper"] #body .datatable td:not(.id-cell),
+html[data-cf-theme="paper"] #body .notice:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="paper"] #body .small:not(.cfts-spec):not(cfts-spec),
+html[data-cf-theme="paper"] #body .bottom-links:not(.cfts-spec):not(cfts-spec) { font-family: var(--cf-font-ui) !important; }
+html[data-cf-theme="paper"] #body a.rated-user { font-size: 1.04em; }
+
+/* ============================ fixes (Vintage Paper overhaul, phase 1) ============================ */
+/* the footer is a sheet: its inks are the sheet's (the old ones assumed walnut: 1.3:1) */
+html[data-cf-theme="paper"] #footer { color: var(--cf-text-3) !important; }
+html[data-cf-theme="paper"] #footer a:link,
+html[data-cf-theme="paper"] #footer a:visited { color: var(--cf-text-2) !important; }
+/* Status rows were 45-49 px by verdict: the judged test number is Courier Prime, whose taller ascent pushed its pill's
+   line box past 16 px (24 px pills on WA, 22 on AC). The number takes no line height; every cell holds 22 px */
+html[data-cf-theme="paper"] .submissionVerdictWrapper .verdict-format-judged { line-height: 0; }
+html[data-cf-theme="paper"] table.status-frame-datatable td { height: 22px; }
+/* the problem's Contest card: its caption in the sidebar captions' face (it is guided.js's, not Codeforces') */
+html[data-cf-theme="paper"] #sidebar .cfts-sidecap { font: 400 16px/1.3 var(--cf-font-display) !important; font-variant: small-caps !important; text-transform: none; letter-spacing: .08em; color: var(--cf-text-2);
+  padding: var(--cf-sp-3) var(--cf-sp-4) var(--cf-sp-2) !important; border-bottom: 1px solid var(--cf-line); }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) #sidebar .cfts-pcontest .rtable th { padding-top: var(--cf-sp-2) !important; }
+/* examples: --cf-measure is in ch, and the box was 17 px against the statement's 18 px, so it sat 14 px inside the text */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="problem"] .problem-statement > .sample-tests { font-size: 18px !important; }
+/* Status' submission ids are Courier Prime at the meta size: wider than Inter's mono, they ended in an ellipsis at 72 px */
+html[data-cf-theme="paper"] table.status-frame-datatable { --w-id: 84px; }
+@container (max-width: 960px) {
+  html[data-cf-theme="paper"] table.status-frame-datatable { --w-id: 84px; --w-when: 112px; }
+}
+/* Codeforces' inline 0.8em notes (the virtual contest text in the problem sidebar): 11 px of Garamond is unreadable */
+html[data-cf-theme="paper"] #sidebar div[style*="font-size:0.8em"] { font-size: var(--cf-fs-small) !important; line-height: 1.45; }
+/* at 1280 px "View all →" broke between the words and its arrow: a link in the sidebar's foot stays on one line */
+html[data-cf-theme="paper"] #sidebar .bottom-links a { white-space: nowrap; }
+/* Home: the rule over the three columns was the lead post's bottom border, which spans the post's hover bleed (16 px
+   wider than the columns on each side): the columns draw it, at the text's width like the rule under them */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] #pageContent > .cfts-post.cfts-lead { border-bottom: 0 !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="home"] .cfts-cols { border-top: 1px solid var(--cf-line-strong); }
+/* the lead's clamped last line was justified like any other (it is not the paragraph's last): words a dozen px apart.
+   Ragged-right with hyphens, like every other column */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .cfts-post.cfts-lead > .topic > .content > .ttypography { text-align: left !important; }
+
+/* ============================ the printed sheet (Vintage Paper overhaul, phase 2) ================
+   Concept: a press office's archive. Walnut desk, a brass-ruled nameplate, ledger sheets stacked on the desk, rubber
+   stamps for verdicts, a typewriter for code. Every ornament lives on a rule or a margin; the stock runs under the text, as in the sister.
+   Frames are inset box-shadows and rules are shadows or existing borders: no box changes size, so Compact moves nothing. */
+/* ---- masthead: brass rules ---- */
+html[data-cf-theme="paper"] #header:not(.cfts-spec) { box-shadow: inset 0 1px 0 rgba(217,164,65,.5), inset 0 3px 0 #1c150e, inset 0 4px 0 rgba(217,164,65,.22); }
+html[data-cf-theme="paper"] #body > .menu-box { border-top-color: rgba(217,164,65,.5) !important; box-shadow: inset 0 2px 0 #1c150e, inset 0 3px 0 rgba(217,164,65,.22), inset 0 -1px 0 rgba(217,164,65,.28), 0 12px 30px -20px rgba(0,0,0,.8); }
+/* the logo row's dateline (guided.js paperWorld): a Guided nicety, centred in the free space */
+html[data-cf-theme="paper"] #header { position: relative; }
+html[data-cf-theme="paper"] .cfts-dateline { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; pointer-events: none;
+  font: italic 400 15px/1.25 var(--cf-font-display); letter-spacing: .03em; color: var(--cf-text-2); }
+html[data-cf-theme="paper"] .cfts-dateline::before { content: ""; display: block; height: 16px; margin-bottom: 2px;
+  background: url("chrome-extension://__MSG_@@extension_id__/textures/paper/fleuron-gold.svg") center / 48px 16px no-repeat; }
+/* ---- type: inked into the sheet (a 1 px highlight under display type only, never on body text) ---- */
+html[data-cf-theme="paper"] #pageContent h1:not(.cfts-spec),
+html[data-cf-theme="paper"] #pageContent h2:not(.cfts-spec),
+html[data-cf-theme="paper"] .problem-statement > .header > .title,
+html[data-cf-theme="paper"] .cfts-np .name,
+html[data-cf-theme="paper"] .datatable > .rb + div { text-shadow: 0 1px 0 rgba(255,250,235,.8); }
+/* ---- sidebar captions: a double rule, the sheet's own ---- */
+html[data-cf-theme="paper"] #sidebar .roundbox .caption.titled:not(.cfts-spec),
+html[data-cf-theme="paper"] #sidebar .cfts-sidecap { border-bottom: 3px double var(--cf-line-strong) !important; }
+html[data-cf-theme="paper"] #sidebar .roundbox .caption { color: var(--cf-text-2) !important; }
+/* ---- buttons: engraved plates. The filled one carries a fine inner line; small caps throughout ---- */
+html[data-cf-theme="paper"] #body a.cfts-btn,
+html[data-cf-theme="paper"] #body input.cfts-primary-input,
+html[data-cf-theme="paper"] #header .lang-chooser > div:nth-child(2) a:not(.rated-user) { font-variant: small-caps; letter-spacing: .05em; font-weight: 700; }
+/* a handle's case is part of the name: no small caps on it (the header's, the profile tab) */
+html[data-cf-theme="paper"] #header .lang-chooser a.rated-user,
+html[data-cf-theme="paper"] .second-level-menu-list li a[href^="/profile/"] { font-variant: normal; letter-spacing: 0; }
+html[data-cf-theme="paper"] #body a.cfts-btn.primary,
+html[data-cf-theme="paper"] #body input.cfts-primary-input { box-shadow: inset 0 0 0 2px var(--cf-accent), inset 0 0 0 3px rgba(244,234,211,.5) !important; }
+html[data-cf-theme="paper"] #body a.cfts-btn.primary:hover { filter: none; background: #57130a; }
+/* ---- tables: ledger pages. A double rule under the column heads, a red margin line after the first column, every cell
+   on one baseline (Courier's ids and Garamond's names sat 2 px apart when centred) ---- */
+html[data-cf-theme="paper"] .datatable tr:first-child > th { border-bottom: 3px double var(--cf-text-2) !important; }
+html[data-cf-theme="paper"] table.status-frame-datatable tr > td:first-child,
+html[data-cf-theme="paper"] table.status-frame-datatable tr > th:first-child,
+html[data-cf-theme="paper"] table.standings tr > td:first-child,
+html[data-cf-theme="paper"] table.standings tr > th:first-child { box-shadow: inset -1px 0 0 rgba(143,27,16,.38); }
+html[data-cf-theme="paper"] table.status-frame-datatable td { vertical-align: baseline; }
+/* ---- verdicts: rubber stamps. Pill box, ink and fill unchanged (contrast); the frame is two inset lines in the stamp's ink ---- */
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-accepted,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-accepted-challenged,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-rejected,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-failed,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-challenged { box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 62%, transparent); }
+html[data-cf-theme="paper"] .submissionVerdictWrapper[submissionverdict="COMPILATION_ERROR"],
+html[data-cf-theme="paper"] .submissionVerdictWrapper[submissionverdict="SKIPPED"] { box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 50%, transparent); }
+/* ---- the statement ---- */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header { position: relative; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) .problem-statement > .header::after { content: ""; position: absolute; left: 50%; bottom: -11px; width: 84px; height: 18px; margin-left: -42px;
+  background: url("chrome-extension://__MSG_@@extension_id__/textures/paper/fleuron-red.svg") center / 48px 16px no-repeat, #d5c29b; }
+/* a drop cap on the first paragraph, only when it opens with a letter (guided.js marks it: maths is never touched) */
+html[data-cf-theme="paper"] .problem-statement p.cfts-dropcap::first-letter { float: left; font: 400 4.05em/.78 var(--cf-font-display); padding: 6px 8px 0 0; color: var(--cf-accent); }
+html[data-cf-theme="paper"] .problem-statement .sample-tests .title { font-family: var(--cf-font-display) !important; font-variant: small-caps; text-transform: none !important; letter-spacing: .08em !important; font-size: 15px !important; font-weight: 400 !important; }
+/* ---- contests: a playbill. The next round in a double frame on the plain sheet ---- */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) tr.cfts-hero { background: transparent !important; box-shadow: inset 0 0 0 1px var(--cf-text-2), inset 0 0 0 4px var(--cf-surface-card), inset 0 0 0 5px var(--cf-line-strong) !important; }
+/* ---- the profile: a dossier card, double-framed; its tiles are ruled slips ---- */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="profile"] .userbox.cfts-phead { background: transparent !important; box-shadow: inset 0 0 0 1px var(--cf-text-2), inset 0 0 0 4px var(--cf-surface-card), inset 0 0 0 5px var(--cf-line-strong) !important; }
+html[data-cf-theme="paper"] .cfts-tile { background: transparent !important; box-shadow: inset 0 3px 0 -1px var(--cf-line-strong); }
+/* ---- the footer: a colophon, in the book's italic ---- */
+html[data-cf-theme="paper"] #footer { font-style: italic; }
+/* ---- Home's nameplate ---- */
+html[data-cf-theme="paper"] .cfts-np .sub::after { content: ""; display: block; height: 16px; margin-top: 4px; background: url("chrome-extension://__MSG_@@extension_id__/textures/paper/fleuron-ink.svg") center / 48px 16px no-repeat; }
+/* ---- small print ---- */
+/* the writers under a contest: Codeforces' links are 0.8em of the meta size: 11 px of Garamond */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) td.cfts-by a { font-size: var(--cf-fs-meta) !important; }
+html[data-cf-theme="paper"] #sidebar .bottom-links:not(.cfts-spec) { font-size: 13px !important; }
+/* Codeforces' graph controls are 10 px; the activity legend ran under the year select (the right edge is the select's):
+   it starts at the left, under "Only public activity" */
+html[data-cf-theme="paper"][data-cfts-page="profile"] #body #pageContent select:not(.cfts-spec) { font-size: var(--cf-fs-meta) !important; }
+html[data-cf-theme="paper"] .cfts-callegend { justify-content: flex-start; padding-left: 22px; }
+/* the blog's "<handle>'s blog" heading sat against the tab row */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="blog"] #pageContent h3:first-child { margin-top: var(--cf-sp-4) !important; }
+/* the post's title is display type like every other title */
+html[data-cf-theme="paper"] .topic.cfts-article > .title,
+html[data-cf-theme="paper"] .topic.cfts-article > .title p { font-family: var(--cf-font-display) !important; font-weight: 400 !important; }
+/* forms: Codeforces' .small notes under a field ("No more than 256 KB") */
+html[data-cf-theme="paper"] #pageContent form .small:not(.cfts-spec) { font-size: var(--cf-fs-meta) !important; }
+
+/* ====================== PRINT, NOT WIDGETS (Nov 1 2026, PAPER.md) ===========
+   A printer has rules, small caps, italics and stamp ink. It has no chips, tinted pills or icon tiles: on a sheet they read as
+   a web app in a serif. Every label keeps its meaning and its rank colour; only the box goes. */
+/* a division: small caps in its colour, the level in italic */
+html[data-cf-theme="paper"] .cfts-div:not(.cfts-spec) { height: auto; background: none; border: 0; border-radius: 0; font-weight: 400; }
+html[data-cf-theme="paper"] .cfts-div:not(.cfts-spec) b { padding: 0; background: none; font-variant: small-caps; font-size: 1.15em; letter-spacing: .03em; font-weight: 700; }
+html[data-cf-theme="paper"] .cfts-div:not(.cfts-spec) span { padding: 0 0 0 7px; color: var(--cf-text-2); font-style: italic; }
+/* a rating: the number in its rank's ink, the word in italic; no rating yet is a quiet note */
+html[data-cf-theme="paper"] .cfts-rate:not(.cfts-spec) { height: auto; padding: 0; background: none; border: 0; border-radius: 0; }
+html[data-cf-theme="paper"] .cfts-rate:not(.cfts-spec) .w { color: var(--cf-text-2); font-style: italic; font-weight: 400; }
+html[data-cf-theme="paper"] .cfts-rate.none:not(.cfts-spec) .n { color: var(--cf-text-3); font-family: var(--cf-font-ui); font-style: italic; font-weight: 400; }
+/* problem and submission numbers: set in the typewriter, no box */
+html[data-cf-theme="paper"] .datatable td.id a:is(:link, :visited):not(.cfts-spec) { padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; color: var(--cf-text-2) !important; }
+html[data-cf-theme="paper"] .datatable td.id a:hover:not(.cfts-spec) { color: var(--cf-accent) !important; text-decoration: underline !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live])[data-cfts-page="status"] .cfts-pid:not(.cfts-spec) { padding: 0; background: none; border: 0; border-radius: 0; }
+/* the row's action is a word in the margin of the ledger, not an icon tile */
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) table.problems td.act a[href*="/submit"]:not(.cfts-spec):not(.cfts-spec):not(.cfts-spec) { width: auto !important; height: auto !important; padding: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important; color: var(--cf-text-2) !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) table.problems td.act a[href*="/submit"]:hover:not(.cfts-spec):not(.cfts-spec):not(.cfts-spec) { color: var(--cf-accent) !important; text-decoration: underline !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) table.problems td.act a[href*="/submit"] img:not(.cfts-spec):not(.cfts-spec):not(.cfts-spec) { display: none !important; }
+html[data-cf-theme="paper"][data-cf-layout="guided"]:not([data-cf-live]) table.problems td.act .cfts-sublbl:not(.cfts-spec) { display: inline; font-variant: small-caps; letter-spacing: .06em; font-size: var(--cf-fs-table); font-weight: 400; }
+/* difficulty filters: a line of words; the current one carries the sub-tabs' double rule */
+html[data-cf-theme="paper"] .cfts-quick:not(.cfts-spec) { gap: var(--cf-sp-2) var(--cf-sp-5); }
+html[data-cf-theme="paper"] #body a.cfts-seg:not(.cfts-spec) { height: 26px; padding: 0; background: none; border: 0; border-bottom: 3px double transparent; border-radius: 0; }
+html[data-cf-theme="paper"] #body a.cfts-seg:hover:not(.cfts-spec) { border-bottom-color: var(--cf-line-strong); }
+html[data-cf-theme="paper"] #body a.cfts-seg.on:not(.cfts-spec) { background: none; border-bottom-color: var(--cf-accent); }
+html[data-cf-theme="paper"] .cfts-seg i:not(.cfts-spec) { display: none; }
+/* verdicts: stamp ink on the bare sheet, no tinted block (a stamp has no background) */
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-accepted,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-accepted-challenged,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-rejected,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-failed,
+html[data-cf-theme="paper"] .submissionVerdictWrapper > .verdict-challenged,
+html[data-cf-theme="paper"] .submissionVerdictWrapper[submissionverdict="COMPILATION_ERROR"],
+html[data-cf-theme="paper"] .submissionVerdictWrapper[submissionverdict="SKIPPED"] { background: none; }
+/* the profile's figures: no tinted icon squares */
+html[data-cf-theme="paper"] .cfts-tile .ti:not(.cfts-spec) { width: 20px; background: none; color: var(--cf-text-3); }
+/* my rows: the theme's blue ink at a whisper. The default tint is a translucent block, which read as brown stripes on kraft */
+html[data-cf-theme="paper"] { --cf-tint-mine: rgba(8,49,112,.05); --cf-tint-ok: rgba(32,65,19,.06); --cf-tint-bad: rgba(109,25,14,.06); }
+
+/* the rating graph and the activity calendar in the sheet's own inks: Codeforces' pastels and GitHub's white squares read as
+   stickers on kraft. Bands stay in their rank's hue, faded into the stock; the calendar is one ramp of iron-gall green */
+html[data-cf-theme="paper"] {
+  --cf-graph-themed: 1; --cf-graph-line: #6d190e; --cf-graph-point: #e9dcbd; --cf-graph-line-width: 2;
+  --cf-graph-band-sat: .62; --cf-graph-band-alpha: .32; --cf-graph-grid: #3b3120; --cf-graph-tick: rgba(58,38,12,.2); --cf-graph-label: rgba(28,22,16,.72);
+}
+html[data-cf-theme="paper"] #userActivityGraph rect[fill="#EBEDF0" i] { fill: rgba(58,38,12,.12); }
+html[data-cf-theme="paper"] #userActivityGraph rect[fill="#91DA9E" i] { fill: #a3a765; }
+html[data-cf-theme="paper"] #userActivityGraph rect[fill="#40C463" i] { fill: #6f8a43; }
+html[data-cf-theme="paper"] #userActivityGraph rect[fill="#30A14E" i] { fill: #456a2c; }
+html[data-cf-theme="paper"] #userActivityGraph rect[fill="#216E39" i] { fill: #204113; }
+html[data-cf-theme="paper"][data-cf-look][data-cf-mode="light"] .cfts-callegend .l0 { background: rgba(58,38,12,.12); }
+html[data-cf-theme="paper"][data-cf-look][data-cf-mode="light"] .cfts-callegend .l1 { background: #a3a765; }
+html[data-cf-theme="paper"][data-cf-look][data-cf-mode="light"] .cfts-callegend .l2 { background: #6f8a43; }
+html[data-cf-theme="paper"][data-cf-look][data-cf-mode="light"] .cfts-callegend .l3 { background: #456a2c; }
+html[data-cf-theme="paper"][data-cf-look][data-cf-mode="light"] .cfts-callegend .l4 { background: #204113; }

@@ -1,0 +1,2 @@
+3ea1712fbacd3290cf4751007e3a5b57cc279767607812d4c3e57925fb0b05c2  /tmp/claude-1000/-home-vinaytz-projects-myExtensions-codeforces/39400d83-43cc-4e7a-8662-79d1aec74498/scratchpad/dl-monaco/monaco-editor-0.57.0.tgz
+76a0eb8a0eeeb33d11b71b3e7a7183763e7870bd8605499ed7ffd4ec250eaccc  /tmp/claude-1000/-home-vinaytz-projects-myExtensions-codeforces/39400d83-43cc-4e7a-8662-79d1aec74498/scratchpad/dl-lucide/lucide-1.62.0.tgz
